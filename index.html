@@ -6,6 +6,15 @@
   <title>Astri Nascenti – Astronomia per le scuole</title>
 
   <style>
+    /* FONT */
+    @font-face {
+      font-family: 'Lemon Milk';
+      src: url('fonts/LemonMilk-Regular.woff2') format('woff2'),
+           url('fonts/LemonMilk-Regular.woff') format('woff');
+      font-weight: normal;
+      font-style: normal;
+    }
+
     :root {
       --bianco: #ffffff;
       --nero: #000000;
@@ -28,6 +37,13 @@
       color: var(--bianco);
     }
 
+    /* TITOLI CON LEMON MILK */
+    h1, h2, h3 {
+      font-family: 'Lemon Milk', sans-serif;
+      text-transform: uppercase;
+      letter-spacing: 0.18em;
+    }
+
     header {
       text-align: center;
       padding: 5rem 1.5rem 6rem;
@@ -41,9 +57,7 @@
 
     header h1 {
       font-size: 3rem;
-      letter-spacing: 0.2em;
       margin: 0;
-      animation: fadeDown 1.5s ease forwards;
     }
 
     header p {
@@ -61,13 +75,13 @@
     }
 
     section h2 {
-      font-size: 2.2rem;
+      font-size: 2.1rem;
       margin-bottom: 2rem;
       border-left: 4px solid var(--bianco);
       padding-left: 1rem;
     }
 
-    /* BOX ANIMATI */
+    /* BOX ANIMATI SEMITRASPARENTI */
     .card {
       background: linear-gradient(
         135deg,
@@ -85,17 +99,21 @@
       animation: floatIn 1.2s ease forwards;
     }
 
-    /* effetto hover */
     .card:hover {
       transform: translateY(-6px) scale(1.01);
       box-shadow: 0 25px 60px rgba(0,0,0,0.55);
       transition: all 0.4s ease;
     }
 
-    .card h3,
     .card p,
     .card li {
       color: var(--nero);
+    }
+
+    .card h3 {
+      color: var(--nero);
+      font-size: 1.2rem;
+      margin-top: 0;
     }
 
     .grid {
@@ -123,7 +141,7 @@
       align-items: center;
       justify-content: center;
       color: #333;
-      font-size: 0.9rem;
+      font-size: 0.85rem;
       animation: floatIn 1.4s ease forwards;
     }
 
@@ -135,7 +153,9 @@
       color: var(--bianco);
       text-decoration: none;
       border-radius: 30px;
-      font-weight: bold;
+      font-family: 'Lemon Milk', sans-serif;
+      font-size: 0.75rem;
+      letter-spacing: 0.15em;
       transition: all 0.3s ease;
     }
 
@@ -158,10 +178,7 @@
 
     /* ANIMAZIONI */
     @keyframes floatIn {
-      to {
-        transform: translateY(0);
-        opacity: 1;
-      }
+      to { transform: translateY(0); opacity: 1; }
     }
 
     @keyframes fadeDown {
@@ -182,8 +199,8 @@
     <img src="logo-astri-nascenti.png" alt="Logo Astri Nascenti" />
     <h1>ASTRI NASCENTI</h1>
     <p>
-      Un progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie,
-      nato per avvicinare i più giovani alla meraviglia del Cosmo.
+      Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie,
+      nato per avvicinare i più giovani alla meraviglia dell’Universo.
     </p>
   </header>
 
@@ -191,12 +208,12 @@
     <h2>Il progetto</h2>
     <div class="card">
       <p>
-        <strong>Astri Nascenti</strong> è un percorso educativo dedicato a bambini e ragazzi
-        che unisce osservazione del cielo, narrazione scientifica e scoperta.
+        <strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo,
+        narrazione scientifica e scoperta, rivolto a bambini e ragazzi.
       </p>
       <p>
-        Attraverso esperienze dirette e coinvolgenti, il progetto stimola curiosità,
-        pensiero critico e consapevolezza del nostro posto nell’Universo.
+        Attraverso esperienze immersive e partecipate, il progetto stimola curiosità,
+        pensiero critico e consapevolezza del nostro posto nel Cosmo.
       </p>
       <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
     </div>
@@ -207,12 +224,12 @@
     <div class="grid">
       <div class="card">
         <p>
-          Le serate osservative permettono di osservare Luna, pianeti, stelle e galassie
-          utilizzando telescopi e strumenti professionali.
+          Le serate osservative permettono di osservare direttamente Luna, pianeti,
+          stelle e galassie grazie all’utilizzo di telescopi e strumenti professionali.
         </p>
         <p>
-          Le spiegazioni sono adattate all’età dei partecipanti, rendendo ogni incontro
-          un’esperienza accessibile e memorabile.
+          Le spiegazioni sono adattate all’età dei partecipanti,
+          rendendo ogni incontro un’esperienza accessibile e memorabile.
         </p>
       </div>
       <div class="gallery">
@@ -230,16 +247,16 @@
       <div class="card download">
         <h3>Stellarium</h3>
         <p>
-          Stellarium è un software astronomico open source ideale per esplorare la volta celeste
-          e prepararsi alle osservazioni.
+          Stellarium è un software astronomico open source ideale per esplorare
+          la volta celeste e prepararsi alle osservazioni.
         </p>
         <a href="https://stellarium.org/it/" target="_blank">Scarica Stellarium</a>
       </div>
       <div class="card">
         <h3>Altre applicazioni</h3>
         <p>
-          Verranno suggeriti altri strumenti gratuiti utili alla didattica e
-          all’esplorazione del cielo.
+          Verranno suggeriti altri strumenti gratuiti utili alla didattica
+          e all’esplorazione del cielo.
         </p>
       </div>
     </div>
