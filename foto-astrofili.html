@@ -3,6 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Archivio Foto Astrofili</title>
 
 <style>
@@ -12,67 +13,73 @@
   font-weight:300;
 }
 
-body {
+body{
   margin:0;
   font-family:Arial,sans-serif;
   background:#000;
   color:#fff;
 }
 
-header {
+header{
   text-align:center;
   padding:3rem 1rem;
 }
 
-h1 {
+h1{
   font-family:'Lemon Milk';
   letter-spacing:.26em;
 }
 
-.gallery {
-  max-width:1200px;
-  margin:0 auto 4rem;
-  padding:0 1rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:1.5rem;
+.gallery{
+  display:flex;
+  overflow-x:auto;
+  gap:1rem;
+  padding:1rem;
+  scroll-snap-type:x mandatory;
 }
 
-.gallery a img {
+.gallery a{
+  flex:0 0 80%;
+  scroll-snap-align:center;
+}
+
+.gallery img{
   width:100%;
   border-radius:18px;
   box-shadow:0 20px 50px rgba(0,0,0,.6);
 }
 
+/* DESKTOP */
+@media(min-width:768px){
+  .gallery{
+    display:grid;
+    grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  }
+  .gallery a{flex:none}
+}
+
 /* LIGHTBOX */
-.lightbox {
+.lightbox{
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
   display:none;
   align-items:center;
   justify-content:center;
-  z-index:999;
 }
 
-.lightbox img {
+.lightbox img{
   max-width:95%;
   max-height:95%;
 }
 
-.lightbox:target {
-  display:flex;
-}
+.lightbox:target{display:flex}
 
-.back {
+.back{
   text-align:center;
-  margin-bottom:3rem;
+  margin:2rem 0;
 }
-
-.back a {
-  color:#c9d6df;
-  text-decoration:none;
-}
+.back a{color:#c9d6df;text-decoration:none}
 </style>
 </head>
 
@@ -84,15 +91,15 @@ h1 {
 </header>
 
 <div class="gallery">
-<a href="#f7"><img src="images/astrinascentifoto7.jpg"></a>
-<a href="#f8"><img src="images/astrinascentifoto8.jpg"></a>
-<a href="#f9"><img src="images/astrinascentifoto9.jpg"></a>
-<a href="#f10"><img src="images/astrinascentifoto10.jpg"></a>
-<a href="#f11"><img src="images/astrinascentifoto11.jpg"></a>
-<a href="#f12"><img src="images/astrinascentifoto12.jpg"></a>
-<a href="#f13"><img src="images/astrinascentifoto13.jpg"></a>
-<a href="#f14"><img src="images/astrinascentifoto14.jpg"></a>
-<a href="#f15"><img src="images/astrinascentifoto15.jpg"></a>
+<a href="#f7"><img src="images/astrinascentifoto7.jpg" loading="lazy"></a>
+<a href="#f8"><img src="images/astrinascentifoto8.jpg" loading="lazy"></a>
+<a href="#f9"><img src="images/astrinascentifoto9.jpg" loading="lazy"></a>
+<a href="#f10"><img src="images/astrinascentifoto10.jpg" loading="lazy"></a>
+<a href="#f11"><img src="images/astrinascentifoto11.jpg" loading="lazy"></a>
+<a href="#f12"><img src="images/astrinascentifoto12.jpg" loading="lazy"></a>
+<a href="#f13"><img src="images/astrinascentifoto13.jpg" loading="lazy"></a>
+<a href="#f14"><img src="images/astrinascentifoto14.jpg" loading="lazy"></a>
+<a href="#f15"><img src="images/astrinascentifoto15.jpg" loading="lazy"></a>
 </div>
 
 <div id="f7" class="lightbox"><a href="#"><img src="images/astrinascentifoto7.jpg"></a></div>
