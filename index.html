@@ -40,62 +40,76 @@
       letter-spacing: 0.24em;
     }
 
-    header {
-      text-align: center;
-      padding: 6rem 1.5rem 7rem;
-    }
+    header { text-align: center; padding: 4rem 1.5rem 5rem; }
+    header img { max-width: 180px; margin-bottom: 2rem; animation: logoFloat 4s ease-in-out infinite; }
+    header h1 { font-size: 2.4rem; margin: 0; animation: fadeDown 1.6s ease forwards; }
+    header p { max-width: 700px; margin: 1.5rem auto 0; font-size: 1rem; color: var(--accento); animation: fadeUp 2s ease forwards; }
 
-    header img { max-width: 220px; margin-bottom: 2.5rem; animation: logoFloat 4s ease-in-out infinite; }
-    header h1 { font-size: 3.1rem; margin: 0; animation: fadeDown 1.6s ease forwards; }
-    header p { max-width: 880px; margin: 2.5rem auto 0; font-size: 1.15rem; color: var(--accento); animation: fadeUp 2s ease forwards; }
-
-    section { max-width: 1100px; margin: 0 auto 4.5rem; padding: 0 1.5rem; }
-    section h2 { font-size: 2rem; margin-bottom: 2.2rem; border-left: 3px solid var(--bianco); padding-left: 1rem; }
+    section { max-width: 1000px; margin: 0 auto 4rem; padding: 0 1rem; }
+    section h2 { font-size: 1.8rem; margin-bottom: 1.8rem; border-left: 3px solid var(--bianco); padding-left: 0.8rem; }
 
     .card {
       background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(230,230,230,0.5));
       backdrop-filter: blur(10px);
       -webkit-backdrop-filter: blur(10px);
-      padding: 2.8rem;
+      padding: 2rem;
       border-radius: 22px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      margin-bottom: 3rem;
-      transform: translateY(70px) scale(0.95);
+      margin-bottom: 2.5rem;
+      transform: translateY(50px) scale(0.95);
       opacity: 0;
       animation: floatInStrong 1.6s cubic-bezier(.22,1,.36,1) forwards;
     }
 
-    .card:hover { transform: translateY(-12px) scale(1.04); box-shadow: 0 35px 90px rgba(0,0,0,0.65); transition: all 0.5s cubic-bezier(.22,1,.36,1); }
+    .card:hover { transform: translateY(-12px) scale(1.04); box-shadow: 0 30px 70px rgba(0,0,0,0.65); transition: all 0.5s cubic-bezier(.22,1,.36,1); }
     .card p, .card li, .card a { color: var(--nero); }
     .card h3 { color: var(--nero); font-size: 1rem; margin-top: 0; }
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(280px, 1fr)); gap: 3rem; }
+    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
 
-    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(200px, 1fr)); gap: 1.2rem; }
+    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
     .gallery div {
       background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(230,230,230,0.5));
-      backdrop-filter: blur(8px); border-radius: 16px; height: 170px;
-      display: flex; align-items: center; justify-content: center; color: #222; font-size: 0.75rem;
-      transform: translateY(50px) scale(0.95); opacity: 0; animation: floatInStrong 1.8s cubic-bezier(.22,1,.36,1) forwards;
+      backdrop-filter: blur(8px); border-radius: 16px; height: 140px;
+      display: flex; align-items: center; justify-content: center; color: #222; font-size: 0.7rem;
+      transform: translateY(40px) scale(0.95); opacity: 0; animation: floatInStrong 1.6s cubic-bezier(.22,1,.36,1) forwards;
     }
 
-    .download-buttons { display: flex; gap: 1rem; margin-top: 1.8rem; flex-wrap: wrap; align-items: center; }
+    .download-buttons { display: flex; gap: 0.8rem; margin-top: 1.5rem; flex-wrap: wrap; align-items: center; }
     .download-buttons a {
       display: flex; align-items: center; gap: 0.5rem;
-      padding: 0.9rem 1.6rem;
-      background: rgba(0,0,0,0.9); color: var(--bianco); text-decoration: none;
-      border-radius: 50px; font-family: 'Lemon Milk', sans-serif; font-size: 0.65rem; letter-spacing: 0.18em;
-      transition: all 0.4s cubic-bezier(.22,1,.36,1);
+      padding: 1rem 1.8rem;
+      border-radius: 50px; font-family: 'Lemon Milk', sans-serif; font-size: 0.75rem; letter-spacing: 0.18em;
+      transition: all 0.3s ease;
+      text-decoration: none; color: #fff;
     }
-    .download-buttons a:hover { background: #000; transform: scale(1.08); }
 
-    footer { text-align: center; padding: 3.5rem 1.5rem 4.5rem; font-size: 0.8rem; color: var(--accento); }
+    .apple { background: linear-gradient(135deg, #000000, #555555); }
+    .apple:hover { background: linear-gradient(135deg, #222222, #777777); }
+
+    .google { background: linear-gradient(135deg, #3DDC84, #1B9C52); }
+    .google:hover { background: linear-gradient(135deg, #2CB66B, #149A45); }
+
+    .web { background: linear-gradient(135deg, #007ACC, #005A99); }
+    .web:hover { background: linear-gradient(135deg, #005EA0, #003F70); }
+
+    footer { text-align: center; padding: 3rem 1rem 4rem; font-size: 0.8rem; color: var(--accento); }
     footer a { color: var(--accento); text-decoration: none; }
 
     @keyframes floatInStrong { to { transform: translateY(0) scale(1); opacity: 1; } }
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-40px);} to{opacity:1; transform:translateY(0);} }
-    @keyframes fadeUp { from {opacity:0; transform:translateY(40px);} to{opacity:1; transform:translateY(0);} }
-    @keyframes logoFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-12px);} }
+    @keyframes fadeDown { from { opacity:0; transform:translateY(-30px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes fadeUp { from {opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
+    @keyframes logoFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
+
+    /* MOBILE FONT E PADDING ADJUSTMENTS */
+    @media (max-width: 600px) {
+      header h1 { font-size: 2rem; }
+      header p { font-size: 0.95rem; }
+      section h2 { font-size: 1.5rem; }
+      .card { padding: 1.8rem; }
+      .download-buttons { flex-direction: column; gap: 0.8rem; }
+      .download-buttons a { width: 100%; justify-content: center; font-size: 0.85rem; padding: 0.95rem 0; }
+    }
   </style>
 </head>
 
@@ -140,8 +154,8 @@
       <h3>Stellarium</h3>
       <p>Software astronomico open source ideale per esplorare la volta celeste e prepararsi alle osservazioni.</p>
       <div class="download-buttons">
-        <a href="https://stellarium.org/it/" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0a12 12 0 1012 12A12 12 0 0012 0zm1 17h-2v-2h2zm0-4h-2V7h2z"/></svg> SITO UFFICIALE
+        <a href="https://stellarium.org/it/" target="_blank" class="web">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M12 0a12 12 0 1012 12A12 12 0 0012 0zm1 17h-2v-2h2zm0-4h-2V7h2z"/></svg> SITO UFFICIALE
         </a>
       </div>
     </div>
@@ -150,8 +164,8 @@
       <h3>Moon Globe</h3>
       <p>Applicazione per esplorare la superficie lunare in 3D, particolarmente indicata per dispositivi Apple.</p>
       <div class="download-buttons">
-        <a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M16.365 1.43c.012 0 .025-.001.038-.001 2.55 0 4.538 2.004 4.538 4.482 0 2.78-2.276 6.654-5.4 6.654-1.145 0-2.464-.6-3.292-.6-.798 0-2.053.602-3.291.602-3.157 0-5.396-3.806-5.396-6.594 0-2.489 1.987-4.482 4.536-4.482 1.1 0 2.067.585 2.732.585.637 0 1.885-.611 3.283-.611z"/></svg> APPLE STORE
+        <a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" class="apple">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M16.365 1.43c.012 0 .025-.001.038-.001 2.55 0 4.538 2.004 4.538 4.482 0 2.78-2.276 6.654-5.4 6.654-1.145 0-2.464-.6-3.292-.6-.798 0-2.053.602-3.291.602-3.157 0-5.396-3.806-5.396-6.594 0-2.489 1.987-4.482 4.536-4.482 1.1 0 2.067.585 2.732.585.637 0 1.885-.611 3.283-.611z"/></svg> APPLE STORE
         </a>
       </div>
     </div>
@@ -160,8 +174,8 @@
       <h3>Sky Tonight</h3>
       <p>Mappa stellare interattiva per esplorare il cielo in tempo reale su Android.</p>
       <div class="download-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0L24 12 12 24 0 12z"/></svg> GOOGLE PLAY
+        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" class="google">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M12 0L24 12 12 24 0 12z"/></svg> GOOGLE PLAY
         </a>
       </div>
     </div>
@@ -170,8 +184,8 @@
       <h3>Star Walk 2 Free</h3>
       <p>App Android per riconoscere stelle, costellazioni e oggetti celesti.</p>
       <div class="download-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank">
-          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="currentColor" d="M12 0L24 12 12 24 0 12z"/></svg> GOOGLE PLAY
+        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" class="google">
+          <svg width="16" height="16" viewBox="0 0 24 24"><path fill="#fff" d="M12 0L24 12 12 24 0 12z"/></svg> GOOGLE PLAY
         </a>
       </div>
     </div>
