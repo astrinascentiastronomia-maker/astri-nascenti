@@ -1,255 +1,162 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="UTF-8" />
-  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
-  <title>Astri Nascenti – Astronomia per le scuole</title>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Astri Nascenti – Astronomia per le scuole</title>
 
-  <style>
-    @font-face {
-      font-family: 'Lemon Milk';
-      src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
-           url('fonts/LemonMilk-Light.woff') format('woff');
-      font-weight: 300;
-      font-style: normal;
-    }
+<style>
+@font-face {
+  font-family: 'Lemon Milk';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2');
+  font-weight: 300;
+}
 
-    :root {
-      --bianco: #ffffff;
-      --nero: #000000;
-      --accento: #c9d6df;
-    }
+:root {
+  --bianco:#fff;
+  --nero:#000;
+  --accento:#c9d6df;
+}
 
-    body {
-      margin: 0;
-      font-family: 'Helvetica Neue', Arial, sans-serif;
-      background:
-        linear-gradient(rgba(0,0,0,0.8), rgba(0,0,0,0.95)),
-        url("images/luna-primo-quarto.jpg") no-repeat center center fixed;
-      background-size: cover;
-      line-height: 1.7;
-      overflow-x: hidden;
-    }
+body {
+  margin:0;
+  font-family:Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
+    url("images/luna-primo-quarto.jpg") center/cover fixed;
+  color:var(--bianco);
+}
 
-    * { box-sizing: border-box; color: var(--bianco); }
+h1,h2,h3 {
+  font-family:'Lemon Milk';
+  letter-spacing:.22em;
+  text-transform:uppercase;
+}
 
-    h1, h2, h3 {
-      font-family: 'Lemon Milk', sans-serif;
-      font-weight: 300;
-      text-transform: uppercase;
-      letter-spacing: 0.24em;
-    }
+header {
+  text-align:center;
+  padding:4rem 1.5rem 5rem;
+}
 
-    header { text-align: center; padding: 4rem 1.5rem 5rem; }
-    header img { max-width: 180px; margin-bottom: 2rem; animation: logoFloat 4s ease-in-out infinite; }
-    header h1 { font-size: 2.4rem; margin: 0; animation: fadeDown 1.6s ease forwards; }
-    header p { max-width: 700px; margin: 1.5rem auto 0; font-size: 1rem; color: var(--accento); animation: fadeUp 2s ease forwards; }
+header img {
+  max-width:180px;
+  animation:float 4s ease-in-out infinite;
+}
 
-    section { max-width: 1000px; margin: 0 auto 4rem; padding: 0 1rem; }
-    section h2 { font-size: 1.8rem; margin-bottom: 1.8rem; border-left: 3px solid var(--bianco); padding-left: 0.8rem; }
+section {
+  max-width:1100px;
+  margin:0 auto 4rem;
+  padding:0 1.2rem;
+}
 
-    .card {
-      background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(230,230,230,0.5));
-      backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
-      padding: 2rem;
-      border-radius: 22px;
-      box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-      margin-bottom: 2.5rem;
-      transform: translateY(50px) scale(0.95);
-      opacity: 0;
-      animation: floatInStrong 1.6s cubic-bezier(.22,1,.36,1) forwards;
-    }
+h2 {
+  border-left:3px solid #fff;
+  padding-left:1rem;
+}
 
-    .card:hover { transform: translateY(-12px) scale(1.04); box-shadow: 0 30px 70px rgba(0,0,0,0.65); transition: all 0.5s cubic-bezier(.22,1,.36,1); }
-    .card p, .card li, .card a { color: var(--nero); }
-    .card h3 { color: var(--nero); font-size: 1rem; margin-top: 0; }
+.card {
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(10px);
+  border-radius:22px;
+  padding:2rem;
+  margin-bottom:2rem;
+  color:#000;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+}
 
-    .grid { display: grid; grid-template-columns: repeat(auto-fit, minmax(260px, 1fr)); gap: 2rem; }
+.grid {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:2rem;
+}
 
-    .gallery { display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 1rem; }
-    .gallery div {
-      background: linear-gradient(135deg, rgba(255,255,255,0.5), rgba(230,230,230,0.5));
-      backdrop-filter: blur(8px); border-radius: 16px; height: 140px;
-      display: flex; align-items: center; justify-content: center; color: #222; font-size: 0.7rem;
-      transform: translateY(40px) scale(0.95); opacity: 0; animation: floatInStrong 1.6s cubic-bezier(.22,1,.36,1) forwards;
-    }
+/* GALLERY BOX */
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:1rem;
+}
 
-    .download-buttons { display: flex; gap: 0.8rem; margin-top: 1.5rem; flex-wrap: wrap; align-items: center; }
-    .download-buttons a {
-      display: flex; align-items: center; gap: 0.5rem;
-      padding: 1rem 1.8rem;
-      border-radius: 50px; font-family: 'Lemon Milk', sans-serif; font-size: 0.75rem; letter-spacing: 0.18em;
-      transition: all 0.3s ease, box-shadow 0.2s ease;
-      text-decoration: none; color: #fff;
-      position: relative;
-    }
+.gallery a {
+  height:160px;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+  transition:.4s ease;
+}
 
-    /* Gradient styles per store */
-    .apple { background: linear-gradient(135deg, #000000, #555555); }
-    .google { background: linear-gradient(135deg, #3DDC84, #1B9C52); }
-    .web { background: linear-gradient(135deg, #007ACC, #005A99); }
+.gallery a:hover {
+  transform:scale(1.05);
+}
 
-    /* Hover & active glow + pulse */
-    .download-buttons a:hover,
-    .download-buttons a:active,
-    .download-buttons a.touch-active {
-      animation: pulse 0.3s;
-      box-shadow: 0 0 16px rgba(255,255,255,0.8), 0 0 24px rgba(255,255,255,0.6);
-    }
+.gallery a span {
+  position:absolute;
+  background:rgba(0,0,0,.6);
+  padding:.5rem 1rem;
+  border-radius:20px;
+  font-size:.75rem;
+  letter-spacing:.15em;
+  color:#fff;
+}
 
-    @keyframes pulse {
-      0% { transform: scale(1); }
-      50% { transform: scale(1.08); }
-      100% { transform: scale(1); }
-    }
+.gallery a img {
+  width:100%;
+  height:100%;
+  object-fit:cover;
+}
 
-    footer { text-align: center; padding: 3rem 1rem 4rem; font-size: 0.8rem; color: var(--accento); }
-    footer a { color: var(--accento); text-decoration: none; }
+footer {
+  text-align:center;
+  padding:3rem 1rem;
+  color:var(--accento);
+}
 
-    @keyframes floatInStrong { to { transform: translateY(0) scale(1); opacity: 1; } }
-    @keyframes fadeDown { from { opacity:0; transform:translateY(-30px);} to{opacity:1; transform:translateY(0);} }
-    @keyframes fadeUp { from {opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
-    @keyframes logoFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
-
-    @media (max-width: 600px) {
-      header h1 { font-size: 2rem; }
-      header p { font-size: 0.95rem; }
-      section h2 { font-size: 1.5rem; }
-      .card { padding: 1.8rem; }
-      .download-buttons { flex-direction: column; gap: 0.8rem; }
-      .download-buttons a { width: 100%; justify-content: center; font-size: 0.85rem; padding: 0.95rem 0; }
-    }
-  </style>
+@keyframes float {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+</style>
 </head>
 
 <body>
 
 <header>
-  <img src="logo-astri-nascenti.png" alt="Logo Astri Nascenti">
+  <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
   <h1>ASTRI NASCENTI</h1>
-  <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie, nato per accompagnare i più giovani alla scoperta dell’Universo.</p>
+  <p>Progetto di astronomia osservativa e divulgativa per le scuole.</p>
 </header>
 
-<section id="progetto">
-  <h2>Il progetto</h2>
-  <div class="card">
-    <p><strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo, racconto scientifico ed esperienza diretta.</p>
-    <p>Ogni attività stimola curiosità, immaginazione e consapevolezza, favorendo un approccio naturale alla scienza.</p>
-    <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
-  </div>
-</section>
+<section>
+<h2>Serate di osservazione</h2>
+<div class="grid">
 
-<section id="osservazioni">
-  <h2>Serate di osservazione</h2>
-  <div class="grid">
-    <div class="card">
-      <p>Durante le serate osservative i partecipanti osservano Luna, pianeti, stelle e galassie attraverso telescopi e strumenti professionali.</p>
-      <p>Le spiegazioni sono adattate all’età dei partecipanti, rendendo ogni incontro coinvolgente e accessibile.</p>
-    </div>
-    <div class="gallery">
-      <div>Foto Luna</div>
-      <div>Telescopi</div>
-      <div>Osservazioni</div>
-      <div>Attività didattiche</div>
-    </div>
-  </div>
-</section>
+<div class="card">
+<p>Osservazioni di Luna, pianeti e cielo profondo con strumenti professionali e spiegazioni accessibili a tutti.</p>
+</div>
 
-<section id="download">
-  <h2>Software consigliati</h2>
-  <div class="grid">
+<div class="gallery">
 
-    <div class="card">
-      <h3>Stellarium</h3>
-      <p>Software astronomico open source ideale per esplorare la volta celeste e prepararsi alle osservazioni.</p>
-      <div class="download-buttons">
-        <a href="https://stellarium.org/it/" target="_blank" class="web">SITO UFFICIALE</a>
-      </div>
-    </div>
+<a href="foto-luna.html">
+  <img src="images/astrinascentifoto11.jpg" alt="Foto Luna">
+  <span>Foto Luna</span>
+</a>
 
-    <div class="card">
-      <h3>Moon Globe</h3>
-      <p>Applicazione per esplorare la superficie lunare in 3D, particolarmente indicata per dispositivi Apple.</p>
-      <div class="download-buttons">
-        <a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" class="apple">APPLE STORE</a>
-      </div>
-    </div>
+<div class="card" style="height:160px;display:flex;align-items:center;justify-content:center;">Telescopi</div>
+<div class="card" style="height:160px;display:flex;align-items:center;justify-content:center;">Osservazioni</div>
+<div class="card" style="height:160px;display:flex;align-items:center;justify-content:center;">Attività didattiche</div>
 
-    <div class="card">
-      <h3>Sky Tonight</h3>
-      <p>Mappa stellare interattiva per esplorare il cielo in tempo reale su Android.</p>
-      <div class="download-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" class="google">GOOGLE PLAY</a>
-      </div>
-    </div>
-
-    <div class="card">
-      <h3>Star Walk 2 Free</h3>
-      <p>App Android per riconoscere stelle, costellazioni e oggetti celesti.</p>
-      <div class="download-buttons">
-        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" class="google">GOOGLE PLAY</a>
-      </div>
-    </div>
-
-  </div>
-</section>
-
-<section id="chi-siamo">
-  <h2>Chi siamo</h2>
-  <div class="grid">
-    <div class="card">
-      <h3>Fondatore</h3>
-      <p>Inserisci qui la tua mini-biografia e il tuo percorso nel mondo dell’astronomia e della divulgazione.</p>
-    </div>
-    <div class="card">
-      <h3>Co-fondatore</h3>
-      <p>Inserisci qui la mini-biografia del tuo socio di progetto e il suo contributo ad Astri Nascenti.</p>
-    </div>
-  </div>
-</section>
-
-<section id="calendario">
-  <h2>Calendario eventi</h2>
-  <div class="card">
-    <p>Qui verranno pubblicate le prossime date delle serate di osservazione e degli incontri con le scuole.</p>
-    <p><strong>Date in aggiornamento</strong></p>
-  </div>
-</section>
-
-<section id="contatti">
-  <h2>Contatti</h2>
-  <div class="card">
-    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
-  </div>
+</div>
+</div>
 </section>
 
 <footer>
-  <p>© Astri Nascenti – Astronomia per le scuole<br>Instagram: <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a></p>
+© Astri Nascenti – Astronomia per le scuole
 </footer>
-
-<script>
-  // Intersection Observer per card
-  const observer = new IntersectionObserver(entries => {
-    entries.forEach(entry => {
-      if(entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        observer.unobserve(entry.target);
-      }
-    });
-  }, { threshold: 0.15 });
-  document.querySelectorAll('.card').forEach(el => observer.observe(el));
-
-  // Glow dinamico al touch sui pulsanti
-  document.querySelectorAll('.download-buttons a').forEach(btn => {
-    btn.addEventListener('touchstart', () => {
-      btn.classList.add('touch-active');
-    });
-    btn.addEventListener('touchend', () => {
-      setTimeout(() => btn.classList.remove('touch-active'), 300);
-    });
-  });
-</script>
 
 </body>
 </html>
