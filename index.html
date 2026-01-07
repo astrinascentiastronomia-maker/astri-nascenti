@@ -5,9 +5,11 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astri Nascenti – Astronomia per le scuole</title>
 
+  <!-- Preload font -->
   <link rel="preload" href="fonts/LemonMilk-Light.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
+    /* FONT */
     @font-face {
       font-family: 'Lemon Milk';
       src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
@@ -38,6 +40,7 @@
       color: var(--bianco);
     }
 
+    /* TITOLI */
     h1, h2, h3 {
       font-family: 'Lemon Milk', sans-serif;
       font-weight: 300;
@@ -70,6 +73,10 @@
       animation: fadeUp 2s ease forwards;
     }
 
+    main {
+      display: block;
+    }
+
     section {
       max-width: 1100px;
       margin: 0 auto 4.5rem;
@@ -83,6 +90,7 @@
       padding-left: 1rem;
     }
 
+    /* CARD */
     .card {
       background: linear-gradient(
         135deg,
@@ -110,6 +118,7 @@
     }
 
     .card p,
+    .card li,
     .card a {
       color: var(--nero);
     }
@@ -126,6 +135,7 @@
       gap: 3rem;
     }
 
+    /* DOWNLOAD BUTTONS */
     .download-buttons {
       display: flex;
       gap: 1rem;
@@ -172,6 +182,7 @@
       text-decoration: none;
     }
 
+    /* ANIMAZIONI */
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-40px); }
       to { opacity: 1; transform: translateY(0); }
@@ -185,6 +196,13 @@
     @keyframes logoFloat {
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
+    }
+
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
     }
   </style>
 </head>
@@ -202,6 +220,21 @@
 </header>
 
 <main>
+
+<section id="progetto">
+  <h2>Il progetto</h2>
+  <div class="card">
+    <p>
+      <strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo,
+      racconto scientifico ed esperienza diretta.
+    </p>
+    <p>
+      Ogni attività è pensata per stimolare curiosità, immaginazione e consapevolezza,
+      favorendo un approccio naturale alla scienza.
+    </p>
+    <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
+  </div>
+</section>
 
 <section id="download">
   <h2>Software consigliati</h2>
@@ -240,7 +273,8 @@
   <div class="card">
     <p>
       📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
-      astrinascenti.astronomia@gmail.com</a>
+        astrinascenti.astronomia@gmail.com
+      </a>
     </p>
   </div>
 </section>
@@ -267,7 +301,9 @@
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.card').forEach(el => observer.observe(el));
+  document.querySelectorAll('.card').forEach(card => {
+    observer.observe(card);
+  });
 </script>
 
 </body>
