@@ -9,7 +9,6 @@
   <link rel="preload" href="fonts/LemonMilk-Light.woff2" as="font" type="font/woff2" crossorigin>
 
   <style>
-    /* FONT LEMON MILK LIGHT */
     @font-face {
       font-family: 'Lemon Milk';
       src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
@@ -89,7 +88,6 @@
       padding-left: 1rem;
     }
 
-    /* CARD */
     .card {
       background: linear-gradient(
         135deg,
@@ -200,7 +198,6 @@
       text-decoration: none;
     }
 
-    /* ANIMAZIONI */
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-40px); }
       to { opacity: 1; transform: translateY(0); }
@@ -216,7 +213,6 @@
       50% { transform: translateY(-12px); }
     }
 
-    /* MOBILE */
     @media (max-width: 480px) {
       header h1 {
         font-size: 2.4rem;
@@ -224,7 +220,6 @@
       }
     }
 
-    /* REDUCED MOTION */
     @media (prefers-reduced-motion: reduce) {
       * {
         animation: none !important;
@@ -277,22 +272,45 @@
     <section id="download" aria-labelledby="titolo-download">
       <h2 id="titolo-download">Software consigliati</h2>
       <div class="grid">
+
         <div class="card download">
           <h3>Stellarium</h3>
-          <p>Software open source per esplorare la volta celeste.</p>
+          <p>
+            Software astronomico open source ideale per esplorare la volta celeste
+            e prepararsi alle osservazioni.
+          </p>
           <a href="https://stellarium.org/it/" target="_blank">Scarica Stellarium</a>
         </div>
+
+        <div class="card download">
+          <h3>Moon Globe</h3>
+          <p>
+            Applicazione interattiva per esplorare la superficie lunare in 3D,
+            utile per riconoscere crateri, mari e regioni osservabili al telescopio.
+          </p>
+          <a href="https://play.google.com/store/apps/details?id=com.daydream.moon" target="_blank">
+            Scarica Moon Globe
+          </a>
+        </div>
+
         <div class="card">
           <h3>Altre applicazioni</h3>
-          <p>Strumenti gratuiti per la didattica astronomica.</p>
+          <p>
+            Verranno suggeriti altri strumenti gratuiti utili alla didattica
+            e all’osservazione del cielo.
+          </p>
         </div>
+
       </div>
     </section>
 
     <section id="contatti" aria-labelledby="titolo-contatti">
       <h2 id="titolo-contatti">Contatti</h2>
       <div class="card">
-        <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+        <p>
+          📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
+          astrinascenti.astronomia@gmail.com</a>
+        </p>
       </div>
     </section>
 
@@ -301,7 +319,10 @@
   <footer>
     <p>
       © Astri Nascenti – Astronomia per le scuole<br>
-      Instagram: <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
+      Instagram:
+      <a href="https://www.instagram.com/astri.nascenti" target="_blank">
+        @astri.nascenti
+      </a>
     </p>
   </footer>
 
