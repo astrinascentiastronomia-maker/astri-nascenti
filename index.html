@@ -5,6 +5,9 @@
   <meta name="viewport" content="width=device-width, initial-scale=1.0" />
   <title>Astri Nascenti – Astronomia per le scuole</title>
 
+  <!-- PRELOAD FONT -->
+  <link rel="preload" href="fonts/LemonMilk-Light.woff2" as="font" type="font/woff2" crossorigin>
+
   <style>
     /* FONT LEMON MILK LIGHT */
     @font-face {
@@ -37,7 +40,6 @@
       color: var(--bianco);
     }
 
-    /* TITOLI */
     h1, h2, h3 {
       font-family: 'Lemon Milk', sans-serif;
       font-weight: 300;
@@ -70,6 +72,10 @@
       animation: fadeUp 2s ease forwards;
     }
 
+    main {
+      display: block;
+    }
+
     section {
       max-width: 1100px;
       margin: 0 auto 4.5rem;
@@ -83,7 +89,7 @@
       padding-left: 1rem;
     }
 
-    /* BOX PIÙ TRASPARENTI + ANIMATI */
+    /* CARD */
     .card {
       background: linear-gradient(
         135deg,
@@ -91,25 +97,33 @@
         rgba(230,230,230,0.5)
       );
       backdrop-filter: blur(10px);
-      -webkit-backdrop-filter: blur(10px);
       padding: 2.8rem;
       border-radius: 22px;
       box-shadow: 0 20px 60px rgba(0,0,0,0.5);
       margin-bottom: 3rem;
       transform: translateY(70px) scale(0.95);
       opacity: 0;
-      animation: floatInStrong 1.6s cubic-bezier(.22,1,.36,1) forwards;
+      transition: all 1.2s cubic-bezier(.22,1,.36,1);
+    }
+
+    .card.in-view {
+      transform: translateY(0) scale(1);
+      opacity: 1;
     }
 
     .card:hover {
       transform: translateY(-12px) scale(1.04);
       box-shadow: 0 35px 90px rgba(0,0,0,0.65);
-      transition: all 0.5s cubic-bezier(.22,1,.36,1);
     }
 
     .card p,
-    .card li {
+    .card li,
+    .card a {
       color: var(--nero);
+    }
+
+    .card a {
+      text-decoration: underline;
     }
 
     .card h3 {
@@ -146,7 +160,12 @@
       font-size: 0.75rem;
       transform: translateY(50px) scale(0.95);
       opacity: 0;
-      animation: floatInStrong 1.8s cubic-bezier(.22,1,.36,1) forwards;
+      transition: all 1.4s cubic-bezier(.22,1,.36,1);
+    }
+
+    .gallery div.in-view {
+      transform: translateY(0) scale(1);
+      opacity: 1;
     }
 
     .download a {
@@ -182,10 +201,6 @@
     }
 
     /* ANIMAZIONI */
-    @keyframes floatInStrong {
-      to { transform: translateY(0) scale(1); opacity: 1; }
-    }
-
     @keyframes fadeDown {
       from { opacity: 0; transform: translateY(-40px); }
       to { opacity: 1; transform: translateY(0); }
@@ -200,6 +215,22 @@
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
     }
+
+    /* MOBILE */
+    @media (max-width: 480px) {
+      header h1 {
+        font-size: 2.4rem;
+        letter-spacing: 0.15em;
+      }
+    }
+
+    /* REDUCED MOTION */
+    @media (prefers-reduced-motion: reduce) {
+      * {
+        animation: none !important;
+        transition: none !important;
+      }
+    }
   </style>
 </head>
 
@@ -210,117 +241,84 @@
     <h1>ASTRI NASCENTI</h1>
     <p>
       Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie,
-      nato per accompagnare i più giovani alla scoperta dell’Universo.
+      nato per accompagnare i più giovani nella scoperta dell’Universo,
+      tra osservazione diretta e meraviglia scientifica.
     </p>
   </header>
 
-  <section id="progetto">
-    <h2>Il progetto</h2>
-    <div class="card">
-      <p>
-        <strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo,
-        racconto scientifico ed esperienza diretta.
-      </p>
-      <p>
-        Ogni attività è pensata per stimolare curiosità, immaginazione e consapevolezza,
-        favorendo un approccio naturale alla scienza.
-      </p>
-      <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
-    </div>
-  </section>
+  <main>
 
-  <section id="osservazioni">
-    <h2>Serate di osservazione</h2>
-    <div class="grid">
+    <section id="progetto" aria-labelledby="titolo-progetto">
+      <h2 id="titolo-progetto">Il progetto</h2>
       <div class="card">
-        <p>
-          Durante le serate osservative i partecipanti osservano Luna, pianeti, stelle
-          e galassie attraverso telescopi e strumenti professionali.
-        </p>
-        <p>
-          Le spiegazioni sono adattate all’età dei partecipanti,
-          rendendo ogni incontro coinvolgente e accessibile.
-        </p>
+        <p><strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo,
+        racconto scientifico ed esperienza diretta.</p>
+        <p>Ogni attività è pensata per stimolare curiosità, immaginazione e consapevolezza.</p>
+        <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
       </div>
-      <div class="gallery">
-        <div>Foto Luna</div>
-        <div>Telescopi</div>
-        <div>Osservazioni</div>
-        <div>Attività didattiche</div>
-      </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="download">
-    <h2>Software consigliati</h2>
-    <div class="grid">
-      <div class="card download">
-        <h3>Stellarium</h3>
-        <p>
-          Stellarium è un software astronomico open source ideale per esplorare la volta celeste
-          e prepararsi alle osservazioni.
-        </p>
-        <a href="https://stellarium.org/it/" target="_blank">Scarica Stellarium</a>
+    <section id="osservazioni" aria-labelledby="titolo-osservazioni">
+      <h2 id="titolo-osservazioni">Serate di osservazione</h2>
+      <div class="grid">
+        <div class="card">
+          <p>Osservazione di Luna, pianeti, stelle e galassie con strumenti professionali.</p>
+          <p>Spiegazioni adattate all’età dei partecipanti.</p>
+        </div>
+        <div class="gallery">
+          <div>Foto Luna</div>
+          <div>Telescopi</div>
+          <div>Osservazioni</div>
+          <div>Attività didattiche</div>
+        </div>
       </div>
+    </section>
+
+    <section id="download" aria-labelledby="titolo-download">
+      <h2 id="titolo-download">Software consigliati</h2>
+      <div class="grid">
+        <div class="card download">
+          <h3>Stellarium</h3>
+          <p>Software open source per esplorare la volta celeste.</p>
+          <a href="https://stellarium.org/it/" target="_blank">Scarica Stellarium</a>
+        </div>
+        <div class="card">
+          <h3>Altre applicazioni</h3>
+          <p>Strumenti gratuiti per la didattica astronomica.</p>
+        </div>
+      </div>
+    </section>
+
+    <section id="contatti" aria-labelledby="titolo-contatti">
+      <h2 id="titolo-contatti">Contatti</h2>
       <div class="card">
-        <h3>Altre applicazioni</h3>
-        <p>
-          Verranno suggeriti altri strumenti gratuiti utili alla didattica
-          e all’osservazione del cielo.
-        </p>
+        <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
       </div>
-    </div>
-  </section>
+    </section>
 
-  <section id="chi-siamo">
-    <h2>Chi siamo</h2>
-    <div class="grid">
-      <div class="card">
-        <h3>Fondatore</h3>
-        <p>
-          Inserisci qui la tua mini-biografia e il tuo percorso
-          nel mondo dell’astronomia e della divulgazione.
-        </p>
-      </div>
-      <div class="card">
-        <h3>Co-fondatore</h3>
-        <p>
-          Inserisci qui la mini-biografia del tuo socio di progetto
-          e il suo contributo ad Astri Nascenti.
-        </p>
-      </div>
-    </div>
-  </section>
-
-  <section id="calendario">
-    <h2>Calendario eventi</h2>
-    <div class="card">
-      <p>
-        Qui verranno pubblicate le prossime date delle serate di osservazione
-        e degli incontri con le scuole.
-      </p>
-      <p><strong>Date in aggiornamento</strong></p>
-    </div>
-  </section>
-
-  <section id="contatti">
-    <h2>Contatti</h2>
-    <div class="card">
-      <p>
-        Per informazioni e collaborazioni:
-      </p>
-      <p>
-        📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a>
-      </p>
-    </div>
-  </section>
+  </main>
 
   <footer>
     <p>
-      © Astri Nascenti – Astronomia per le scuole<br />
+      © Astri Nascenti – Astronomia per le scuole<br>
       Instagram: <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
     </p>
   </footer>
+
+  <script>
+    const observer = new IntersectionObserver(entries => {
+      entries.forEach(entry => {
+        if (entry.isIntersecting) {
+          entry.target.classList.add('in-view');
+          observer.unobserve(entry.target);
+        }
+      });
+    }, { threshold: 0.15 });
+
+    document.querySelectorAll('.card, .gallery div').forEach(el => {
+      observer.observe(el);
+    });
+  </script>
 
 </body>
 </html>
