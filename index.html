@@ -3,137 +3,151 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
 <title>Astri Nascenti – Astronomia per le scuole</title>
+
+<meta name="description" content="Astri Nascenti è un progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.">
+<meta name="keywords" content="astronomia, scuole, osservazione cielo, luna, telescopi, divulgazione scientifica">
 
 <style>
 @font-face {
-  font-family: 'Lemon Milk';
-  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
-       url('fonts/LemonMilk-Light.woff') format('woff');
-  font-weight: 300;
-  font-style: normal;
+  font-family:'Lemon Milk';
+  src:url('fonts/LemonMilk-Light.woff2') format('woff2'),
+      url('fonts/LemonMilk-Light.woff') format('woff');
+  font-weight:300;
 }
 
+/* VARIABILI */
 :root {
-  --bianco:#ffffff;
-  --nero:#000000;
+  --bianco:#fff;
+  --nero:#000;
   --accento:#c9d6df;
 }
 
-* { box-sizing: border-box; }
+/* BASE */
+*{box-sizing:border-box}
+html{scroll-behavior:smooth}
 
-body {
+body{
   margin:0;
-  font-family:'Helvetica Neue', Arial, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
-    url("images/luna-primo-quarto.jpg") no-repeat center center fixed;
-  background-size:cover;
+  font-family:'Helvetica Neue',Arial,sans-serif;
   color:var(--bianco);
+  background:
+    linear-gradient(rgba(0,0,0,.85),rgba(0,0,0,.95)),
+    url("images/luna-primo-quarto.jpg") center/cover fixed;
   line-height:1.7;
-  overflow-x:hidden;
 }
 
-h1, h2, h3 {
-  font-family:'Lemon Milk', sans-serif;
+/* TITOLI */
+h1,h2,h3{
+  font-family:'Lemon Milk',sans-serif;
   font-weight:300;
+  letter-spacing:.26em;
   text-transform:uppercase;
-  letter-spacing:0.26em;
-  -webkit-font-smoothing:antialiased;
 }
+
+/* MENU */
+nav{
+  position:sticky;
+  top:0;
+  z-index:1000;
+  background:rgba(0,0,0,.85);
+  backdrop-filter:blur(8px);
+}
+
+nav ul{
+  display:flex;
+  justify-content:center;
+  gap:1.4rem;
+  padding:.8rem;
+  margin:0;
+  list-style:none;
+}
+
+nav a{
+  color:var(--accento);
+  text-decoration:none;
+  font-size:.7rem;
+  letter-spacing:.2em;
+}
+
+nav a:hover{color:#fff}
 
 /* HEADER */
-header {
+header{
   text-align:center;
   padding:3.5rem 1.5rem 4.5rem;
 }
 
-header img {
+header img{
   max-width:180px;
   margin-bottom:2rem;
-  animation:logoFloat 4s ease-in-out infinite;
+  animation:float 4s ease-in-out infinite;
 }
 
-header h1 {
-  font-size:2.2rem;
-  margin:0;
-}
-
-header p {
-  max-width:800px;
+header p{
+  max-width:820px;
   margin:2rem auto 0;
   color:var(--accento);
 }
 
 /* SEZIONI */
-section {
+section{
   max-width:1100px;
   margin:0 auto 4.5rem;
   padding:0 1.5rem;
 }
 
-section h2 {
+section h2{
   font-size:1.5rem;
-  margin-bottom:2.2rem;
-  border-left:3px solid var(--bianco);
+  border-left:3px solid #fff;
   padding-left:1rem;
+  margin-bottom:2rem;
 }
 
 /* CARD */
-.card {
-  background:linear-gradient(135deg, rgba(255,255,255,.55), rgba(230,230,230,.55));
+.card{
+  background:rgba(255,255,255,.55);
   backdrop-filter:blur(10px);
-  padding:2rem;
   border-radius:22px;
-  box-shadow:0 20px 60px rgba(0,0,0,.5);
+  padding:2rem;
+  color:#000;
+  box-shadow:0 20px 60px rgba(0,0,0,.55);
   margin-bottom:2.5rem;
-  color:var(--nero);
   transform:translateY(40px);
   opacity:0;
-  animation:floatIn 1.3s forwards;
-}
-
-.card h3 {
-  font-size:.9rem;
-  margin-top:0;
+  animation:floatIn 1.2s forwards;
 }
 
 /* GRID */
-.grid {
+.grid{
   display:grid;
   grid-template-columns:1fr;
   gap:2rem;
 }
 
 /* GALLERY HOME */
-.gallery {
+.gallery{
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:1.2rem;
 }
 
-.gallery a,
-.gallery .placeholder {
+.gallery a{
   position:relative;
   aspect-ratio:1/1;
   border-radius:18px;
   overflow:hidden;
-  background:rgba(255,255,255,.6);
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  color:#000;
-  text-decoration:none;
   box-shadow:0 18px 45px rgba(0,0,0,.6);
 }
 
-.gallery img {
+.gallery img{
   width:100%;
   height:100%;
   object-fit:cover;
 }
 
-.gallery span {
+.gallery span{
   position:absolute;
   bottom:12px;
   background:rgba(0,0,0,.65);
@@ -141,167 +155,155 @@ section h2 {
   border-radius:30px;
   font-size:.65rem;
   letter-spacing:.2em;
-  color:#fff;
 }
 
 /* DOWNLOAD */
-.download-buttons {
+.download-buttons{
   display:flex;
   flex-direction:column;
   gap:.8rem;
   margin-top:1.4rem;
 }
 
-.download-buttons a {
-  padding:1rem 1.4rem;
-  border-radius:50px;
+.download-buttons a{
   text-align:center;
+  padding:1rem;
+  border-radius:50px;
   font-family:'Lemon Milk';
   font-size:.7rem;
   letter-spacing:.2em;
   color:#fff;
   text-decoration:none;
-  min-height:48px;
 }
 
-.apple { background:linear-gradient(135deg,#000,#555); }
-.google { background:linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+.apple{background:#000}
+.google{background:#1b9c52}
+.web{background:#005a99}
 
 /* FOOTER */
-footer {
+footer{
   text-align:center;
   padding:3.5rem 1.5rem 4.5rem;
   font-size:.8rem;
   color:var(--accento);
 }
 
-footer a {
-  color:var(--accento);
-  text-decoration:none;
-}
-
 /* ANIMAZIONI */
-@keyframes floatIn { to { transform:translateY(0); opacity:1; } }
-@keyframes logoFloat {
+@keyframes float{
   0%,100%{transform:translateY(0)}
   50%{transform:translateY(-10px)}
 }
-
-/* RESPONSIVE */
-@media (min-width:768px) {
-  .grid { grid-template-columns:repeat(2,1fr); }
-  .gallery { grid-template-columns:repeat(4,1fr); }
-  .download-buttons { flex-direction:row; }
-  .download-buttons a { flex:1; }
+@keyframes floatIn{
+  to{transform:translateY(0);opacity:1}
 }
 
-@media (min-width:1024px) {
-  header h1 { font-size:3.1rem; }
-  section h2 { font-size:2rem; }
-  .card { padding:2.6rem; }
+/* RESPONSIVE */
+@media(min-width:768px){
+  .grid{grid-template-columns:repeat(2,1fr)}
+  .gallery{grid-template-columns:repeat(4,1fr)}
+  .download-buttons{flex-direction:row}
+  .download-buttons a{flex:1}
+}
+@media(min-width:1024px){
+  header h1{font-size:3.1rem}
+  section h2{font-size:2rem}
 }
 </style>
 </head>
 
 <body>
 
+<nav>
+<ul>
+<li><a href="#progetto">Progetto</a></li>
+<li><a href="#osservazioni">Osservazioni</a></li>
+<li><a href="#software">Software</a></li>
+<li><a href="#chi">Chi siamo</a></li>
+<li><a href="#contatti">Contatti</a></li>
+</ul>
+</nav>
+
 <header>
-  <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
-  <h1>ASTRI NASCENTI</h1>
-  <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.</p>
+<img src="logo-astri-nascenti.png" alt="Astri Nascenti">
+<h1>ASTRI NASCENTI</h1>
+<p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.</p>
 </header>
 
-<section>
+<section id="progetto">
 <h2>Il progetto</h2>
 <div class="card">
-<p><strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo, racconto scientifico ed esperienza diretta.</p>
+<p><strong>Astri Nascenti</strong> accompagna i più giovani alla scoperta dell’Universo.</p>
 <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
 </div>
 </section>
 
-<section>
+<section id="osservazioni">
 <h2>Serate di osservazione</h2>
 <div class="grid">
 <div class="card">
-<p>Osservazioni guidate di Luna, pianeti, stelle e galassie con telescopi professionali.</p>
+<p>Osservazioni guidate di Luna, pianeti, stelle e galassie.</p>
 </div>
 <div class="gallery">
 <a href="foto-astrofili.html">
-<img src="images/astrinascentifoto11.jpg">
+<img src="images/astrinascentifoto11.jpg" loading="lazy">
 <span>Archivio Foto Astrofili</span>
 </a>
-<div class="placeholder">Telescopi</div>
-<div class="placeholder">Osservazioni</div>
-<div class="placeholder">Attività didattiche</div>
 </div>
 </div>
 </section>
 
-<section>
+<section id="software">
 <h2>Software consigliati</h2>
 <div class="grid">
 
 <div class="card">
 <h3>Stellarium</h3>
-<p>Software astronomico open source.</p>
 <div class="download-buttons">
-<a href="https://stellarium.org/it/" target="_blank" class="web">SITO UFFICIALE</a>
+<a href="https://stellarium.org/it/" target="_blank" class="web">SITO</a>
 </div>
 </div>
 
 <div class="card">
 <h3>Moon Globe</h3>
-<p>Esplorazione 3D della Luna (Apple).</p>
 <div class="download-buttons">
-<a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" class="apple">APPLE STORE</a>
+<a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" class="apple">APPLE</a>
 </div>
 </div>
 
 <div class="card">
 <h3>Sky Tonight</h3>
-<p>Mappa stellare interattiva.</p>
 <div class="download-buttons">
-<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" class="google">GOOGLE PLAY</a>
+<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" class="google">ANDROID</a>
 </div>
 </div>
 
 <div class="card">
-<h3>Star Walk 2 Free</h3>
-<p>Identificazione stelle e costellazioni.</p>
+<h3>Star Walk 2</h3>
 <div class="download-buttons">
-<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" class="google">GOOGLE PLAY</a>
+<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" class="google">ANDROID</a>
 </div>
 </div>
 
 </div>
 </section>
 
-<section>
+<section id="chi">
 <h2>Chi siamo</h2>
 <div class="grid">
-<div class="card"><h3>Fondatore</h3><p>Mini-biografia.</p></div>
-<div class="card"><h3>Co-fondatore</h3><p>Mini-biografia.</p></div>
+<div class="card"><h3>Fondatore</h3><p>Mini-biografia</p></div>
+<div class="card"><h3>Co-fondatore</h3><p>Mini-biografia</p></div>
 </div>
 </section>
 
-<section>
-<h2>Calendario eventi</h2>
-<div class="card">
-<p><strong>Date in aggiornamento</strong></p>
-</div>
-</section>
-
-<section>
+<section id="contatti">
 <h2>Contatti</h2>
 <div class="card">
-<p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+<p>📧 astrinascenti.astronomia@gmail.com</p>
 </div>
 </section>
 
 <footer>
-© Astri Nascenti – Astronomia per le scuole<br>
-Instagram: <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
+© Astri Nascenti – Astronomia per le scuole
 </footer>
 
 </body>
