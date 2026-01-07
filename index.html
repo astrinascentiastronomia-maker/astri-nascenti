@@ -118,7 +118,6 @@
     }
 
     .card p,
-    .card li,
     .card a {
       color: var(--nero);
     }
@@ -143,31 +142,21 @@
       flex-wrap: wrap;
     }
 
-    .download-buttons a,
-    .download-buttons span {
+    .download-buttons a {
       padding: 0.9rem 1.6rem;
+      background: rgba(0,0,0,0.9);
+      color: var(--bianco);
+      text-decoration: none;
       border-radius: 50px;
       font-family: 'Lemon Milk', sans-serif;
       font-size: 0.65rem;
       letter-spacing: 0.18em;
-    }
-
-    .download-buttons a {
-      background: rgba(0,0,0,0.9);
-      color: var(--bianco);
-      text-decoration: none;
       transition: all 0.4s cubic-bezier(.22,1,.36,1);
     }
 
     .download-buttons a:hover {
       background: #000;
       transform: scale(1.08);
-    }
-
-    .download-buttons span {
-      background: rgba(0,0,0,0.35);
-      color: #ccc;
-      cursor: not-allowed;
     }
 
     footer {
@@ -197,13 +186,6 @@
       0%,100% { transform: translateY(0); }
       50% { transform: translateY(-12px); }
     }
-
-    @media (prefers-reduced-motion: reduce) {
-      * {
-        animation: none !important;
-        transition: none !important;
-      }
-    }
   </style>
 </head>
 
@@ -229,8 +211,7 @@
       racconto scientifico ed esperienza diretta.
     </p>
     <p>
-      Ogni attività è pensata per stimolare curiosità, immaginazione e consapevolezza,
-      favorendo un approccio naturale alla scienza.
+      Ogni attività è pensata per stimolare curiosità, immaginazione e consapevolezza.
     </p>
     <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
   </div>
@@ -254,14 +235,39 @@
     <div class="card">
       <h3>Moon Globe</h3>
       <p>
-        Applicazione interattiva per esplorare la superficie lunare in 3D,
-        particolarmente indicata per iPad e dispositivi Apple.
+        Applicazione per esplorare la superficie lunare in 3D,
+        particolarmente indicata per dispositivi Apple.
       </p>
       <div class="download-buttons">
         <a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank">
           APPLE STORE
         </a>
-        <span>ANDROID NON DISPONIBILE</span>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Sky Tonight</h3>
+      <p>
+        Mappa stellare interattiva per esplorare il cielo in tempo reale
+        direttamente dal tuo dispositivo Android.
+      </p>
+      <div class="download-buttons">
+        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank">
+          GOOGLE PLAY
+        </a>
+      </div>
+    </div>
+
+    <div class="card">
+      <h3>Star Walk 2 Free</h3>
+      <p>
+        Un’altra app Android eccellente per riconoscere stelle, costellazioni
+        e molto altro guardando il cielo.
+      </p>
+      <div class="download-buttons">
+        <a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank">
+          GOOGLE PLAY
+        </a>
       </div>
     </div>
 
@@ -273,8 +279,7 @@
   <div class="card">
     <p>
       📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
-        astrinascenti.astronomia@gmail.com
-      </a>
+      astrinascenti.astronomia@gmail.com</a>
     </p>
   </div>
 </section>
@@ -301,9 +306,7 @@
     });
   }, { threshold: 0.15 });
 
-  document.querySelectorAll('.card').forEach(card => {
-    observer.observe(card);
-  });
+  document.querySelectorAll('.card').forEach(el => observer.observe(el));
 </script>
 
 </body>
