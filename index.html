@@ -80,18 +80,19 @@
       display: flex; align-items: center; gap: 0.5rem;
       padding: 1rem 1.8rem;
       border-radius: 50px; font-family: 'Lemon Milk', sans-serif; font-size: 0.75rem; letter-spacing: 0.18em;
-      transition: all 0.3s ease;
+      transition: all 0.3s ease, box-shadow 0.2s ease;
       text-decoration: none; color: #fff;
     }
 
+    /* Gradient styles per store */
     .apple { background: linear-gradient(135deg, #000000, #555555); }
-    .apple:hover { background: linear-gradient(135deg, #222222, #777777); }
+    .apple:hover, .apple:active { background: linear-gradient(135deg, #222222, #777777); box-shadow: 0 0 12px #fff; }
 
     .google { background: linear-gradient(135deg, #3DDC84, #1B9C52); }
-    .google:hover { background: linear-gradient(135deg, #2CB66B, #149A45); }
+    .google:hover, .google:active { background: linear-gradient(135deg, #2CB66B, #149A45); box-shadow: 0 0 12px #3DDC84; }
 
     .web { background: linear-gradient(135deg, #007ACC, #005A99); }
-    .web:hover { background: linear-gradient(135deg, #005EA0, #003F70); }
+    .web:hover, .web:active { background: linear-gradient(135deg, #005EA0, #003F70); box-shadow: 0 0 12px #007ACC; }
 
     footer { text-align: center; padding: 3rem 1rem 4rem; font-size: 0.8rem; color: var(--accento); }
     footer a { color: var(--accento); text-decoration: none; }
@@ -101,7 +102,6 @@
     @keyframes fadeUp { from {opacity:0; transform:translateY(30px);} to{opacity:1; transform:translateY(0);} }
     @keyframes logoFloat { 0%,100%{transform:translateY(0);}50%{transform:translateY(-10px);} }
 
-    /* MOBILE FONT E PADDING ADJUSTMENTS */
     @media (max-width: 600px) {
       header h1 { font-size: 2rem; }
       header p { font-size: 0.95rem; }
