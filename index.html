@@ -3,56 +3,177 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archivio Foto Astrofili – Astri Nascenti</title>
+<title>Astri Nascenti – Astronomia per le scuole</title>
 
 <style>
+@font-face {
+  font-family: 'Lemon Milk';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2');
+  font-weight: 300;
+}
+
+:root {
+  --bianco:#ffffff;
+  --nero:#000000;
+  --accento:#c9d6df;
+}
+
 body {
   margin:0;
-  font-family:Arial,sans-serif;
-  background:linear-gradient(rgba(0,0,0,.9),rgba(0,0,0,.96));
-  color:#fff;
+  font-family:Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
+    url("images/luna-primo-quarto.jpg") center/cover fixed;
+  color:var(--bianco);
+  overflow-x:hidden;
+}
+
+h1,h2,h3 {
+  font-family:'Lemon Milk';
+  letter-spacing:.22em;
+  text-transform:uppercase;
 }
 
 header {
   text-align:center;
-  padding:3rem 1rem;
+  padding:4rem 1.5rem 5rem;
 }
 
-h1 {
-  letter-spacing:.22em;
+header img {
+  max-width:180px;
+  margin-bottom:2rem;
+  animation:float 4s ease-in-out infinite;
 }
 
-.gallery {
-  max-width:1200px;
+header p {
+  max-width:700px;
+  margin:1.5rem auto 0;
+  color:var(--accento);
+}
+
+section {
+  max-width:1100px;
   margin:0 auto 4rem;
-  padding:0 1rem;
+  padding:0 1.2rem;
+}
+
+section h2 {
+  border-left:3px solid #fff;
+  padding-left:1rem;
+  margin-bottom:2rem;
+}
+
+.card {
+  background:rgba(255,255,255,.55);
+  backdrop-filter:blur(10px);
+  border-radius:22px;
+  padding:2rem;
+  margin-bottom:2rem;
+  color:#000;
+  box-shadow:0 20px 50px rgba(0,0,0,.5);
+  transform:translateY(40px);
+  opacity:0;
+  animation:floatIn 1.4s forwards;
+}
+
+.grid {
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:1.5rem;
+  gap:2rem;
+}
+
+/* GALLERY PREVIEW */
+.gallery {
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(160px,1fr));
+  gap:1rem;
+}
+
+.gallery a,
+.gallery .placeholder {
+  height:160px;
+  border-radius:16px;
+  overflow:hidden;
+  position:relative;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  background:rgba(255,255,255,.6);
+  color:#000;
+  box-shadow:0 15px 40px rgba(0,0,0,.6);
+  transition:.4s ease;
+}
+
+.gallery a:hover {
+  transform:scale(1.06);
 }
 
 .gallery img {
   width:100%;
-  height:260px;
+  height:100%;
   object-fit:cover;
-  border-radius:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,.6);
-  transition:.4s ease;
 }
 
-.gallery img:hover {
-  transform:scale(1.05);
-}
-
-.back {
-  text-align:center;
-  margin-bottom:3rem;
-}
-
-.back a {
-  color:#c9d6df;
-  text-decoration:none;
+.gallery span {
+  position:absolute;
+  background:rgba(0,0,0,.6);
+  padding:.6rem 1.2rem;
+  border-radius:30px;
+  font-size:.7rem;
   letter-spacing:.18em;
+  color:#fff;
+}
+
+/* DOWNLOAD BUTTONS */
+.download-buttons {
+  display:flex;
+  gap:.8rem;
+  flex-wrap:wrap;
+  margin-top:1.2rem;
+}
+
+.download-buttons a {
+  padding:1rem 1.8rem;
+  border-radius:50px;
+  font-family:'Lemon Milk';
+  font-size:.75rem;
+  letter-spacing:.18em;
+  color:#fff;
+  text-decoration:none;
+  transition:.3s ease;
+}
+
+.apple { background:linear-gradient(135deg,#000,#555); }
+.google { background:linear-gradient(135deg,#3DDC84,#1B9C52); }
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+
+.download-buttons a:hover {
+  box-shadow:0 0 18px rgba(255,255,255,.7);
+  transform:scale(1.08);
+}
+
+/* FOOTER */
+footer {
+  text-align:center;
+  padding:3rem 1rem 4rem;
+  color:var(--accento);
+}
+
+footer a { color:var(--accento); text-decoration:none; }
+
+@keyframes float {
+  0%,100%{transform:translateY(0)}
+  50%{transform:translateY(-10px)}
+}
+
+@keyframes floatIn {
+  to { transform:translateY(0); opacity:1; }
+}
+
+@media(max-width:600px){
+  .download-buttons{flex-direction:column}
+  .download-buttons a{width:100%;text-align:center}
 }
 </style>
 </head>
@@ -60,25 +181,105 @@ h1 {
 <body>
 
 <header>
-<h1>ARCHIVIO FOTO ASTROFILI</h1>
-<p>Raccolta fotografica Astri Nascenti</p>
+  <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
+  <h1>ASTRI NASCENTI</h1>
+  <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.</p>
 </header>
 
-<div class="gallery">
-<img src="images/astrinascentifoto7.jpg">
-<img src="images/astrinascentifoto8.jpg">
-<img src="images/astrinascentifoto9.jpg">
-<img src="images/astrinascentifoto10.jpg">
-<img src="images/astrinascentifoto11.jpg">
-<img src="images/astrinascentifoto12.jpg">
-<img src="images/astrinascentifoto13.jpg">
-<img src="images/astrinascentifoto14.jpg">
-<img src="images/astrinascentifoto15.jpg">
+<section>
+<h2>Il progetto</h2>
+<div class="card">
+<p><strong>Astri Nascenti</strong> accompagna i più giovani alla scoperta dell’Universo attraverso osservazioni, racconti scientifici ed esperienza diretta.</p>
+<p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
+</div>
+</section>
+
+<section>
+<h2>Serate di osservazione</h2>
+<div class="grid">
+
+<div class="card">
+<p>Osservazioni guidate di Luna, pianeti, stelle e galassie con telescopi professionali e spiegazioni adatte a ogni età.</p>
 </div>
 
-<div class="back">
-<a href="index.html">← TORNA ALLA HOME</a>
+<div class="gallery">
+<a href="foto-astrofili.html">
+  <img src="images/astrinascentifoto11.jpg">
+  <span>Archivio Foto Astrofili</span>
+</a>
+<div class="placeholder">Telescopi</div>
+<div class="placeholder">Osservazioni</div>
+<div class="placeholder">Attività didattiche</div>
 </div>
+
+</div>
+</section>
+
+<section>
+<h2>Software consigliati</h2>
+<div class="grid">
+
+<div class="card">
+<h3>Stellarium</h3>
+<p>Software astronomico open source per esplorare la volta celeste.</p>
+<div class="download-buttons">
+<a href="https://stellarium.org/it/" target="_blank" class="web">SITO UFFICIALE</a>
+</div>
+</div>
+
+<div class="card">
+<h3>Moon Globe</h3>
+<p>Esplorazione 3D della superficie lunare (Apple).</p>
+<div class="download-buttons">
+<a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" class="apple">APPLE STORE</a>
+</div>
+</div>
+
+<div class="card">
+<h3>Sky Tonight</h3>
+<p>Mappa stellare interattiva per Android.</p>
+<div class="download-buttons">
+<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" class="google">GOOGLE PLAY</a>
+</div>
+</div>
+
+<div class="card">
+<h3>Star Walk 2 Free</h3>
+<p>Riconoscimento stelle e costellazioni.</p>
+<div class="download-buttons">
+<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" class="google">GOOGLE PLAY</a>
+</div>
+</div>
+
+</div>
+</section>
+
+<section>
+<h2>Chi siamo</h2>
+<div class="grid">
+<div class="card"><h3>Fondatore</h3><p>Mini-biografia.</p></div>
+<div class="card"><h3>Co-fondatore</h3><p>Mini-biografia.</p></div>
+</div>
+</section>
+
+<section>
+<h2>Calendario eventi</h2>
+<div class="card">
+<p>Date in aggiornamento.</p>
+</div>
+</section>
+
+<section>
+<h2>Contatti</h2>
+<div class="card">
+<p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+</div>
+</section>
+
+<footer>
+© Astri Nascenti – Astronomia per le scuole<br>
+Instagram: <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
+</footer>
 
 </body>
 </html>
