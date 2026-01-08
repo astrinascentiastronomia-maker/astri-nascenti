@@ -3,358 +3,131 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telescopi — Archivio Foto Astri Nascenti</title>
+<title>Telescopi – Serie strumenti | Astri Nascenti</title>
+
 <link rel="icon" href="favicon.ico">
 
 <style>
-/* semplice reset e font */
 @font-face {
   font-family: 'LemonMilkLight';
   src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
        url('fonts/LemonMilk-Light.woff') format('woff');
   font-display: swap;
 }
-:root{
-  --bg: #08090b;
-  --muted: #c9d6df;
-  --glass: rgba(255,255,255,.08);
+
+* {
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
 }
-*{box-sizing:border-box;margin:0;padding:0}
-body{
+
+body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
   background:
     linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
     url("images/luna-primo-quarto.jpg") center / cover fixed;
   color: #fff;
-  min-height:100vh;
-  padding:2rem 1rem;
+  min-height: 100vh;
 }
 
-/* header */
-.header {
-  max-width:1100px;
-  margin:0 auto 2rem;
-  text-align:center;
+/* HEADER */
+header {
+  text-align: center;
+  padding: 3rem 1.2rem 2.5rem;
 }
-.header h1{
+
+header h1 {
   font-family: 'LemonMilkLight', sans-serif;
-  font-size:2rem;
-  letter-spacing:.22em;
-  text-transform:uppercase;
-}
-.header p { color:var(--muted); margin-top:.6rem; }
-
-/* container */
-.container {
-  max-width:1100px;
-  margin:0 auto;
-  background: rgba(255,255,255,.03);
-  padding:1.2rem;
-  border-radius:18px;
-  backdrop-filter: blur(6px);
-  box-shadow: 0 20px 60px rgba(0,0,0,.6);
+  text-transform: uppercase;
+  letter-spacing: .28em;
+  font-size: 2rem;
 }
 
-/* breadcrumb / back */
-.breadcrumb {
-  display:flex;
-  gap:.6rem;
-  align-items:center;
-  color:var(--muted);
-  margin-bottom:1rem;
+header p {
+  margin-top: 1rem;
+  color: #c9d6df;
+  font-size: .95rem;
 }
-.breadcrumb a { color:var(--muted); text-decoration:none; }
 
-/* carousel */
-.carousel {
-  position: relative;
+/* GALLERY */
+.section {
+  max-width: 1100px;
+  margin: 0 auto;
+  padding: 0 1.2rem 4rem;
+}
+
+.gallery {
+  display: grid;
+  grid-template-columns: 1fr;
+  gap: 1.6rem;
+}
+
+.gallery a {
+  display: block;
+  border-radius: 18px;
   overflow: hidden;
-  border-radius:14px;
-  background: linear-gradient(180deg, rgba(0,0,0,.25), rgba(0,0,0,.45));
-}
-.track {
-  display:flex;
-  width:300%; /* 3 slides */
-  transition: transform .9s cubic-bezier(.2,.9,.2,1);
-  will-change: transform;
-}
-.slide {
-  min-width:100%;
-  flex:0 0 100%;
-  padding:2rem;
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  transform-origin:center center;
-}
-.slide img{
-  max-width:100%;
-  max-height:70vh;
-  display:block;
-  border-radius:12px;
-  box-shadow: 0 14px 40px rgba(0,0,0,.6);
-  transition: transform .9s cubic-bezier(.2,.9,.2,1);
-  backface-visibility: hidden;
+  box-shadow: 0 18px 45px rgba(0,0,0,.6);
 }
 
-/* rotation helper classes applied in JS during transition */
-.slide outgoing img { transform: rotateY(-18deg) scale(.98); }
-.slide incoming img { transform: rotateY(18deg) scale(.98); }
-
-/* controls */
-.controls {
-  position:absolute;
-  inset:0;
-  pointer-events:none;
-}
-.btn {
-  pointer-events:auto;
-  position:absolute;
-  top:50%;
-  transform:translateY(-50%);
-  background: rgba(0,0,0,.35);
-  border:none;
-  color:#fff;
-  padding:.55rem .8rem;
-  border-radius:10px;
-  cursor:pointer;
-  font-size:1rem;
-  backdrop-filter: blur(4px);
-}
-.btn:focus{outline:3px solid #ffd54f}
-.btn.prev { left:12px; }
-.btn.next { right:12px; }
-
-/* thumbnails row */
-.thumbs {
-  display:flex;
-  gap:.6rem;
-  margin-top:1rem;
-  justify-content:center;
-  align-items:center;
-}
-.thumb {
-  width:90px;
-  height:60px;
-  overflow:hidden;
-  border-radius:8px;
-  cursor:pointer;
-  border:2px solid transparent;
-}
-.thumb img { width:100%; height:100%; object-fit:cover; display:block; transition: transform .3s; }
-.thumb.active { border-color:#fff; transform: scale(1.02); }
-
-/* autoplay notice / pause on hover */
-.autoplay-indicator {
-  margin-top:.8rem;
-  color:var(--muted);
-  text-align:center;
-  font-size:.9rem;
+.gallery img {
+  width: 100%;
+  height: auto;
+  display: block;
 }
 
-/* responsive */
-@media (min-width:1024px){
-  .header h1 { font-size:2.6rem; }
-  .slide img { max-height:78vh; }
-  .thumb { width:120px; height:80px;}
+/* TABLET + */
+@media (min-width: 768px) {
+  .gallery {
+    grid-template-columns: repeat(3, 1fr);
+  }
+}
+
+/* FOOTER */
+footer {
+  text-align: center;
+  padding: 2.5rem 1rem 3.5rem;
+  font-size: .8rem;
+  color: #c9d6df;
+}
+
+footer a {
+  color: #c9d6df;
+  text-decoration: none;
+  display: inline-block;
+  margin-top: .8rem;
 }
 </style>
 </head>
+
 <body>
 
-<div class="header">
-  <h1>Archivio Foto Astrofili — Telescopi</h1>
-  <p>Serie telescopi — copertina: astrinascentifoto38</p>
-</div>
+<header>
+  <h1>Telescopi</h1>
+  <p>Serie fotografica degli strumenti utilizzati durante le serate osservative</p>
+</header>
 
-<div class="container" id="telescopi-container">
-  <div class="breadcrumb"><a href="index.html">Home</a> › Telescopi</div>
+<section class="section">
 
-  <!-- CAROUSEL -->
-  <div class="carousel" id="carousel" aria-roledescription="carousel" aria-label="Galleria Telescopi">
-    <div class="track" id="track" role="list">
-      <!-- Slide 0: astrinascentifoto38 (home / copertina) -->
-      <div class="slide" role="listitem" data-index="0">
-        <a href="images/astrinascentifoto38.jpg" target="_blank" rel="noopener noreferrer" aria-label="Apri immagine astrinascentifoto38">
-          <img src="images/astrinascentifoto38.jpg" alt="astrinascentifoto38 - telescopio">
-        </a>
-      </div>
+  <div class="gallery">
+    <!-- HOME / COPERTINA -->
+    <a href="images/astrinascentifoto38.jpg" target="_blank">
+      <img src="images/astrinascentifoto38.jpg" alt="Telescopio - astrinascentifoto38">
+    </a>
 
-      <!-- Slide 1: astrinascentifoto39 -->
-      <div class="slide" role="listitem" data-index="1">
-        <a href="images/astrinascentifoto39.jpg" target="_blank" rel="noopener noreferrer" aria-label="Apri immagine astrinascentifoto39">
-          <img src="images/astrinascentifoto39.jpg" alt="astrinascentifoto39 - telescopio">
-        </a>
-      </div>
+    <a href="images/astrinascentifoto39.jpg" target="_blank">
+      <img src="images/astrinascentifoto39.jpg" alt="Telescopio - astrinascentifoto39">
+    </a>
 
-      <!-- Slide 2: astrinascentifot40 (nome come fornito) -->
-      <div class="slide" role="listitem" data-index="2">
-        <a href="images/astrinascentifot40.jpg" target="_blank" rel="noopener noreferrer" aria-label="Apri immagine astrinascentifot40">
-          <img src="images/astrinascentifot40.jpg" alt="astrinascentifot40 - telescopio">
-        </a>
-      </div>
-    </div>
-
-    <!-- Controls -->
-    <div class="controls" aria-hidden="false">
-      <button class="btn prev" id="prevBtn" aria-label="Slide precedente">‹</button>
-      <button class="btn next" id="nextBtn" aria-label="Slide successiva">›</button>
-    </div>
+    <a href="images/astrinascentifot40.jpg" target="_blank">
+      <img src="images/astrinascentifot40.jpg" alt="Telescopio - astrinascentifot40">
+    </a>
   </div>
 
-  <!-- thumbnails -->
-  <div class="thumbs" id="thumbs" role="tablist" aria-label="Anteprime immagini">
-    <div class="thumb active" data-index="0" role="tab" tabindex="0" aria-selected="true" aria-controls="slide-0">
-      <img src="images/astrinascentifoto38.jpg" alt="anteprima 38">
-    </div>
-    <div class="thumb" data-index="1" role="tab" tabindex="0" aria-selected="false" aria-controls="slide-1">
-      <img src="images/astrinascentifoto39.jpg" alt="anteprima 39">
-    </div>
-    <div class="thumb" data-index="2" role="tab" tabindex="0" aria-selected="false" aria-controls="slide-2">
-      <img src="images/astrinascentifot40.jpg" alt="anteprima 40">
-    </div>
-  </div>
+</section>
 
-  <div class="autoplay-indicator" id="autoplayIndicator">Riproduzione automatica — passa il mouse per mettere in pausa</div>
-</div>
-
-<script>
-/* =========================================================
-   Carousel JS: scorrimento orizzontale, autoplay, rotazione
-   - usa 3 slide (index 0..2)
-   - rotazione visiva applicata via classi "outgoing" e "incoming"
-   - pause on hover, keyboard access
-========================================================= */
-
-(function(){
-  const track = document.getElementById('track');
-  const slides = Array.from(track.children);
-  const prevBtn = document.getElementById('prevBtn');
-  const nextBtn = document.getElementById('nextBtn');
-  const thumbs = document.getElementById('thumbs');
-  const thumbItems = Array.from(thumbs.children);
-  const autoplayIndicator = document.getElementById('autoplayIndicator');
-  let index = 0;
-  let isAnimating = false;
-  let autoplay = true;
-  let autoplayInterval = 3500;
-  let timer = null;
-
-  function updateTrack() {
-    // add visual rotation classes
-    slides.forEach((slide, i) => {
-      slide.classList.remove('incoming','outgoing');
-      const img = slide.querySelector('img');
-      if (i === index) {
-        // incoming/current slide - remove transforms to keep straight
-        img.style.transform = 'rotateY(0deg) scale(1)';
-      } else {
-        img.style.transform = 'rotateY(0deg) scale(0.98)';
-      }
-    });
-    // translate
-    track.style.transform = `translateX(-${index * 100}%)`;
-    // update thumbs active
-    thumbItems.forEach((t, i) => {
-      t.classList.toggle('active', i === index);
-      t.setAttribute('aria-selected', String(i === index));
-      t.tabIndex = i === index ? 0 : 0;
-    });
-  }
-
-  function goTo(nextIndex, direction) {
-    if (isAnimating || nextIndex === index) return;
-    isAnimating = true;
-    const current = slides[index];
-    const next = slides[nextIndex];
-
-    // mark classes for visual rotation effect
-    current.classList.add('outgoing');
-    next.classList.add('incoming');
-
-    // force reflow for transition to apply
-    void track.offsetWidth;
-
-    index = nextIndex;
-    updateTrack();
-
-    // end animation after transition
-    setTimeout(() => {
-      current.classList.remove('outgoing');
-      next.classList.remove('incoming');
-      isAnimating = false;
-    }, 920); // slightly > CSS transition
-  }
-
-  function next() {
-    const nextIndex = (index + 1) % slides.length;
-    goTo(nextIndex, +1);
-  }
-
-  function prev() {
-    const nextIndex = (index - 1 + slides.length) % slides.length;
-    goTo(nextIndex, -1);
-  }
-
-  // autoplay handling
-  function startAutoplay() {
-    if (timer) clearInterval(timer);
-    timer = setInterval(next, autoplayInterval);
-    autoplay = true;
-    autoplayIndicator.textContent = 'Riproduzione automatica — passa il mouse per mettere in pausa';
-  }
-  function stopAutoplay() {
-    if (timer) { clearInterval(timer); timer = null; }
-    autoplay = false;
-    autoplayIndicator.textContent = 'Riproduzione in pausa (hover)';
-  }
-
-  // init
-  updateTrack();
-  startAutoplay();
-
-  // events
-  nextBtn.addEventListener('click', function(){ stopAutoplay(); next(); });
-  prevBtn.addEventListener('click', function(){ stopAutoplay(); prev(); });
-
-  // thumbs click
-  thumbItems.forEach(function(t){
-    t.addEventListener('click', function(){
-      const i = Number(t.getAttribute('data-index'));
-      stopAutoplay();
-      goTo(i);
-    });
-    t.addEventListener('keydown', function(e){
-      if (e.key === 'Enter' || e.key === ' ') {
-        e.preventDefault();
-        t.click();
-      }
-    });
-  });
-
-  // pause on hover/focus
-  const carouselEl = document.getElementById('carousel');
-  [carouselEl, prevBtn, nextBtn, thumbs].forEach(el => {
-    el.addEventListener('mouseenter', stopAutoplay);
-    el.addEventListener('focusin', stopAutoplay);
-    el.addEventListener('mouseleave', startAutoplay);
-    el.addEventListener('focusout', startAutoplay);
-  });
-
-  // keyboard left/right
-  document.addEventListener('keydown', function(e){
-    if (e.key === 'ArrowRight') { stopAutoplay(); next(); }
-    if (e.key === 'ArrowLeft') { stopAutoplay(); prev(); }
-  });
-
-  // make images clickable: open original in new tab already from markup (anchor)
-  // Prevent accidental drag on touch
-  slides.forEach(s => {
-    s.addEventListener('dragstart', e => e.preventDefault());
-  });
-
-})();
-</script>
+<footer>
+  <a href="index.html">← Torna alla Home</a>
+</footer>
 
 </body>
 </html>
