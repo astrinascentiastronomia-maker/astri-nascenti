@@ -218,13 +218,12 @@ footer a { color:var(--accento); text-decoration:none; }
 
 /* =========================
    KEYFRAMES (float + reveal)
-========================= */
+   - revealUp used as fallback if user prefers-reduced-motion is not set */
 @keyframes float {
   0%,100% { transform: translateY(0); }
   50% { transform: translateY(-10px); }
 }
 
-/* revealUp used as fallback if user prefers-reduced-motion is not set */
 @keyframes revealUp {
   from { opacity: 0; transform: translateY(40px); }
   to   { opacity: 1; transform: translateY(0); }
@@ -302,6 +301,7 @@ footer a { color:var(--accento); text-decoration:none; }
   <div class="grid">
     <div class="card reveal" data-delay="220">
       <p>Durante le serate osservative si osservano Luna, pianeti, stelle e galassie attraverso telescopi professionali.</p>
+      <p style="margin-top:.6rem"><a href="book.html" target="_blank" rel="noopener noreferrer" class="reveal" data-delay="240" style="text-decoration:none;color:var(--accento);font-weight:700;">Sfoglia il book "ASTRI NASCENTI"</a></p>
     </div>
 
     <div class="gallery" aria-label="Galleria fotografica">
@@ -323,7 +323,11 @@ footer a { color:var(--accento); text-decoration:none; }
         <span>Osservazioni</span>
       </a>
 
-      <div class="placeholder reveal" data-delay="380" role="button" tabindex="0">Attività didattiche</div>
+      <!-- Sostituito il box "Attività didattiche" con un link al book (apre in nuova scheda) -->
+      <a href="book.html" class="placeholder reveal" data-delay="380" role="link" tabindex="0" aria-label="Attività didattiche - Sfoglia il book" target="_blank" rel="noopener noreferrer">
+        <img src="images/astrinascentifoto2.jpg" alt="Attività didattiche">
+        <span>Attività didattiche</span>
+      </a>
     </div>
   </div>
 </section>
