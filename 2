@@ -1,0 +1,164 @@
+<!DOCTYPE html>
+<html lang="it">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Osservazioni — Archivio Foto Astri Nascenti</title>
+
+<style>
+@font-face {
+  font-family: 'LemonMilkLight';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
+}
+
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff;
+}
+
+h1 {
+  font-family:'LemonMilkLight', sans-serif !important;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  text-align:center;
+  margin:3rem 1rem 1rem;
+}
+
+p {
+  text-align:center;
+  color:#c9d6df;
+  margin-bottom:3rem;
+}
+
+.gallery {
+  max-width:1200px;
+  margin:0 auto 4rem;
+  padding:0 1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5rem;
+}
+
+.gallery a img {
+  width:100%;
+  border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  display:block;
+}
+
+/* LIGHTBOX */
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none;
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+}
+
+.lightbox img {
+  max-width:95%;
+  max-height:95%;
+  border-radius:8px;
+  box-shadow:0 30px 80px rgba(0,0,0,.8);
+}
+
+.lightbox:target {
+  display:flex;
+}
+
+/* back link */
+.back {
+  text-align:center;
+  margin:2.5rem 0 4rem;
+}
+
+.back a {
+  color:#c9d6df;
+  text-decoration:none;
+  font-family: Arial, sans-serif;
+}
+</style>
+</head>
+
+<body>
+
+<h1>Osservazioni</h1>
+<p>Galleria: immagini dalle serate di osservazione</p>
+
+<div class="gallery">
+  <!-- 1..6 -->
+  <a href="#o1"><img src="images/astrinascentifoto1.jpg" alt="Osservazioni - foto 1"></a>
+  <a href="#o2"><img src="images/astrinascentifoto2.jpg" alt="Osservazioni - foto 2"></a>
+  <a href="#o3"><img src="images/astrinascentifoto3.jpg" alt="Osservazioni - foto 3"></a>
+  <a href="#o4"><img src="images/astrinascentifoto4.jpg" alt="Osservazioni - foto 4"></a>
+  <a href="#o5"><img src="images/astrinascentifoto5.jpg" alt="Osservazioni - foto 5"></a>
+  <a href="#o6"><img src="images/astrinascentifoto6.jpg" alt="Osservazioni - foto 6"></a>
+
+  <!-- 16..37 (no numeri saltati) -->
+  <a href="#o16"><img src="images/astrinascentifoto16.jpg" alt="Osservazioni - foto 16"></a>
+  <a href="#o17"><img src="images/astrinascentifoto17.jpg" alt="Osservazioni - foto 17"></a>
+  <a href="#o18"><img src="images/astrinascentifoto18.jpg" alt="Osservazioni - foto 18"></a>
+  <a href="#o19"><img src="images/astrinascentifoto19.jpg" alt="Osservazioni - foto 19"></a>
+  <a href="#o20"><img src="images/astrinascentifoto20.jpg" alt="Osservazioni - foto 20"></a>
+  <a href="#o21"><img src="images/astrinascentifoto21.jpg" alt="Osservazioni - foto 21"></a>
+  <a href="#o22"><img src="images/astrinascentifoto22.jpg" alt="Osservazioni - foto 22"></a>
+  <a href="#o23"><img src="images/astrinascentifoto23.jpg" alt="Osservazioni - foto 23"></a>
+  <a href="#o24"><img src="images/astrinascentifoto24.jpg" alt="Osservazioni - foto 24"></a>
+  <a href="#o25"><img src="images/astrinascentifoto25.jpg" alt="Osservazioni - foto 25"></a>
+  <a href="#o26"><img src="images/astrinascentifoto26.jpg" alt="Osservazioni - foto 26"></a>
+  <a href="#o27"><img src="images/astrinascentifoto27.jpg" alt="Osservazioni - foto 27"></a>
+  <a href="#o28"><img src="images/astrinascentifoto28.jpg" alt="Osservazioni - foto 28"></a>
+  <a href="#o29"><img src="images/astrinascentifoto29.jpg" alt="Osservazioni - foto 29"></a>
+  <a href="#o30"><img src="images/astrinascentifoto30.jpg" alt="Osservazioni - foto 30"></a>
+  <a href="#o31"><img src="images/astrinascentifoto31.jpg" alt="Osservazioni - foto 31"></a>
+  <a href="#o32"><img src="images/astrinascentifoto32.jpg" alt="Osservazioni - foto 32"></a>
+  <a href="#o33"><img src="images/astrinascentifoto33.jpg" alt="Osservazioni - foto 33"></a>
+  <a href="#o34"><img src="images/astrinascentifoto34.jpg" alt="Osservazioni - foto 34"></a>
+  <a href="#o35"><img src="images/astrinascentifoto35.jpg" alt="Osservazioni - foto 35"></a>
+  <a href="#o36"><img src="images/astrinascentifoto36.jpg" alt="Osservazioni - foto 36"></a>
+  <a href="#o37"><img src="images/astrinascentifoto37.jpg" alt="Osservazioni - foto 37"></a>
+</div>
+
+<!-- Lightbox targets -->
+<div id="o1" class="lightbox"><a href="#"><img src="images/astrinascentifoto1.jpg" alt="Osservazioni - foto 1"></a></div>
+<div id="o2" class="lightbox"><a href="#"><img src="images/astrinascentifoto2.jpg" alt="Osservazioni - foto 2"></a></div>
+<div id="o3" class="lightbox"><a href="#"><img src="images/astrinascentifoto3.jpg" alt="Osservazioni - foto 3"></a></div>
+<div id="o4" class="lightbox"><a href="#"><img src="images/astrinascentifoto4.jpg" alt="Osservazioni - foto 4"></a></div>
+<div id="o5" class="lightbox"><a href="#"><img src="images/astrinascentifoto5.jpg" alt="Osservazioni - foto 5"></a></div>
+<div id="o6" class="lightbox"><a href="#"><img src="images/astrinascentifoto6.jpg" alt="Osservazioni - foto 6"></a></div>
+
+<div id="o16" class="lightbox"><a href="#"><img src="images/astrinascentifoto16.jpg" alt="Osservazioni - foto 16"></a></div>
+<div id="o17" class="lightbox"><a href="#"><img src="images/astrinascentifoto17.jpg" alt="Osservazioni - foto 17"></a></div>
+<div id="o18" class="lightbox"><a href="#"><img src="images/astrinascentifoto18.jpg" alt="Osservazioni - foto 18"></a></div>
+<div id="o19" class="lightbox"><a href="#"><img src="images/astrinascentifoto19.jpg" alt="Osservazioni - foto 19"></a></div>
+<div id="o20" class="lightbox"><a href="#"><img src="images/astrinascentifoto20.jpg" alt="Osservazioni - foto 20"></a></div>
+<div id="o21" class="lightbox"><a href="#"><img src="images/astrinascentifoto21.jpg" alt="Osservazioni - foto 21"></a></div>
+<div id="o22" class="lightbox"><a href="#"><img src="images/astrinascentifoto22.jpg" alt="Osservazioni - foto 22"></a></div>
+<div id="o23" class="lightbox"><a href="#"><img src="images/astrinascentifoto23.jpg" alt="Osservazioni - foto 23"></a></div>
+<div id="o24" class="lightbox"><a href="#"><img src="images/astrinascentifoto24.jpg" alt="Osservazioni - foto 24"></a></div>
+<div id="o25" class="lightbox"><a href="#"><img src="images/astrinascentifoto25.jpg" alt="Osservazioni - foto 25"></a></div>
+<div id="o26" class="lightbox"><a href="#"><img src="images/astrinascentifoto26.jpg" alt="Osservazioni - foto 26"></a></div>
+<div id="o27" class="lightbox"><a href="#"><img src="images/astrinascentifoto27.jpg" alt="Osservazioni - foto 27"></a></div>
+<div id="o28" class="lightbox"><a href="#"><img src="images/astrinascentifoto28.jpg" alt="Osservazioni - foto 28"></a></div>
+<div id="o29" class="lightbox"><a href="#"><img src="images/astrinascentifoto29.jpg" alt="Osservazioni - foto 29"></a></div>
+<div id="o30" class="lightbox"><a href="#"><img src="images/astrinascentifoto30.jpg" alt="Osservazioni - foto 30"></a></div>
+<div id="o31" class="lightbox"><a href="#"><img src="images/astrinascentifoto31.jpg" alt="Osservazioni - foto 31"></a></div>
+<div id="o32" class="lightbox"><a href="#"><img src="images/astrinascentifoto32.jpg" alt="Osservazioni - foto 32"></a></div>
+<div id="o33" class="lightbox"><a href="#"><img src="images/astrinascentifoto33.jpg" alt="Osservazioni - foto 33"></a></div>
+<div id="o34" class="lightbox"><a href="#"><img src="images/astrinascentifoto34.jpg" alt="Osservazioni - foto 34"></a></div>
+<div id="o35" class="lightbox"><a href="#"><img src="images/astrinascentifoto35.jpg" alt="Osservazioni - foto 35"></a></div>
+<div id="o36" class="lightbox"><a href="#"><img src="images/astrinascentifoto36.jpg" alt="Osservazioni - foto 36"></a></div>
+<div id="o37" class="lightbox"><a href="#"><img src="images/astrinascentifoto37.jpg" alt="Osservazioni - foto 37"></a></div>
+
+<div class="back">
+  <a href="index.html">← Torna alla home</a>
+</div>
+
+</body>
+</html>
