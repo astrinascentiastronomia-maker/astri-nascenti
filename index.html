@@ -5,6 +5,16 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
+<!-- Favicon (aggiungi il file favicon.ico nella root del sito) -->
+<link rel="icon" href="favicon.ico">
+
+<!-- Open Graph / Social preview (modifica immagini/titoli se vuoi) -->
+<meta property="og:title" content="Astri Nascenti – Astronomia per le scuole">
+<meta property="og:description" content="Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie. Serate di osservazione, risorse didattiche e attività per le classi.">
+<meta property="og:image" content="images/luna-primo-quarto.jpg">
+<meta property="og:type" content="website">
+<meta property="og:url" content="https://tuosito.example/">
+
 <style>
 /* =========================
    FONT DEFINITIVO
@@ -23,6 +33,10 @@
   --bianco:#ffffff;
   --nero:#000000;
   --accento:#c9d6df;
+  --card-bg: rgba(255,255,255,.75); /* miglior contrasto per accessibilità */
+  --card-text: #111;
+  --card-radius: 22px;
+  --card-shadow: 0 20px 55px rgba(0,0,0,.55);
 }
 
 /* =========================
@@ -32,6 +46,31 @@
   box-sizing: border-box;
   margin:0;
   padding:0;
+}
+
+:focus {
+  outline: 3px solid #ffd54f;
+  outline-offset: 3px;
+}
+
+.skip-link {
+  position: absolute;
+  left: -9999px;
+  top: auto;
+  width: 1px;
+  height: 1px;
+  overflow: hidden;
+}
+.skip-link:focus {
+  left: 1rem;
+  top: 1rem;
+  width: auto;
+  height: auto;
+  padding: .5rem .8rem;
+  background: #000;
+  color: #fff;
+  border-radius: 6px;
+  z-index: 9999;
 }
 
 body {
@@ -100,16 +139,17 @@ section h2 {
    CARD
 ========================= */
 .card {
-  background:rgba(255,255,255,.55);
+  background: var(--card-bg);
   backdrop-filter:blur(10px);
-  border-radius:22px;
+  border-radius:var(--card-radius);
   padding:1.8rem;
-  color:#000;
-  box-shadow:0 20px 55px rgba(0,0,0,.55);
+  color:var(--card-text);
+  box-shadow:var(--card-shadow);
   margin-bottom:2rem;
   transform:translateY(40px);
   opacity:0;
   animation: floatIn 1.3s forwards;
+  animation-delay: calc(var(--i, 0) * 0.12s); /* stagger naturale */
 }
 
 .card h3 {
@@ -148,12 +188,14 @@ section h2 {
   justify-content:center;
   text-decoration:none;
   color:#000;
+  cursor:pointer;
 }
 
 .gallery img {
   width:100%;
   height:100%;
   object-fit:cover;
+  display:block;
 }
 
 .gallery span {
@@ -166,6 +208,21 @@ section h2 {
   letter-spacing:.22em;
   color:#fff;
   font-family:'LemonMilkLight', sans-serif;
+}
+
+/* placeholder coerente */
+.placeholder {
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:.65rem;
+  letter-spacing:.22em;
+  opacity:.9;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:1rem;
+  text-align:center;
+  color:#000;
+  background: linear-gradient(180deg, rgba(255,255,255,.85), rgba(230,230,230,.85));
 }
 
 /* =========================
@@ -222,6 +279,47 @@ footer a {
 }
 
 /* =========================
+   LIGHTBOX (SEMPLICE)
+========================= */
+.lightbox {
+  position: fixed;
+  inset: 0;
+  display: none;
+  align-items: center;
+  justify-content: center;
+  background: rgba(0,0,0,0.85);
+  z-index: 9998;
+  padding: 2rem;
+}
+.lightbox[open] {
+  display: flex;
+}
+.lightbox__content {
+  max-width: 1100px;
+  width: 100%;
+  max-height: 90vh;
+  overflow: auto;
+  position: relative;
+}
+.lightbox__img {
+  width:100%;
+  height:auto;
+  border-radius: 12px;
+  display: block;
+}
+.lightbox__close {
+  position: absolute;
+  right: 8px;
+  top: 8px;
+  background: rgba(255,255,255,.12);
+  border: none;
+  color: #fff;
+  padding: .4rem .6rem;
+  border-radius: 8px;
+  cursor: pointer;
+}
+
+/* =========================
    TABLET+
 ========================= */
 @media (min-width:768px) {
@@ -229,6 +327,13 @@ footer a {
   .gallery { grid-template-columns:repeat(4,1fr); }
   .download-buttons { flex-direction:row; }
   .download-buttons a { flex:1; }
+}
+
+@media (max-width:768px) {
+  /* evita fixed background pesante sui dispositivi mobili */
+  body {
+    background-attachment: scroll;
+  }
 }
 
 @media (min-width:1024px) {
@@ -240,16 +345,18 @@ footer a {
 </head>
 
 <body>
+<a class="skip-link" href="#main">Salta al contenuto</a>
 
 <header>
-  <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
+  <img src="logo-astri-nascenti.png" alt="Logo Astri Nascenti - sagoma stilizzata di luna e telescopio">
   <h1>ASTRI NASCENTI</h1>
   <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.</p>
 </header>
 
+<main id="main" tabindex="-1">
 <section>
 <h2>Il progetto</h2>
-<div class="card">
+<div class="card" style="--i:0">
 <p><strong>Astri Nascenti</strong> è un percorso educativo che unisce osservazione del cielo, racconto scientifico ed esperienza diretta.</p>
 <p><em>“Siamo polvere di stelle.” – Carl Sagan</em></p>
 </div>
@@ -259,18 +366,40 @@ footer a {
 <h2>Serate di osservazione</h2>
 <div class="grid">
 
-<div class="card">
+<div class="card" style="--i:1">
 <p>Durante le serate osservative si osservano Luna, pianeti, stelle e galassie attraverso telescopi professionali.</p>
 </div>
 
-<div class="gallery">
-<a href="foto-astrofili.html">
-<img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
-<span>Archivio Foto Astrofili</span>
-</a>
-<div class="placeholder">Telescopi</div>
-<div class="placeholder">Osservazioni</div>
-<div class="placeholder">Attività didattiche</div>
+<div class="gallery" aria-label="Galleria fotografica">
+  <!-- Archivio Foto Astrofili: mantiene lo stile e apre la pagina telescopi.html -->
+  <a class="gallery-item" href="telescopi.html" aria-label="Archivio Foto Astrofili — Telescopi">
+    <!-- mini anteprima: usa la foto 38 come copertina -->
+    <img src="images/astrinascentifoto38.jpg" alt="Archivio Foto Astrofili - telescopi">
+    <span>Archivio Foto Astrofili</span>
+  </a>
+
+  <!-- Telescopi: ora è un link alla pagina dedicata (telescopi.html),
+       manteniamo anche placeholder informativo nel caso l'utente voglia dettaglio rapido -->
+  <a class="gallery-item" href="telescopi.html#telescopi" aria-label="Telescopi — apri galleria">
+    <div class="placeholder" style="height:100%;width:100%;border-radius:18px;display:flex;align-items:center;justify-content:center;">
+      <div style="text-align:center;">
+        <strong style="display:block;">Telescopi</strong>
+        <small style="display:block;margin-top:.4rem;">Serie foto strumenti</small>
+      </div>
+    </div>
+  </a>
+
+  <div class="placeholder gallery-item" role="button" tabindex="0" data-placeholder="Osservazioni" aria-label="Osservazioni — informazioni">
+    <div>
+      <strong>Osservazioni</strong><div style="font-size:.75rem;margin-top:.4rem;">Tipi di oggetti osservati</div>
+    </div>
+  </div>
+
+  <div class="placeholder gallery-item" role="button" tabindex="0" data-placeholder="Attività didattiche" aria-label="Attività didattiche — informazioni">
+    <div>
+      <strong>Attività didattiche</strong><div style="font-size:.75rem;margin-top:.4rem;">Laboratori per classi</div>
+    </div>
+  </div>
 </div>
 
 </div>
@@ -279,25 +408,25 @@ footer a {
 <section>
 <h2>Software consigliati</h2>
 <div class="grid">
-<div class="card">
+<div class="card" style="--i:2">
 <h3>Moon Globe</h3>
 <div class="download-buttons">
-<a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank">Apple Store</a>
+<a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
 </div>
 </div>
 
-<div class="card">
+<div class="card" style="--i:3">
 <h3>Star Walk</h3>
 <div class="download-buttons">
-<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank">Sky Tonight</a>
-<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank">Star Walk 2</a>
+<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight</a>
+<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2</a>
 </div>
 </div>
 
-<div class="card">
+<div class="card" style="--i:4">
 <h3>Stellarium</h3>
 <div class="download-buttons">
-<a class="web" href="https://stellarium.org/it/" target="_blank">Sito ufficiale</a>
+<a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
 </div>
 </div>
 </div>
@@ -306,11 +435,11 @@ footer a {
 <section>
 <h2>Chi siamo</h2>
 <div class="grid">
-<div class="card">
+<div class="card" style="--i:5">
 <h3>Fondatore</h3>
 <p>Inserisci qui la tua mini-biografia.</p>
 </div>
-<div class="card">
+<div class="card" style="--i:6">
 <h3>Co-fondatore</h3>
 <p>Inserisci qui la mini-biografia del tuo socio.</p>
 </div>
@@ -319,22 +448,113 @@ footer a {
 
 <section>
 <h2>Calendario eventi</h2>
-<div class="card">
+<div class="card" style="--i:7">
 <p>Date in aggiornamento.</p>
 </div>
 </section>
 
 <section>
 <h2>Contatti</h2>
-<div class="card">
+<div class="card" style="--i:8">
 <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
 </div>
 </section>
 
+</main>
+
 <footer>
 © Astri Nascenti – Astronomia per le scuole<br>
-<a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
+<a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
 </footer>
+
+<!-- LIGHTBOX / MODAL SEMPLICE (per la homepage) -->
+<div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-hidden="true">
+  <div class="lightbox__content" role="document">
+    <button class="lightbox__close" id="lightboxClose" aria-label="Chiudi">Chiudi ✕</button>
+    <img src="" alt="" class="lightbox__img" id="lightboxImg">
+    <div id="lightboxText" style="margin-top:.8rem;color:#fff;font-size:.95rem;"></div>
+  </div>
+</div>
+
+<script>
+/* =========================
+   JS: stagger automatico
+   e lightbox / fallback per placeholder
+========================= */
+
+document.addEventListener('DOMContentLoaded', function() {
+  document.querySelectorAll('.card').forEach(function(card, idx) {
+    if (!card.style.getPropertyValue('--i')) {
+      card.style.setProperty('--i', idx);
+    }
+  });
+
+  // Lightbox elements (home)
+  const lightbox = document.getElementById('lightbox');
+  const lightboxImg = document.getElementById('lightboxImg');
+  const lightboxText = document.getElementById('lightboxText');
+  const closeBtn = document.getElementById('lightboxClose');
+
+  function openLightbox({ src = '', alt = '', text = '' } = {}) {
+    if (!src && !text) return;
+    if (src) {
+      lightboxImg.src = src;
+      lightboxImg.alt = alt || '';
+      lightboxImg.style.display = 'block';
+      lightboxText.textContent = text || '';
+    } else {
+      lightboxImg.style.display = 'none';
+      lightboxImg.src = '';
+      lightboxImg.alt = '';
+      lightboxText.textContent = text || '';
+    }
+    lightbox.setAttribute('open','');
+    lightbox.setAttribute('aria-hidden','false');
+    closeBtn.focus();
+  }
+
+  function closeLightbox() {
+    lightbox.removeAttribute('open');
+    lightbox.setAttribute('aria-hidden','true');
+    lightboxImg.src = '';
+    lightboxText.textContent = '';
+  }
+
+  closeBtn.addEventListener('click', closeLightbox);
+  lightbox.addEventListener('click', function(e) {
+    if (e.target === lightbox) closeLightbox();
+  });
+  document.addEventListener('keydown', function(e) {
+    if (e.key === 'Escape') closeLightbox();
+  });
+
+  // Attach listeners to homepage gallery placeholders (open info)
+  document.querySelectorAll('.gallery-item').forEach(function(item) {
+    // if a direct anchor to telescopi.html, do default navigation
+    if (item.tagName.toLowerCase() !== 'a') {
+      item.addEventListener('click', function(e) {
+        const placeholderTitle = item.getAttribute('data-placeholder') || 'Informazioni';
+        const placeholderBody = item.innerText || '';
+        openLightbox({ src: '', alt: '', text: placeholderTitle + ' — ' + placeholderBody });
+      });
+      item.addEventListener('keydown', function(e) {
+        if (e.key === 'Enter' || e.key === ' ') {
+          e.preventDefault();
+          item.click();
+        }
+      });
+    }
+  });
+
+  // Ensure safe rel for external links
+  document.querySelectorAll('a[target="_blank"]').forEach(function(a) {
+    if (!a.rel.includes('noopener')) {
+      a.rel = (a.rel + ' noopener noreferrer').trim();
+    }
+  });
+
+});
+</script>
 
 </body>
 </html>
