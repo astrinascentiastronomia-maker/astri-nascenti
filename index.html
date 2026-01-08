@@ -5,9 +5,10 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
-<link rel="icon" href="favicon.ico">
-
 <style>
+/* =========================
+   FONT DEFINITIVO
+========================= */
 @font-face {
   font-family: 'LemonMilkLight';
   src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
@@ -15,12 +16,18 @@
   font-display: swap;
 }
 
+/* =========================
+   VARIABILI
+========================= */
 :root {
   --bianco:#ffffff;
   --nero:#000000;
   --accento:#c9d6df;
 }
 
+/* =========================
+   RESET + BASE (MOBILE FIRST)
+========================= */
 * {
   box-sizing: border-box;
   margin:0;
@@ -37,15 +44,20 @@ body {
   overflow-x:hidden;
 }
 
-/* TITOLI */
+/* =========================
+   TITOLI (FORZATI)
+========================= */
 h1, h2, h3 {
-  font-family: 'LemonMilkLight', sans-serif;
+  font-family: 'LemonMilkLight', sans-serif !important;
   text-transform: uppercase;
   letter-spacing: 0.28em;
   font-weight: normal;
+  -webkit-font-smoothing: antialiased;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 header {
   text-align:center;
   padding:3.5rem 1.2rem 4.5rem;
@@ -68,7 +80,9 @@ header p {
   font-size:1rem;
 }
 
-/* SEZIONI */
+/* =========================
+   SEZIONI
+========================= */
 section {
   max-width:1100px;
   margin:0 auto 4rem;
@@ -82,25 +96,39 @@ section h2 {
   margin-bottom:2rem;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 .card {
-  background:rgba(255,255,255,.7);
+  background:rgba(255,255,255,.55);
   backdrop-filter:blur(10px);
   border-radius:22px;
   padding:1.8rem;
-  color:#111;
+  color:#000;
   box-shadow:0 20px 55px rgba(0,0,0,.55);
   margin-bottom:2rem;
+  transform:translateY(40px);
+  opacity:0;
+  animation: floatIn 1.3s forwards;
 }
 
-/* GRID */
+.card h3 {
+  font-size:.85rem;
+  margin-bottom:1rem;
+}
+
+/* =========================
+   GRID
+========================= */
 .grid {
   display:grid;
   grid-template-columns:1fr;
   gap:2rem;
 }
 
-/* GALLERY */
+/* =========================
+   GALLERY HOME
+========================= */
 .gallery {
   display:grid;
   grid-template-columns:1fr 1fr;
@@ -140,14 +168,35 @@ section h2 {
   font-family:'LemonMilkLight', sans-serif;
 }
 
-.placeholder {
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:.65rem;
-  letter-spacing:.22em;
-  opacity:.8;
+/* =========================
+   DOWNLOAD
+========================= */
+.download-buttons {
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-top:1.4rem;
 }
 
-/* FOOTER */
+.download-buttons a {
+  text-align:center;
+  padding:1rem 1.4rem;
+  border-radius:50px;
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  color:#fff;
+  text-decoration:none;
+  min-height:48px;
+}
+
+.apple { background:linear-gradient(135deg,#000,#555); }
+.google { background:linear-gradient(135deg,#3DDC84,#1B9C52); }
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+
+/* =========================
+   FOOTER
+========================= */
 footer {
   text-align:center;
   padding:3rem 1rem 4rem;
@@ -160,16 +209,26 @@ footer a {
   text-decoration:none;
 }
 
-/* ANIMAZIONI */
+/* =========================
+   ANIMAZIONI
+========================= */
 @keyframes float {
   0%,100% { transform:translateY(0); }
   50% { transform:translateY(-10px); }
 }
 
-/* RESPONSIVE */
+@keyframes floatIn {
+  to { transform:translateY(0); opacity:1; }
+}
+
+/* =========================
+   TABLET+
+========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns:repeat(2,1fr); }
   .gallery { grid-template-columns:repeat(4,1fr); }
+  .download-buttons { flex-direction:row; }
+  .download-buttons a { flex:1; }
 }
 
 @media (min-width:1024px) {
@@ -205,22 +264,20 @@ footer a {
 </div>
 
 <div class="gallery">
-
-  <!-- ARCHIVIO FOTO ASTROFILI - INVARIATO -->
+  <!-- Archivio Foto Astrofili (INVARIATO) -->
   <a href="foto-astrofili.html">
     <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
     <span>Archivio Foto Astrofili</span>
   </a>
 
-  <!-- TELESCOPI - SERIE FOTO STRUMENTI -->
+  <!-- Telescopi: trasformato in link alla nuova pagina, anteprima astrinascentifoto38 -->
   <a href="telescopi.html">
-    <img src="images/astrinascentifoto38.jpg" alt="Telescopi - strumenti">
+    <img src="images/astrinascentifoto38.jpg" alt="Telescopi - Serie strumenti">
     <span>Telescopi · Serie strumenti</span>
   </a>
 
   <div class="placeholder">Osservazioni</div>
   <div class="placeholder">Attività didattiche</div>
-
 </div>
 
 </div>
@@ -229,29 +286,27 @@ footer a {
 <section>
 <h2>Software consigliati</h2>
 <div class="grid">
-
 <div class="card">
 <h3>Moon Globe</h3>
-<p>
-<a href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank">Apple Store</a>
-</p>
+<div class="download-buttons">
+<a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank">Apple Store</a>
+</div>
 </div>
 
 <div class="card">
 <h3>Star Walk</h3>
-<p>
-<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank">Sky Tonight</a><br>
-<a href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank">Star Walk 2</a>
-</p>
+<div class="download-buttons">
+<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank">Sky Tonight</a>
+<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank">Star Walk 2</a>
+</div>
 </div>
 
 <div class="card">
 <h3>Stellarium</h3>
-<p>
-<a href="https://stellarium.org/it/" target="_blank">Sito ufficiale</a>
-</p>
+<div class="download-buttons">
+<a class="web" href="https://stellarium.org/it/" target="_blank">Sito ufficiale</a>
 </div>
-
+</div>
 </div>
 </section>
 
