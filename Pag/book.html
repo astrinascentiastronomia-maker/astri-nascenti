@@ -1,0 +1,236 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+<title>ASTRI NASCENTI — Book 2025</title>
+
+<style>
+:root{
+  --max-book-width: 420px;
+  --turn-duration: 700ms;
+  --pages: 36;
+}
+
+html,body{
+  height:100%;
+  margin:0;
+  background:#0b0b0b;
+  color:#fff;
+  font-family:system-ui,-apple-system,"Segoe UI",Roboto,Arial;
+}
+
+.wrap{
+  min-height:100vh;
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  padding:20px;
+}
+
+.book{
+  width:100%;
+  max-width:var(--max-book-width);
+  height:85vh;
+  max-height:85vh;
+  position:relative;
+  perspective:1400px;
+}
+
+/* mostra solo la pagina destra */
+.page-viewport{
+  position:relative;
+  width:50%;
+  height:100%;
+  overflow:hidden;
+  background:#111;
+  box-shadow:0 20px 50px rgba(0,0,0,.8);
+  border-radius:8px;
+  margin-left:auto;
+}
+
+/* layer */
+.layer{
+  position:absolute;
+  inset:0;
+  backface-visibility:hidden;
+  transform-style:preserve-3d;
+}
+
+.layer img{
+  width:200%;
+  height:100%;
+  object-fit:cover;
+  transform:translateX(-50%);
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+/* pagina che gira */
+.flipper{
+  transform-origin:left center;
+  transition:transform var(--turn-duration) ease-in-out;
+  z-index:10;
+}
+
+.flipper.turn{
+  transform:rotateY(-180deg);
+}
+
+.flipper .back{
+  position:absolute;
+  inset:0;
+  transform:rotateY(180deg);
+}
+
+/* controlli */
+.controls{
+  position:absolute;
+  left:0;
+  bottom:10px;
+  display:flex;
+  gap:10px;
+  align-items:center;
+  z-index:20;
+}
+
+.btn{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.15);
+  color:#fff;
+  padding:8px 14px;
+  border-radius:8px;
+  cursor:pointer;
+  font-size:14px;
+}
+
+.status{
+  font-size:13px;
+  opacity:.8;
+}
+
+/* hint */
+.hint{
+  position:absolute;
+  top:10px;
+  left:10px;
+  font-size:13px;
+  opacity:.8;
+}
+
+/* mobile */
+@media(max-width:420px){
+  .book{ height:80vh; }
+}
+</style>
+</head>
+
+<body>
+
+<div class="wrap">
+  <div class="book" id="book">
+
+    <div class="page-viewport" id="viewport">
+
+      <!-- pagina successiva sotto -->
+      <div class="layer" id="nextLayer">
+        <img id="nextImg" alt="">
+      </div>
+
+      <!-- pagina che gira -->
+      <div class="layer flipper" id="flipper">
+        <img id="currentImg" alt="">
+        <div class="back">
+          <img id="backImg" alt="">
+        </div>
+      </div>
+
+    </div>
+
+    <div class="controls">
+      <button class="btn" id="prev">◀</button>
+      <button class="btn" id="next">▶</button>
+      <div class="status" id="status">1 / 36</div>
+    </div>
+
+    <div class="hint">Scorri o usa i pulsanti</div>
+
+  </div>
+</div>
+
+<script>
+(() => {
+  const total = 36;
+  const prefix = 'ASTRI NASCENTI 2025-';
+  const ext = '.jpg';
+
+  const curImg = document.getElementById('currentImg');
+  const backImg = document.getElementById('backImg');
+  const nextImg = document.getElementById('nextImg');
+  const flipper = document.getElementById('flipper');
+  const status = document.getElementById('status');
+
+  let index = 1;
+  let busy = false;
+
+  const src = i => encodeURI(prefix + i + ext);
+
+  function update(){
+    status.textContent = `${index} / ${total}`;
+  }
+
+  async function load(img, s){
+    return new Promise(r => {
+      img.onload = img.onerror = r;
+      img.src = s;
+    });
+  }
+
+  async function go(to){
+    if(busy || to < 1 || to > total || to === index) return;
+    busy = true;
+
+    await load(curImg, src(index));
+    await load(backImg, src(to));
+    await load(nextImg, src(to));
+
+    flipper.classList.add('turn');
+
+    setTimeout(async () => {
+      flipper.classList.remove('turn');
+      index = to;
+      update();
+
+      await load(curImg, src(index));
+      await load(backImg, src(index));
+      await load(nextImg, src(Math.min(index+1,total)));
+
+      busy = false;
+    }, 700);
+  }
+
+  document.getElementById('next').onclick = () => go(index+1);
+  document.getElementById('prev').onclick = () => go(index-1);
+
+  // swipe
+  let x0=0;
+  viewport.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
+  viewport.addEventListener('touchend',e=>{
+    const dx=e.changedTouches[0].clientX-x0;
+    if(Math.abs(dx)>40){
+      dx<0 ? go(index+1) : go(index-1);
+    }
+  },{passive:true});
+
+  // init
+  (async ()=>{
+    update();
+    await load(curImg, src(1));
+    await load(backImg, src(1));
+    await load(nextImg, src(2));
+  })();
+})();
+</script>
+
+</body>
+</html>
