@@ -182,13 +182,12 @@
 <script>
 /*
   Configurazione:
-  - I file devono trovarsi nella cartella "Pag" accanto a questo HTML
-  - Nomi: "ASTRI NASCENTI 2025-1.jpg", "ASTRI NASCENTI 2025-2.jpg", ... fino a 36
+  - I file devono trovarsi nella stessa cartella dell'HTML
+  - Nomi: "ASTRI NASCENTI 2025-1", "ASTRI NASCENTI 2025-2", ... fino a 36
   - Se le tue immagini hanno estensione diversa (es .png), cambia `ext`
 */
 (function(){
   const totalPages = 36;                 // modifica se diverso
-  const folder = 'Pag/';                 // cartella dove si trovano le immagini
   const prefix = 'ASTRI NASCENTI 2025-'; // prefisso del nome file
   const ext = '.jpg';                    // estensione (cambia a .png se necessario)
   const encodeSpaces = true;             // true => usa encodeURI per gestire spazi nel nome
@@ -207,8 +206,8 @@
 
   // Costruisce il percorso del file gestendo spazi
   function pageSrc(i){
-    const name = folder + prefix + i + ext;
-    return encodeSpaces ? encodeURI(name) : name;
+    const name = prefix + i;
+    return encodeSpaces ? encodeURI(name + ext) : (name + ext);
   }
 
   // Carica e restituisce una Promise quando l'immagine è pronta
@@ -216,13 +215,15 @@
     return new Promise((res, rej)=>{
       imgEl.onload = ()=>res();
       imgEl.onerror = ()=> {
+        // mostra immagine di fallback (se vuoi) o rifiuta
         console.warn('Impossibile caricare', src);
-        res();
+        res(); // risolvi comunque per evitare blocchi; puoi cambiare in rej(src);
       };
       imgEl.src = src;
     });
   }
 
+  // Precarica tutte le immagini (opzionale). Se non vuoi precaricare toglere questa chiamata.
   function preloadAll(){
     const promises = [];
     for(let i=1;i<=totalPages;i++){
@@ -233,48 +234,83 @@
     return Promise.all(promises);
   }
 
+  // Imposta gli elementi per la pagina corrente e la successiva (per il flipping)
   async function setPagesForTurn(toIndex){
     const cur = index;
     const nxt = toIndex;
+
+    // front mostra la pagina corrente (destra)
     await loadImg(currentImg, pageSrc(cur));
+
+    // il retro del flipper deve mostrare la pagina di destinazione;
+    // questa immagine è visualizzata ruotata nel back della flipper
     await loadImg(backImg, pageSrc(nxt));
+
+    // sotto al flipper vediamo il "nextLayer", utile quando la flipper è più lenta — manteniamo una copia
     await loadImg(nextImg, pageSrc(nxt));
   }
 
+  // Aggiorna testo di stato
   function updateStatus(){
     status.textContent = `${index} / ${totalPages}`;
   }
 
+  // Esegue la transizione verso `toIndex` (pagina successiva o precedente).
+  // direction = 'next' o 'prev'
   async function turnTo(toIndex, direction){
     if(animating) return;
     if(toIndex < 1 || toIndex > totalPages) return;
     if(toIndex === index) return;
     animating = true;
 
+    // quando si va avanti (next) ruoto da 0 -> -180deg (origine sinistra)
+    // quando si va indietro (prev) vogliamo l'effetto contrario:
+    // per semplicità useremo la stessa animazione ma invertiremo i ruoli:
+    // - per prev: carichiamo la pagina precedente in front e la corrente in back, ruotiamo al contrario
     if(direction === 'next'){
       await setPagesForTurn(toIndex);
+      // avvia animazione
       flipper.classList.add('turning');
+
+      // attende fine animazione
       await new Promise(r => setTimeout(r, getTurnDuration()));
+      // aggiorna indice e stato
       index = toIndex;
       updateStatus();
+
+      // reset flipper senza transizione e aggiorna immagini affinché la nuova corrente sia pronta
       flipper.classList.remove('turning');
+      // ora imposta currentImg alla nuova pagina per il prossimo turno
       await loadImg(currentImg, pageSrc(index));
       await loadImg(backImg, pageSrc(index));
       await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
-    } else {
-      await loadImg(currentImg, pageSrc(toIndex));
-      await loadImg(backImg, pageSrc(index));
-      await loadImg(nextImg, pageSrc(toIndex));
+    } else { // prev
+      // Per "girare indietro" vogliamo visualmente capovolgere al contrario.
+      // Procedura: carichiamo la pagina precedente come "front" (quella che verrà girata verso destra)
+      // e la pagina corrente come "back" (il retro). Quindi animiamo la flipper al verso opposto.
+      // Implementiamo questa versione semplice:
+      await loadImg(currentImg, pageSrc(toIndex)); // front sarà la pagina che riapparirà
+      await loadImg(backImg, pageSrc(index));      // back sarà l'attuale
+      await loadImg(nextImg, pageSrc(toIndex));    // sotto
+      // impostiamo lo stato iniziale come se la flipper fosse già girata (-180deg),
+      // poi la riportiamo a 0 con transizione per simulare il giro inverso.
       flipper.style.transition = 'none';
       flipper.style.transform = 'rotateY(-180deg)';
+      // forziamo repaint
       void flipper.offsetWidth;
+      // ora con transizione riportiamo a 0 (giro inverso)
       flipper.style.transition = `transform ${getTurnDuration()} ease-in-out`;
       flipper.style.transform = 'rotateY(0deg)';
+
       await new Promise(r => setTimeout(r, getTurnDuration()));
+
+      // normalizziamo e aggiorniamo
       flipper.style.transition = '';
       flipper.style.transform = '';
       index = toIndex;
       updateStatus();
+
+      // carica current come pagina attuale
       await loadImg(currentImg, pageSrc(index));
       await loadImg(backImg, pageSrc(index));
       await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
@@ -284,6 +320,7 @@
   }
 
   function getTurnDuration(){
+    // ricava la durata dalla variabile CSS
     const s = getComputedStyle(document.documentElement).getPropertyValue('--turn-duration').trim();
     if(!s) return 700;
     if(s.endsWith('ms')) return parseFloat(s);
@@ -291,22 +328,56 @@
     return parseFloat(s);
   }
 
+  // Pulsanti
   prevBtn.addEventListener('click', ()=> { turnTo(index-1,'prev'); });
   nextBtn.addEventListener('click', ()=> { turnTo(index+1,'next'); });
 
+  // Swipe touch per mobile
   (function addSwipe(){
     let startX=0, startY=0, started=false;
-    const threshold = 40;
+    const threshold = 40; // px minimo per considerare swipe
+
     const el = document.getElementById('viewport');
-    el.addEventListener('touchstart', (e)=>{ const t = e.touches[0]; startX = t.clientX; startY = t.clientY; started = true; }, {passive:true});
-    el.addEventListener('touchend', (e)=>{ if(!started) return; const t = e.changedTouches[0]; const dx = t.clientX - startX; const dy = t.clientY - startY; started = false; if(Math.abs(dx) < Math.abs(dy)) return; if(Math.abs(dx) < threshold) return; if(dx < 0){ turnTo(index+1,'next'); } else { turnTo(index-1,'prev'); } }, {passive:true});
+    el.addEventListener('touchstart', (e)=>{
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      started = true;
+    }, {passive:true});
+
+    el.addEventListener('touchmove', (e)=>{
+      // previene scrolling orizzontale durante swipe intenzionale?
+    }, {passive:true});
+
+    el.addEventListener('touchend', (e)=>{
+      if(!started) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      started = false;
+      if(Math.abs(dx) < Math.abs(dy)) return; // verticale -> ignora
+      if(Math.abs(dx) < threshold) return;
+      if(dx < 0){ // swipe verso sinistra => avanti
+        turnTo(index+1,'next');
+      } else { // swipe verso destra => indietro
+        turnTo(index-1,'prev');
+      }
+    }, {passive:true});
   })();
 
-  window.addEventListener('keydown', (e)=>{ if(e.key === 'ArrowRight') turnTo(index+1,'next'); if(e.key === 'ArrowLeft') turnTo(index-1,'prev'); });
+  // Tastiera (per testing su desktop)
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowRight') turnTo(index+1,'next');
+    if(e.key === 'ArrowLeft') turnTo(index-1,'prev');
+  });
 
+  // Inizializzazione: carica pagina 1 e 2
   (async function init(){
     updateStatus();
-    preloadAll().catch(()=>{});
+    // Preload tutte le immagini in background (non bloccante)
+    preloadAll().catch(()=>{ /* non critico */ });
+
+    // Carica pagina corrente e pagina successiva per smooth
     await loadImg(currentImg, pageSrc(index));
     await loadImg(backImg, pageSrc(index));
     await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
