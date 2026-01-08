@@ -1,0 +1,389 @@
+<!doctype html>
+<html lang="it">
+<head>
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover" />
+<title>ASTRI NASCENTI — Sfoglia</title>
+<style>
+  :root{
+    --max-book-width: 420px; /* limita la larghezza massima su schermi grandi */
+    --turn-duration: 700ms;
+    --pages: 36; /* modifica se serve */
+  }
+
+  html,body{
+    height:100%;
+    margin:0;
+    background: #111;
+    color:#fff;
+    font-family: system-ui, -apple-system, "Segoe UI", Roboto, "Helvetica Neue", Arial;
+    -webkit-font-smoothing:antialiased;
+    -moz-osx-font-smoothing:grayscale;
+  }
+
+  .wrap{
+    min-height:100vh;
+    display:flex;
+    align-items:center;
+    justify-content:flex-end; /* allinea il libro a destra (mobile-friendly) */
+    padding:20px;
+    box-sizing:border-box;
+  }
+
+  /* Il "libro" occupa tutta la larghezza disponibile ma è limitato */
+  .book {
+    width:100%;
+    max-width:var(--max-book-width);
+    height: calc( (100vw < var(--max-book-width) ? 1 : 1) * (100vw * 1.4) ); /* altezza adattiva, verrà rettificata da JS se preferisci */
+    max-height:85vh;
+    position:relative;
+    perspective:1200px;
+    margin-left: auto; /* mantiene il libro a destra della pagina */
+  }
+
+  /* viewport che mostra soltanto la metà destra dell'immagine */
+  .page-viewport{
+    position:relative;
+    width:50%; /* metà della larghezza del "libro" */
+    height:100%;
+    max-height:85vh;
+    overflow:hidden;
+    box-shadow: 0 12px 30px rgba(0,0,0,0.6);
+    background:linear-gradient(180deg,#222,#0b0b0b);
+    border-radius:6px;
+    float:right; /* rimane allineato a destra */
+  }
+
+  /* Stacking degli strati: current -> flip -> next (sotto) */
+  .layer{
+    position:absolute;
+    inset:0;
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+    transform-style:preserve-3d;
+  }
+
+  /* L'immagine è ingrandita al 200% e spostata a sinistra di metà larghezza
+     così che nella viewport (50% della larghezza del libro) venga mostrata
+     la parte destra dell'immagine originale. Questo permette "compattazione" per mobile. */
+  .layer img{
+    width:200%;
+    height:100%;
+    object-fit:cover;
+    object-position:center center;
+    transform: translateX(-50%);
+    display:block;
+    user-select:none;
+    -webkit-user-drag: none;
+  }
+
+  /* Il livello che viene capovolto per l'animazione della pagina */
+  .flipper{
+    transform-origin: left center; /* si gira a partire dal bordo sinistro (per girare da destra verso sinistra) */
+    transform: rotateY(0deg);
+    transition: transform var(--turn-duration) ease-in-out;
+    z-index: 20;
+  }
+
+  .flipper.turning{
+    transform: rotateY(-180deg);
+  }
+
+  /* Retro del flipper: quando ruota oltre i 90° viene mostrato il retro (next) */
+  .flipper .back{
+    position:absolute;
+    inset:0;
+    transform: rotateY(180deg);
+    backface-visibility:hidden;
+    -webkit-backface-visibility:hidden;
+  }
+
+  /* Controlli */
+  .controls{
+    position: absolute;
+    left:0;
+    bottom:8px;
+    display:flex;
+    gap:8px;
+    align-items:center;
+    padding:8px;
+    z-index:40;
+    pointer-events:auto;
+  }
+
+  .btn{
+    background: rgba(255,255,255,0.06);
+    color:#fff;
+    border:1px solid rgba(255,255,255,0.04);
+    padding:8px 12px;
+    border-radius:6px;
+    cursor:pointer;
+    user-select:none;
+    font-weight:600;
+    font-size:14px;
+    backdrop-filter: blur(4px);
+  }
+
+  .btn:active{ transform: translateY(1px); }
+
+  .status{
+    margin-left:8px;
+    opacity:0.9;
+    font-size:13px;
+  }
+
+  /* Istruzioni rapide visibili su schermi larghi */
+  .hint{
+    position: absolute;
+    left:8px;
+    top:8px;
+    font-size:13px;
+    opacity:0.9;
+  }
+
+  /* Responsività */
+  @media (max-width:420px){
+    :root { --max-book-width: 100vw; }
+    .book{ height: calc(100vw * 1.4); }
+  }
+</style>
+</head>
+<body>
+  <div class="wrap">
+    <div class="book" id="book">
+      <div class="page-viewport" id="viewport">
+        <!-- livello "next" sotto, visibile quando il flipper si capovolge -->
+        <div class="layer next" id="nextLayer">
+          <img alt="pagina successiva" id="nextImg" src="">
+        </div>
+
+        <!-- flipper che anima la pagina corrente che si gira -->
+        <div class="layer flipper" id="flipper">
+          <div class="front" style="position:absolute;inset:0;">
+            <img alt="pagina corrente" id="currentImg" src="">
+          </div>
+          <div class="back" id="flipperBack">
+            <img alt="retro pagina" id="backImg" src="">
+          </div>
+        </div>
+
+      </div>
+
+      <div class="controls" aria-hidden="false">
+        <button class="btn" id="prevBtn" title="Pagina precedente">◀︎</button>
+        <button class="btn" id="nextBtn" title="Pagina successiva">▶︎</button>
+        <div class="status" id="status">1 / 36</div>
+      </div>
+
+      <div class="hint">Scorri da destra a sinistra o usa i pulsanti</div>
+    </div>
+  </div>
+
+<script>
+/*
+  Configurazione:
+  - I file devono trovarsi nella stessa cartella dell'HTML
+  - Nomi: "ASTRI NASCENTI 2025-1", "ASTRI NASCENTI 2025-2", ... fino a 36
+  - Se le tue immagini hanno estensione diversa (es .png), cambia `ext`
+*/
+(function(){
+  const totalPages = 36;                 // modifica se diverso
+  const prefix = 'ASTRI NASCENTI 2025-'; // prefisso del nome file
+  const ext = '.jpg';                    // estensione (cambia a .png se necessario)
+  const encodeSpaces = true;             // true => usa encodeURI per gestire spazi nel nome
+
+  // Elementi
+  const currentImg = document.getElementById('currentImg');
+  const nextImg = document.getElementById('nextImg');
+  const backImg = document.getElementById('backImg');
+  const flipper = document.getElementById('flipper');
+  const status = document.getElementById('status');
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+
+  let index = 1; // pagina corrente (1-based)
+  let animating = false;
+
+  // Costruisce il percorso del file gestendo spazi
+  function pageSrc(i){
+    const name = prefix + i;
+    return encodeSpaces ? encodeURI(name + ext) : (name + ext);
+  }
+
+  // Carica e restituisce una Promise quando l'immagine è pronta
+  function loadImg(imgEl, src){
+    return new Promise((res, rej)=>{
+      imgEl.onload = ()=>res();
+      imgEl.onerror = ()=> {
+        // mostra immagine di fallback (se vuoi) o rifiuta
+        console.warn('Impossibile caricare', src);
+        res(); // risolvi comunque per evitare blocchi; puoi cambiare in rej(src);
+      };
+      imgEl.src = src;
+    });
+  }
+
+  // Precarica tutte le immagini (opzionale). Se non vuoi precaricare toglere questa chiamata.
+  function preloadAll(){
+    const promises = [];
+    for(let i=1;i<=totalPages;i++){
+      const img = new Image();
+      img.src = pageSrc(i);
+      promises.push(new Promise(r => { img.onload = img.onerror = r; }));
+    }
+    return Promise.all(promises);
+  }
+
+  // Imposta gli elementi per la pagina corrente e la successiva (per il flipping)
+  async function setPagesForTurn(toIndex){
+    const cur = index;
+    const nxt = toIndex;
+
+    // front mostra la pagina corrente (destra)
+    await loadImg(currentImg, pageSrc(cur));
+
+    // il retro del flipper deve mostrare la pagina di destinazione;
+    // questa immagine è visualizzata ruotata nel back della flipper
+    await loadImg(backImg, pageSrc(nxt));
+
+    // sotto al flipper vediamo il "nextLayer", utile quando la flipper è più lenta — manteniamo una copia
+    await loadImg(nextImg, pageSrc(nxt));
+  }
+
+  // Aggiorna testo di stato
+  function updateStatus(){
+    status.textContent = `${index} / ${totalPages}`;
+  }
+
+  // Esegue la transizione verso `toIndex` (pagina successiva o precedente).
+  // direction = 'next' o 'prev'
+  async function turnTo(toIndex, direction){
+    if(animating) return;
+    if(toIndex < 1 || toIndex > totalPages) return;
+    if(toIndex === index) return;
+    animating = true;
+
+    // quando si va avanti (next) ruoto da 0 -> -180deg (origine sinistra)
+    // quando si va indietro (prev) vogliamo l'effetto contrario:
+    // per semplicità useremo la stessa animazione ma invertiremo i ruoli:
+    // - per prev: carichiamo la pagina precedente in front e la corrente in back, ruotiamo al contrario
+    if(direction === 'next'){
+      await setPagesForTurn(toIndex);
+      // avvia animazione
+      flipper.classList.add('turning');
+
+      // attende fine animazione
+      await new Promise(r => setTimeout(r, getTurnDuration()));
+      // aggiorna indice e stato
+      index = toIndex;
+      updateStatus();
+
+      // reset flipper senza transizione e aggiorna immagini affinché la nuova corrente sia pronta
+      flipper.classList.remove('turning');
+      // ora imposta currentImg alla nuova pagina per il prossimo turno
+      await loadImg(currentImg, pageSrc(index));
+      await loadImg(backImg, pageSrc(index));
+      await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
+    } else { // prev
+      // Per "girare indietro" vogliamo visualmente capovolgere al contrario.
+      // Procedura: carichiamo la pagina precedente come "front" (quella che verrà girata verso destra)
+      // e la pagina corrente come "back" (il retro). Quindi animiamo la flipper al verso opposto.
+      // Implementiamo questa versione semplice:
+      await loadImg(currentImg, pageSrc(toIndex)); // front sarà la pagina che riapparirà
+      await loadImg(backImg, pageSrc(index));      // back sarà l'attuale
+      await loadImg(nextImg, pageSrc(toIndex));    // sotto
+      // impostiamo lo stato iniziale come se la flipper fosse già girata (-180deg),
+      // poi la riportiamo a 0 con transizione per simulare il giro inverso.
+      flipper.style.transition = 'none';
+      flipper.style.transform = 'rotateY(-180deg)';
+      // forziamo repaint
+      void flipper.offsetWidth;
+      // ora con transizione riportiamo a 0 (giro inverso)
+      flipper.style.transition = `transform ${getTurnDuration()} ease-in-out`;
+      flipper.style.transform = 'rotateY(0deg)';
+
+      await new Promise(r => setTimeout(r, getTurnDuration()));
+
+      // normalizziamo e aggiorniamo
+      flipper.style.transition = '';
+      flipper.style.transform = '';
+      index = toIndex;
+      updateStatus();
+
+      // carica current come pagina attuale
+      await loadImg(currentImg, pageSrc(index));
+      await loadImg(backImg, pageSrc(index));
+      await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
+    }
+
+    animating = false;
+  }
+
+  function getTurnDuration(){
+    // ricava la durata dalla variabile CSS
+    const s = getComputedStyle(document.documentElement).getPropertyValue('--turn-duration').trim();
+    if(!s) return 700;
+    if(s.endsWith('ms')) return parseFloat(s);
+    if(s.endsWith('s')) return parseFloat(s) * 1000;
+    return parseFloat(s);
+  }
+
+  // Pulsanti
+  prevBtn.addEventListener('click', ()=> { turnTo(index-1,'prev'); });
+  nextBtn.addEventListener('click', ()=> { turnTo(index+1,'next'); });
+
+  // Swipe touch per mobile
+  (function addSwipe(){
+    let startX=0, startY=0, started=false;
+    const threshold = 40; // px minimo per considerare swipe
+
+    const el = document.getElementById('viewport');
+    el.addEventListener('touchstart', (e)=>{
+      const t = e.touches[0];
+      startX = t.clientX;
+      startY = t.clientY;
+      started = true;
+    }, {passive:true});
+
+    el.addEventListener('touchmove', (e)=>{
+      // previene scrolling orizzontale durante swipe intenzionale?
+    }, {passive:true});
+
+    el.addEventListener('touchend', (e)=>{
+      if(!started) return;
+      const t = e.changedTouches[0];
+      const dx = t.clientX - startX;
+      const dy = t.clientY - startY;
+      started = false;
+      if(Math.abs(dx) < Math.abs(dy)) return; // verticale -> ignora
+      if(Math.abs(dx) < threshold) return;
+      if(dx < 0){ // swipe verso sinistra => avanti
+        turnTo(index+1,'next');
+      } else { // swipe verso destra => indietro
+        turnTo(index-1,'prev');
+      }
+    }, {passive:true});
+  })();
+
+  // Tastiera (per testing su desktop)
+  window.addEventListener('keydown', (e)=>{
+    if(e.key === 'ArrowRight') turnTo(index+1,'next');
+    if(e.key === 'ArrowLeft') turnTo(index-1,'prev');
+  });
+
+  // Inizializzazione: carica pagina 1 e 2
+  (async function init(){
+    updateStatus();
+    // Preload tutte le immagini in background (non bloccante)
+    preloadAll().catch(()=>{ /* non critico */ });
+
+    // Carica pagina corrente e pagina successiva per smooth
+    await loadImg(currentImg, pageSrc(index));
+    await loadImg(backImg, pageSrc(index));
+    await loadImg(nextImg, pageSrc(Math.min(index+1, totalPages)));
+  })();
+
+})();
+</script>
+</body>
+</html>
