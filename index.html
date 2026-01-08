@@ -26,7 +26,7 @@
 }
 
 /* =========================
-   RESET + BASE (MOBILE FIRST)
+   RESET + BASE
 ========================= */
 * {
   box-sizing: border-box;
@@ -45,14 +45,13 @@ body {
 }
 
 /* =========================
-   TITOLI (FORZATI)
+   TITOLI
 ========================= */
 h1, h2, h3 {
   font-family: 'LemonMilkLight', sans-serif !important;
   text-transform: uppercase;
   letter-spacing: 0.28em;
   font-weight: normal;
-  -webkit-font-smoothing: antialiased;
 }
 
 /* =========================
@@ -110,6 +109,12 @@ section h2 {
   transform:translateY(40px);
   opacity:0;
   animation: floatIn 1.3s forwards;
+  transition:transform .5s ease, box-shadow .5s ease;
+}
+
+.card:hover {
+  transform:translateY(-6px) scale(1.03);
+  box-shadow:0 30px 70px rgba(0,0,0,.75);
 }
 
 .card h3 {
@@ -148,12 +153,43 @@ section h2 {
   justify-content:center;
   text-decoration:none;
   color:#000;
+  transition:transform .5s ease, box-shadow .5s ease;
+}
+
+/* GLOW DAL BASSO */
+.gallery a::after,
+.gallery .placeholder::after {
+  content:"";
+  position:absolute;
+  bottom:-40%;
+  left:-10%;
+  width:120%;
+  height:60%;
+  background:radial-gradient(circle at bottom, rgba(255,255,255,.55), transparent 70%);
+  opacity:0;
+  transition:opacity .5s ease;
+}
+
+.gallery a:hover::after,
+.gallery .placeholder:hover::after {
+  opacity:1;
+}
+
+.gallery a:hover,
+.gallery .placeholder:hover {
+  transform:scale(1.05);
+  box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
 
 .gallery img {
   width:100%;
   height:100%;
   object-fit:cover;
+  transition:transform .6s ease;
+}
+
+.gallery a:hover img {
+  transform:scale(1.12);
 }
 
 .gallery span {
@@ -166,6 +202,7 @@ section h2 {
   letter-spacing:.22em;
   color:#fff;
   font-family:'LemonMilkLight', sans-serif;
+  z-index:2;
 }
 
 /* =========================
@@ -188,6 +225,12 @@ section h2 {
   color:#fff;
   text-decoration:none;
   min-height:48px;
+  transition:transform .4s ease, box-shadow .4s ease;
+}
+
+.download-buttons a:hover {
+  transform:scale(1.05);
+  box-shadow:0 10px 30px rgba(0,0,0,.6);
 }
 
 .apple { background:linear-gradient(135deg,#000,#555); }
@@ -222,7 +265,7 @@ footer a {
 }
 
 /* =========================
-   TABLET+
+   RESPONSIVE
 ========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns:repeat(2,1fr); }
@@ -264,15 +307,13 @@ footer a {
 </div>
 
 <div class="gallery">
-  <!-- Archivio Foto Astrofili (INVARIATO) -->
   <a href="foto-astrofili.html">
     <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
     <span>Archivio Foto Astrofili</span>
   </a>
 
-  <!-- Telescopi: trasformato in link alla nuova pagina, anteprima astrinascentifoto38 -->
   <a href="telescopi.html">
-    <img src="images/astrinascentifoto38.jpg" alt="Telescopi - Serie strumenti">
+    <img src="images/astrinascentifoto38.jpg" alt="Telescopi">
     <span>Telescopi · Serie strumenti</span>
   </a>
 
