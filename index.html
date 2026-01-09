@@ -286,6 +286,11 @@ footer a { color:var(--accento); text-decoration:none; }
   .gallery { grid-template-columns: repeat(4,1fr); }
   .download-buttons { flex-direction:row; }
   .download-buttons a { flex:1; }
+
+  /* make founder card span full width on larger screens so it stands alone */
+  .card.founder {
+    grid-column: 1 / -1;
+  }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
@@ -307,13 +312,14 @@ footer a { color:var(--accento); text-decoration:none; }
 
 /* =========================
    STILE PER IL FONDATORE SOSTITUITO DALL'IMMAGINE
+   e micro-effetti aggiunti
 ========================= */
 .card.founder {
-  padding: 0;                     /* nessun padding: l'immagine deve riempire il riquadro */
-  min-height: 380px;              /* riquadro più grande per valorizzare il ritratto */
+  padding: 0;
+  min-height: 420px;              /* riquadro più ampio per dare presenza orizzontale */
   border-radius: 18px;
   overflow: hidden;
-  background-color: #111;         /* fallback se l'immagine non carica */
+  background-color: #111;
   background-position: center;
   background-size: cover;
   background-repeat: no-repeat;
@@ -322,13 +328,18 @@ footer a { color:var(--accento); text-decoration:none; }
   position: relative;
 }
 
-/* overlay gradiente nero (da sinistra 60% a destra 10%) */
+/* overlay gradiente nero (da sinistra 80% a destra 10%) */
 .card.founder::before {
   content: "";
   position: absolute;
   inset: 0;
   z-index: 1;
-  background: linear-gradient(90deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.25) 65%, rgba(0,0,0,.1) 100%);
+  /* START 80% black on the far left, easing to 10% black on the right */
+  background: linear-gradient(90deg,
+    rgba(0,0,0,.8) 0%,
+    rgba(0,0,0,.65) 25%,
+    rgba(0,0,0,.35) 60%,
+    rgba(0,0,0,.1) 100%);
   pointer-events: none;
 }
 
@@ -346,8 +357,6 @@ footer a { color:var(--accento); text-decoration:none; }
   opacity: 0;
   transition: background-position .9s ease, opacity .45s ease;
 }
-
-/* al passaggio del mouse la luce scorre verso destra e diventa visibile */
 .card.founder:hover::after{
   background-position: right center;
   opacity: 1;
@@ -357,9 +366,9 @@ footer a { color:var(--accento); text-decoration:none; }
 .founder-text{
   position: relative;
   z-index: 3;
-  padding: 2.2rem;
-  max-width: 680px;
-  font-size: .98rem;
+  padding: 2.6rem;
+  max-width: 920px;
+  font-size: 1rem;
   line-height: 1.6;
   color: #fff;
   transform: translateX(-18px);
