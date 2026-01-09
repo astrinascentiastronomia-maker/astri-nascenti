@@ -326,6 +326,7 @@ footer a { color:var(--accento); text-decoration:none; }
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
   position: relative;
+  background-clip: padding-box; /* assicura che l'overlay e border si accoppino correttamente */
 }
 
 /* overlay gradiente nero (da sinistra 80% a destra 10%) */
@@ -334,6 +335,7 @@ footer a { color:var(--accento); text-decoration:none; }
   position: absolute;
   inset: 0;
   z-index: 1;
+  border-radius: inherit;
   /* START 80% black on the far left, easing to 10% black on the right */
   background: linear-gradient(90deg,
     rgba(0,0,0,.8) 0%,
@@ -343,22 +345,21 @@ footer a { color:var(--accento); text-decoration:none; }
   pointer-events: none;
 }
 
-/* micro-effetto luce che scorre al passaggio del mouse */
+/* micro-effetto luce: subtle and non-jittery (only opacity change on hover) */
 .card.founder::after{
   content: "";
   position: absolute;
   inset: 0;
   z-index: 2;
   pointer-events: none;
-  background: radial-gradient(circle at left center, rgba(255,255,255,0.12), rgba(255,255,255,0.06) 10%, transparent 30%);
-  background-repeat: no-repeat;
-  background-size: 60% 100%;
-  background-position: left center;
+  /* a subtle soft band to lighten slightly on hover */
+  background: linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.00) 100%);
   opacity: 0;
-  transition: background-position .9s ease, opacity .45s ease;
+  transition: opacity .45s ease;
 }
+
+/* on hover, just increase opacity — no movement to avoid jitter */
 .card.founder:hover::after{
-  background-position: right center;
   opacity: 1;
 }
 
@@ -376,13 +377,48 @@ footer a { color:var(--accento); text-decoration:none; }
   transition: transform .8s var(--transition-ease), opacity .8s var(--transition-ease);
 }
 
-/* quando il riquadro diventa in-view, il testo entra da sinistra */
+/* when the card is in-view the text slides in */
 .card.founder.reveal.in-view .founder-text{
   transform: translateX(0);
   opacity: 1;
+  transition-delay: 0s;
 }
 
-/* firma elegante in basso a destra */
+/* highlight founder: stronger border + glow when in-view or hovered/focused */
+.card.founder.reveal.in-view,
+.card.founder:hover,
+.card.founder:focus-within {
+  box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 0 4px rgba(201,214,223,0.04);
+  border-color: rgba(255,255,255,.14);
+  transform: translateY(-4px);
+}
+
+/* badge "Fondatore" top-left to make clear who is the founder */
+.founder-badge{
+  position:absolute;
+  left:16px;
+  top:16px;
+  z-index:4;
+  background: rgba(0,0,0,0.35);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-family:'LemonMilkLight', sans-serif;
+  backdrop-filter: blur(6px);
+  transition: transform .25s ease, opacity .25s ease;
+  opacity:0.95;
+}
+
+/* when hovered or in-view, make badge slightly larger */
+.card.founder:hover .founder-badge,
+.card.founder.reveal.in-view .founder-badge {
+  transform: scale(1.03);
+}
+
+/* firma elegante in basso a destra: animated on reveal */
 .founder-signature{
   position: absolute;
   right: 18px;
@@ -390,18 +426,33 @@ footer a { color:var(--accento); text-decoration:none; }
   z-index: 4;
   font-family: 'LemonMilkLight', sans-serif;
   font-size: 1rem;
-  color: rgba(255,255,255,.95);
+  color: rgba(255,255,255,0.0);
   background: rgba(0,0,0,0.22);
   padding: 6px 10px;
   border-radius: 8px;
   backdrop-filter: blur(4px);
   box-shadow: 0 6px 18px rgba(0,0,0,.35);
+  transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s cubic-bezier(.2,.9,.2,1);
+  transform: translateY(8px);
+}
+
+/* reveal animation: when card enters view signature slides up and fades in */
+.card.founder.reveal.in-view .founder-signature{
+  transform: translateY(0);
+  opacity: 1;
+}
+
+/* focus accessibility */
+.card.founder:focus {
+  outline: 3px solid rgba(201,214,223,0.06);
+  outline-offset: 3px;
 }
 
 /* small responsive tweak */
 @media (max-width:767px){
   .founder-text{ padding:1.2rem; font-size:.95rem; }
   .card.founder{ min-height: 300px; border-radius:14px; }
+  .founder-badge{ left:12px; top:12px; }
 }
 </style>
 </head>
@@ -493,14 +544,31 @@ footer a { color:var(--accento); text-decoration:none; }
   <div class="grid">
     <!-- CARD SOSTITUITA DALL'IMMAGINE: riempie completamente il riquadro -->
     <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore"
-         style="background-image: url('Ritratti/RItratto1.jpg');">
+         style="background-image: url('Ritratti/RItratto1.jpg');" tabindex="0">
+      <div class="founder-badge" aria-hidden="true">Fondatore</div>
+
       <div class="founder-text">
         <p>
-          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino.
-          Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.
+          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo.
+          Per tutti, da sempre, sono Roger.
         </p>
         <p>
-          La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
+          La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
+        </p>
+        <p>
+          Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.
+        </p>
+        <p>
+          Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.
+        </p>
+        <p>
+          Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.
+        </p>
+        <p>
+          Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.
+        </p>
+        <p>
+          A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.
         </p>
       </div>
 
@@ -538,11 +606,16 @@ footer a { color:var(--accento); text-decoration:none; }
 
 <!-- =========================
      JS: IntersectionObserver per reveal on scroll
+     - applica .in-view alle .reveal
+     - imposta ritardi basati su data-delay (ms)
+     - rispetta prefers-reduced-motion
 ========================= -->
 <script>
 (function(){
+  // Respect reduced motion preference
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) {
+    // remove reveal class and make them visible
     document.querySelectorAll('.reveal').forEach(el => {
       el.classList.add('in-view');
       el.style.transition = 'none';
@@ -552,8 +625,10 @@ footer a { color:var(--accento); text-decoration:none; }
     return;
   }
 
+  // Setup IntersectionObserver
   const reveals = Array.from(document.querySelectorAll('.reveal'));
   if (!('IntersectionObserver' in window) || reveals.length === 0) {
+    // fallback: show everything
     reveals.forEach(el => el.classList.add('in-view'));
     return;
   }
@@ -562,8 +637,11 @@ footer a { color:var(--accento); text-decoration:none; }
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
+        // apply optional delay from data-delay (ms)
         const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
-        if (delay) el.style.transitionDelay = (delay/1000) + 's';
+        if (delay) {
+          el.style.transitionDelay = (delay/1000) + 's';
+        }
         el.classList.add('in-view');
         obs.unobserve(el);
       }
