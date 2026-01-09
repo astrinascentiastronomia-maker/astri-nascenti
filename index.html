@@ -5,9 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
-<!-- =========================
-     FAVICON (assicurati i file nella stessa cartella)
-========================= -->
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -70,7 +67,7 @@ body {
 }
 
 /* =========================
-   TITOLI (FORZATI)
+   TITOLI
 ========================= */
 h1,h2,h3 {
   font-family: 'LemonMilkLight', sans-serif !important;
@@ -130,12 +127,10 @@ section h2 {
   will-change: transform;
   border: 1px solid rgba(255,255,255,.06);
 }
-
 .card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
-
 .card h3 { font-size:.85rem; margin-bottom:1rem; }
 
 /* =========================
@@ -146,14 +141,8 @@ section h2 {
 /* =========================
    GALLERY HOME
 ========================= */
-.gallery {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1rem;
-}
-
-.gallery a,
-.gallery .placeholder {
+.gallery { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.gallery a, .gallery .placeholder {
   position:relative;
   aspect-ratio:1/1;
   border-radius:18px;
@@ -167,10 +156,7 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
-
-/* glow dal basso */
-.gallery a::after,
-.gallery .placeholder::after {
+.gallery a::after, .gallery .placeholder::after {
   content:"";
   position:absolute;
   bottom:-40%;
@@ -181,15 +167,11 @@ section h2 {
   opacity:0;
   transition: opacity .45s var(--transition-ease);
 }
-.gallery a:hover::after,
-.gallery .placeholder:hover::after { opacity:1; }
-
-.gallery a:hover,
-.gallery .placeholder:hover {
+.gallery a:hover::after, .gallery .placeholder:hover::after { opacity:1; }
+.gallery a:hover, .gallery .placeholder:hover {
   transform: scale(1.05);
   box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
-
 .gallery img {
   width:100%;
   height:100%;
@@ -197,7 +179,6 @@ section h2 {
   transition: transform .6s var(--transition-ease);
 }
 .gallery a:hover img { transform: scale(1.12); }
-
 .gallery span {
   position:absolute;
   bottom:12px;
@@ -212,200 +193,69 @@ section h2 {
 }
 
 /* =========================
-   DOWNLOAD
+   FONDATORE SPLIT FOTO + TESTO
 ========================= */
-.download-buttons {
-  display:flex;
-  flex-direction:column;
-  gap:.8rem;
-  margin-top:1.4rem;
+.founder-grid {
+  display:grid;
+  grid-template-columns: 1fr 1fr;
+  gap:2rem;
+  align-items:center;
 }
-.download-buttons a {
-  text-align:center;
-  padding:1rem 1.4rem;
-  border-radius:50px;
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:.7rem;
-  letter-spacing:.22em;
+.founder-photo {
+  background-image:url('Ritratti/RItratto1.jpg');
+  background-size:cover;
+  background-position:center;
+  border-radius:18px;
+  min-height:380px;
+  box-shadow:0 20px 55px rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.06);
+}
+.founder-text {
+  color:#fff;
+  font-size:1rem;
+  line-height:1.6;
+}
+@media(max-width:768px) {
+  .founder-grid {
+    grid-template-columns:1fr;
+  }
+  .founder-photo {
+    min-height:300px;
+  }
+}
+
+/* =========================
+   CONTATTI CON TESTO E ICONE
+========================= */
+.contact-item {
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  margin-bottom:.8rem;
+}
+.contact-item svg {
+  width:24px; height:24px; fill:#fff;
+  transition: transform .3s;
+}
+.contact-item a {
   color:#fff;
   text-decoration:none;
-  min-height:48px;
-  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  font-weight:bold;
+  font-size:1rem;
 }
-.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
-.apple { background: linear-gradient(135deg,#000,#555); }
-.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background:linear-gradient(135deg,#007ACC,#005A99); }
-
-/* =========================
-   FOOTER
-========================= */
-footer {
-  text-align:center;
-  padding:3rem 1rem 4rem;
-  font-size:.8rem;
-  color:var(--accento);
-}
-footer a { color:var(--accento); text-decoration:none; }
-
-/* =========================
-   ANIMAZIONI
-========================= */
-@keyframes float {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-10px); }
-}
-
-@keyframes revealUp {
-  from { opacity: 0; transform: translateY(40px); }
-  to   { opacity: 1; transform: translateY(0); }
+.contact-item a:hover svg {
+  transform: rotate(15deg);
 }
 
 /* =========================
-   REVEAL (default hidden, then set in-view via JS)
-========================= */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
-  will-change: opacity, transform;
-}
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* small utility for delaying reveal (data-delay in ms) */
-.reveal[data-delay] { transition-delay: 0ms; }
-
-/* =========================
-   RESPONSIVE
+   RESPONSIVE GENERALE
 ========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
-  .download-buttons { flex-direction:row; }
-  .download-buttons a { flex:1; }
-
-  /* make founder card span full width on larger screens so it stands alone */
-  .card.founder {
-    grid-column: 1 / -1;
-  }
-}
-@media (min-width:1024px) {
-  header h1 { font-size:3.1rem; }
-  section h2 { font-size:2rem; }
-  .card { padding:2.6rem; }
-}
-
-/* =========================
-   REDUCE MOTION
-========================= */
-@media (prefers-reduced-motion: reduce) {
-  .card, .gallery a, .gallery .placeholder, .download-buttons a {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
-}
-
-/* =========================
-   STILE PER IL FONDATORE SOSTITUITO DALL'IMMAGINE
-   e micro-effetti aggiunti
-========================= */
-.card.founder {
-  padding: 0;
-  min-height: 420px;              /* riquadro più ampio per dare presenza orizzontale */
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #111;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  box-shadow: 0 20px 55px rgba(0,0,0,.6);
-  border: 1px solid rgba(255,255,255,.06);
-  position: relative;
-}
-
-/* overlay gradiente nero (da sinistra 80% a destra 10%) */
-.card.founder::before {
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 1;
-  /* START 80% black on the far left, easing to 10% black on the right */
-  background: linear-gradient(90deg,
-    rgba(0,0,0,.8) 0%,
-    rgba(0,0,0,.65) 25%,
-    rgba(0,0,0,.35) 60%,
-    rgba(0,0,0,.1) 100%);
-  pointer-events: none;
-}
-
-/* micro-effetto luce che scorre al passaggio del mouse */
-.card.founder::after{
-  content: "";
-  position: absolute;
-  inset: 0;
-  z-index: 2;
-  pointer-events: none;
-  background: radial-gradient(circle at left center, rgba(255,255,255,0.12), rgba(255,255,255,0.06) 10%, transparent 30%);
-  background-repeat: no-repeat;
-  background-size: 60% 100%;
-  background-position: left center;
-  opacity: 0;
-  transition: background-position .9s ease, opacity .45s ease;
-}
-.card.founder:hover::after{
-  background-position: right center;
-  opacity: 1;
-}
-
-/* testo sopra l'immagine */
-.founder-text{
-  position: relative;
-  z-index: 3;
-  padding: 2.6rem;
-  max-width: 920px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #fff;
-  transform: translateX(-18px);
-  opacity: 0;
-  transition: transform .8s var(--transition-ease), opacity .8s var(--transition-ease);
-}
-
-/* quando il riquadro diventa in-view, il testo entra da sinistra */
-.card.founder.reveal.in-view .founder-text{
-  transform: translateX(0);
-  opacity: 1;
-}
-
-/* firma elegante in basso a destra */
-.founder-signature{
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  z-index: 4;
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: 1rem;
-  color: rgba(255,255,255,.95);
-  background: rgba(0,0,0,0.22);
-  padding: 6px 10px;
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-}
-
-/* small responsive tweak */
-@media (max-width:767px){
-  .founder-text{ padding:1.2rem; font-size:.95rem; }
-  .card.founder{ min-height: 300px; border-radius:14px; }
 }
 </style>
 </head>
-
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
 
@@ -427,33 +277,24 @@ footer a { color:var(--accento); text-decoration:none; }
 
 <section>
   <h2 class="reveal" data-delay="180">Serate di osservazione</h2>
-
   <div class="grid">
     <div class="card reveal" data-delay="220">
       <p>Durante le serate osservative si osservano Luna, pianeti, stelle e galassie attraverso telescopi professionali.</p>
     </div>
-
     <div class="gallery" aria-label="Galleria fotografica">
-      <!-- ARCHIVIO FOTO ASTROFILI - INVARIATO -->
-      <a href="foto-astrofili.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astrofili">
+      <a href="foto-astrofili.html" class="reveal" data-delay="260">
         <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
         <span>Archivio Foto Astrofili</span>
       </a>
-
-      <!-- TELESCOPI - SERIE FOTO STRUMENTI -->
-      <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Telescopi · Serie strumenti">
+      <a href="telescopi.html" class="reveal" data-delay="300">
         <img src="images/astrinascentifoto38.jpg" alt="Telescopi · Serie strumenti">
         <span>Telescopi · Serie strumenti</span>
       </a>
-
-      <!-- OSSERVAZIONI -->
-      <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" aria-label="Osservazioni" target="_blank" rel="noopener noreferrer">
+      <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" target="_blank">
         <img src="images/astrinascentifoto1.jpg" alt="Osservazioni">
         <span>Osservazioni</span>
       </a>
-
-      <!-- ATTIVITÀ DIDATTICHE: copertina book -->
-      <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Attività didattiche - Sfoglia il book" target="_blank" rel="noopener noreferrer">
+      <a href="book.html" class="reveal" data-delay="380" target="_blank">
         <img src="Pag/astri-nascenti-2025-1.jpg" alt="Attività didattiche">
         <span>Attività didattiche</span>
       </a>
@@ -462,52 +303,15 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="420">Software consigliati</h2>
-  <div class="grid">
-    <div class="card reveal" data-delay="460">
-      <h3>Moon Globe</h3>
-      <div class="download-buttons">
-        <a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
-      </div>
-    </div>
-
-    <div class="card reveal" data-delay="500">
-      <h3>Star Walk</h3>
-      <div class="download-buttons">
-        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight</a>
-        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2</a>
-      </div>
-    </div>
-
-    <div class="card reveal" data-delay="540">
-      <h3>Stellarium</h3>
-      <div class="download-buttons">
-        <a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
-      </div>
+  <h2 class="reveal" data-delay="580">Chi siamo</h2>
+  <div class="founder-grid reveal" data-delay="620">
+    <div class="founder-photo"></div>
+    <div class="founder-text">
+      <p>Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
+      <p>La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
     </div>
   </div>
-</section>
-
-<section>
-  <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-    <!-- CARD SOSTITUITA DALL'IMMAGINE: riempie completamente il riquadro -->
-    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore"
-         style="background-image: url('Ritratti/RItratto1.jpg');">
-      <div class="founder-text">
-        <p>
-          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino.
-          Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.
-        </p>
-        <p>
-          La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
-        </p>
-      </div>
-
-      <!-- firma elegante -->
-      <div class="founder-signature" aria-hidden="true">Roger</div>
-    </div>
-
     <div class="card reveal" data-delay="660">
       <h3>Co-fondatore</h3>
       <p>Inserisci qui la mini-biografia del tuo socio.</p>
@@ -516,29 +320,25 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="700">Calendario eventi</h2>
-  <div class="card reveal" data-delay="740">
-    <p>Date in aggiornamento.</p>
-  </div>
-</section>
-
-<section>
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
-    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+    <div class="contact-item">
+      <svg viewBox="0 0 512 512"><path d="M502.3 190.8L327.4 365.7c-11.7 11.7-30.7 11.7-42.4 0L9.7 190.8C3.9 185 0 176.7 0 168.1V464c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V168.1c0-8.6-3.9-16.9-9.7-22.3zM256 320L32 96h448L256 320z"/></svg>
+      <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <svg viewBox="0 0 448 512"><path d="M224 202.66A53.34 53.34 0 1 0 277.34 256 53.38 53.38 0 0 0 224 202.66zm124.71-41a54.49 54.49 0 0 0-30.37-30.38C291.59 124 224 124 224 124s-67.59 0-94.34 7.29a54.49 54.49 0 0 0-30.37 30.38C96 160.41 96 224 96 224s0 63.59 3.29 94.34a54.49 54.49 0 0 0 30.37 30.38C156.41 324 224 324 224 324s67.59 0 94.34-7.29a54.49 54.49 0 0 0 30.37-30.38C352 287.59 352 224 352 224s0-63.59-3.29-94.34zM224 338a84 84 0 1 1 84-84 84.09 84.09 0 0 1-84 84zm85.5-148a19.5 19.5 0 1 1 19.5-19.5 19.51 19.51 0 0 1-19.5 19.5z"/></svg>
+      <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
+    </div>
   </div>
 </section>
 
 </main>
 
 <footer>
-  © Astri Nascenti – Astronomia per le scuole<br>
-  <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
+  © Astri Nascenti – Astronomia per le scuole
 </footer>
 
-<!-- =========================
-     JS: IntersectionObserver per reveal on scroll
-========================= -->
 <script>
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
@@ -551,13 +351,11 @@ footer a { color:var(--accento); text-decoration:none; }
     });
     return;
   }
-
   const reveals = Array.from(document.querySelectorAll('.reveal'));
   if (!('IntersectionObserver' in window) || reveals.length === 0) {
     reveals.forEach(el => el.classList.add('in-view'));
     return;
   }
-
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -568,15 +366,9 @@ footer a { color:var(--accento); text-decoration:none; }
         obs.unobserve(el);
       }
     });
-  }, {
-    root: null,
-    rootMargin: '0px 0px -10% 0px',
-    threshold: 0.08
-  });
-
+  }, { root:null, rootMargin:'0px 0px -10% 0px', threshold:0.08 });
   reveals.forEach(el => observer.observe(el));
 })();
 </script>
-
 </body>
 </html>
