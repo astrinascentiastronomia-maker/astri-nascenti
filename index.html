@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
-<!-- FAVICON -->
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -25,7 +24,9 @@
   font-display: swap;
 }
 
-/* VARIABILI */
+/* =========================
+   VARIABILI
+========================= */
 :root{
   --bianco: #ffffff;
   --nero: #000000;
@@ -37,7 +38,9 @@
   --transition-ease: cubic-bezier(.2,.9,.2,1);
 }
 
-/* RESET + BASE */
+/* =========================
+   RESET + BASE
+========================= */
 * { box-sizing: border-box; margin:0; padding:0; }
 html,body { height:100%; }
 body {
@@ -63,7 +66,9 @@ body {
   padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
 }
 
-/* TITOLI */
+/* =========================
+   TITOLI
+========================= */
 h1,h2,h3 {
   font-family: 'LemonMilkLight', sans-serif !important;
   text-transform: uppercase;
@@ -71,7 +76,9 @@ h1,h2,h3 {
   font-weight: normal;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 header {
   text-align:center;
   padding:3.5rem 1.2rem 4.5rem;
@@ -89,7 +96,9 @@ header p {
   font-size:1rem;
 }
 
-/* SEZIONI */
+/* =========================
+   SEZIONI
+========================= */
 main { padding-bottom:4rem; }
 section {
   max-width:1100px;
@@ -103,7 +112,9 @@ section h2 {
   margin-bottom:2rem;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 .card {
   background:var(--card-bg);
   backdrop-filter: blur(10px);
@@ -122,17 +133,16 @@ section h2 {
 }
 .card h3 { font-size:.85rem; margin-bottom:1rem; }
 
-/* GRID */
+/* =========================
+   GRID
+========================= */
 .grid { display:grid; grid-template-columns:1fr; gap:2rem; }
 
-/* GALLERY */
-.gallery {
-  display:grid;
-  grid-template-columns:1fr 1fr;
-  gap:1rem;
-}
-.gallery a,
-.gallery .placeholder {
+/* =========================
+   GALLERY HOME
+========================= */
+.gallery { display:grid; grid-template-columns:1fr 1fr; gap:1rem; }
+.gallery a, .gallery .placeholder {
   position:relative;
   aspect-ratio:1/1;
   border-radius:18px;
@@ -146,8 +156,7 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
-.gallery a::after,
-.gallery .placeholder::after {
+.gallery a::after, .gallery .placeholder::after {
   content:"";
   position:absolute;
   bottom:-40%;
@@ -158,10 +167,8 @@ section h2 {
   opacity:0;
   transition: opacity .45s var(--transition-ease);
 }
-.gallery a:hover::after,
-.gallery .placeholder:hover::after { opacity:1; }
-.gallery a:hover,
-.gallery .placeholder:hover {
+.gallery a:hover::after, .gallery .placeholder:hover::after { opacity:1; }
+.gallery a:hover, .gallery .placeholder:hover {
   transform: scale(1.05);
   box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
@@ -185,7 +192,9 @@ section h2 {
   z-index:2;
 }
 
-/* DOWNLOAD BUTTONS */
+/* =========================
+   DOWNLOAD
+========================= */
 .download-buttons {
   display:flex;
   flex-direction:column;
@@ -202,14 +211,16 @@ section h2 {
   color:#fff;
   text-decoration:none;
   min-height:48px;
-  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  transition:transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
 .download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
 .apple { background: linear-gradient(135deg,#000,#555); }
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+.web { background: linear-gradient(135deg,#007ACC,#005A99); }
 
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 footer {
   text-align:center;
   padding:3rem 1rem 4rem;
@@ -218,32 +229,26 @@ footer {
 }
 footer a { color:var(--accento); text-decoration:none; }
 
-/* ANIMAZIONI */
-@keyframes float {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-10px); }
-}
+/* =========================
+   ANIMAZIONI
+========================= */
+@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
+@keyframes revealUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
 
-/* REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
-  will-change: opacity, transform;
-}
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-.reveal[data-delay] { transition-delay: 0ms; }
+/* =========================
+   REVEAL
+========================= */
+.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease); will-change: opacity, transform; }
+.reveal.in-view { opacity: 1; transform: translateY(0); }
 
-/* RESPONSIVE */
+/* =========================
+   RESPONSIVE
+========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
   .download-buttons { flex-direction:row; }
   .download-buttons a { flex:1; }
-  .card.founder { grid-column: 1 / -1; }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
@@ -251,7 +256,9 @@ footer a { color:var(--accento); text-decoration:none; }
   .card { padding:2.6rem; }
 }
 
-/* REDUCE MOTION */
+/* =========================
+   REDUCE MOTION
+========================= */
 @media (prefers-reduced-motion: reduce) {
   .card, .gallery a, .gallery .placeholder, .download-buttons a {
     transition: none !important;
@@ -262,106 +269,81 @@ footer a { color:var(--accento); text-decoration:none; }
 }
 
 /* =========================
-   FONDATORE CARD OTTIMIZZATA RESPONSIVE
+   FONDATORE CON TESTO MOBILE-FRIENDLY
 ========================= */
 .card.founder {
-  display: flex;
-  flex-direction: row;
   padding: 0;
-  min-height: 420px;
+  min-height: 380px;
   border-radius: 18px;
   overflow: hidden;
   background-color: #111;
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
+  grid-column: 1 / -1;
 }
 
-.card.founder img {
-  width: 50%;
-  height: 100%;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-
-.founder-text {
-  padding: 2rem 2.6rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #fff;
-  flex: 1;
+.founder-text-overlay {
+  position: absolute;
+  inset: 0;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: flex-start;
+  padding: 2.6rem;
   overflow-y: auto;
 }
 
-/* overlay e micro-effetti rimangono invariati */
-.card.founder::before, .card.founder::after { content: ""; position: absolute; inset:0; border-radius: inherit; pointer-events: none; }
-.card.founder::before {
-  background: linear-gradient(90deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.65) 25%, rgba(0,0,0,.35) 60%, rgba(0,0,0,.1) 100%);
-  z-index:1;
-}
-.card.founder::after {
-  background: linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.00) 100%);
-  z-index:2;
-  opacity:0;
-  transition: opacity .45s ease;
-}
-.card.founder:hover::after { opacity: 1; }
-
-.card.founder.reveal.in-view,
-.card.founder:hover,
-.card.founder:focus-within {
-  box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 0 4px rgba(201,214,223,0.04);
-  border-color: rgba(255,255,255,.14);
-  transform: translateY(-4px);
-}
-
-.founder-badge{
+.founder-text-overlay::before {
+  content:"";
   position:absolute;
-  left:16px;
-  top:16px;
-  z-index:4;
-  background: rgba(0,0,0,0.35);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:.72rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
-  font-family:'LemonMilkLight', sans-serif;
-  backdrop-filter: blur(6px);
-  transition: transform .25s ease, opacity .25s ease;
-  opacity:0.95;
+  inset:0;
+  background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 100%);
+  z-index: 2;
 }
-.card.founder:hover .founder-badge,
-.card.founder.reveal.in-view .founder-badge { transform: scale(1.03); }
 
-.founder-signature{
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  z-index: 4;
-  font-family: 'LemonMilkLight', sans-serif;
+.founder-text {
+  position: relative;
+  z-index: 3;
+  max-width: 920px;
   font-size: 1rem;
-  color: rgba(255,255,255,0.0);
-  background: rgba(0,0,0,0.22);
-  padding: 6px 10px;
-  border-radius: 8px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s cubic-bezier(.2,.9,.2,1);
-  transform: translateY(8px);
-}
-.card.founder.reveal.in-view .founder-signature{
-  transform: translateY(0);
-  opacity: 1;
+  line-height: 1.6;
+  color: #fff;
 }
 
 @media (max-width:767px){
-  .card.founder { flex-direction: column; min-height:auto; border-radius:14px; }
-  .card.founder img { width:100%; height:auto; }
-  .founder-text { padding:1.2rem; font-size:.95rem; }
-  .founder-badge{ left:12px; top:12px; }
+  .founder-text { font-size:.95rem; }
+  .card.founder { min-height: 300px; border-radius:14px; }
 }
+
+/* =========================
+   CONTATTI CON ICONE
+========================= */
+.contact-links {
+  display:flex;
+  justify-content:center;
+  gap:1.4rem;
+  align-items:center;
+  margin-top:1rem;
+}
+.contact-links a {
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  width:48px;
+  height:48px;
+  border-radius:50%;
+  background:rgba(255,255,255,0.15);
+  color:#fff;
+  transition: transform .3s, background .3s;
+}
+.contact-links a:hover { transform: scale(1.15); background:rgba(255,255,255,0.3); }
+.contact-links svg { width:24px; height:24px; fill:#fff; transition: transform .3s; }
+.contact-links a:hover svg { transform: rotate(15deg); }
+
 </style>
 </head>
 
@@ -391,19 +373,19 @@ footer a { color:var(--accento); text-decoration:none; }
       <p>Durante le serate osservative si osservano Luna, pianeti, stelle e galassie attraverso telescopi professionali.</p>
     </div>
     <div class="gallery" aria-label="Galleria fotografica">
-      <a href="foto-astrofili.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astrofili">
+      <a href="foto-astrofili.html" class="reveal" data-delay="260">
         <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
         <span>Archivio Foto Astrofili</span>
       </a>
-      <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Telescopi · Serie strumenti">
+      <a href="telescopi.html" class="reveal" data-delay="300">
         <img src="images/astrinascentifoto38.jpg" alt="Telescopi · Serie strumenti">
         <span>Telescopi · Serie strumenti</span>
       </a>
-      <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" aria-label="Osservazioni" target="_blank" rel="noopener noreferrer">
+      <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" target="_blank">
         <img src="images/astrinascentifoto1.jpg" alt="Osservazioni">
         <span>Osservazioni</span>
       </a>
-      <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Attività didattiche - Sfoglia il book" target="_blank" rel="noopener noreferrer">
+      <a href="book.html" class="reveal" data-delay="380" target="_blank">
         <img src="Pag/astri-nascenti-2025-1.jpg" alt="Attività didattiche">
         <span>Attività didattiche</span>
       </a>
@@ -414,36 +396,14 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore" tabindex="0">
-      <img src="Ritratti/RItratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
-      <div class="founder-badge" aria-hidden="true">Fondatore</div>
-      <div class="founder-text">
-        <p>
-          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo.
-          Per tutti, da sempre, sono Roger.
-        </p>
-        <p>
-          La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
-        </p>
-        <p>
-          Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.
-        </p>
-        <p>
-          Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.
-        </p>
-        <p>
-          Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.
-        </p>
-        <p>
-          Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.
-        </p>
-        <p>
-          A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.
-        </p>
+    <div class="card founder reveal" data-delay="620" style="background-image:url('Ritratti/RItratto1.jpg');">
+      <div class="founder-text-overlay">
+        <div class="founder-text">
+          <p>Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
+          <p>La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
+        </div>
       </div>
-      <div class="founder-signature" aria-hidden="true">Roger</div>
     </div>
-
     <div class="card reveal" data-delay="660">
       <h3>Co-fondatore</h3>
       <p>Inserisci qui la mini-biografia del tuo socio.</p>
@@ -452,24 +412,23 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="700">Calendario eventi</h2>
-  <div class="card reveal" data-delay="740">
-    <p>Date in aggiornamento.</p>
-  </div>
-</section>
-
-<section>
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
-    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+    <div class="contact-links">
+      <a href="mailto:astrinascenti.astronomia@gmail.com" aria-label="Email">
+        <svg viewBox="0 0 512 512"><path d="M502.3 190.8L327.4 365.7c-11.7 11.7-30.7 11.7-42.4 0L9.7 190.8C3.9 185 0 176.7 0 168.1V464c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V168.1c0-8.6-3.9-16.9-9.7-22.3zM256 320L32 96h448L256 320z"/></svg>
+      </a>
+      <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
+        <svg viewBox="0 0 448 512"><path d="M224 202.66A53.34 53.34 0 1 0 277.34 256 53.38 53.38 0 0 0 224 202.66zm124.71-41a54.49 54.49 0 0 0-30.37-30.38C291.59 124 224 124 224 124s-67.59 0-94.34 7.29a54.49 54.49 0 0 0-30.37 30.38C96 160.41 96 224 96 224s0 63.59 3.29 94.34a54.49 54.49 0 0 0 30.37 30.38C156.41 324 224 324 224 324s67.59 0 94.34-7.29a54.49 54.49 0 0 0 30.37-30.38C352 287.59 352 224 352 224s0-63.59-3.29-94.34zM224 338a84 84 0 1 1 84-84 84.09 84.09 0 0 1-84 84zm85.5-148a19.5 19.5 0 1 1 19.5-19.5 19.51 19.51 0 0 1-19.5 19.5z"/></svg>
+      </a>
+    </div>
   </div>
 </section>
 
 </main>
 
 <footer>
-  © Astri Nascenti – Astronomia per le scuole<br>
-  <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
+  © Astri Nascenti – Astronomia per le scuole
 </footer>
 
 <script>
@@ -484,17 +443,19 @@ footer a { color:var(--accento); text-decoration:none; }
     });
     return;
   }
+
   const reveals = Array.from(document.querySelectorAll('.reveal'));
   if (!('IntersectionObserver' in window) || reveals.length === 0) {
     reveals.forEach(el => el.classList.add('in-view'));
     return;
   }
+
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
         const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
-        if (delay) el.style.transitionDelay = (delay/1000)+'s';
+        if (delay) el.style.transitionDelay = (delay/1000) + 's';
         el.classList.add('in-view');
         obs.unobserve(el);
       }
@@ -504,6 +465,7 @@ footer a { color:var(--accento); text-decoration:none; }
     rootMargin: '0px 0px -10% 0px',
     threshold: 0.08
   });
+
   reveals.forEach(el => observer.observe(el));
 })();
 </script>
