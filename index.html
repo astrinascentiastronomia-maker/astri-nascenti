@@ -146,20 +146,6 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
-.gallery a::after,
-.gallery .placeholder::after {
-  content:"";
-  position:absolute;
-  bottom:-40%;
-  left:-10%;
-  width:120%;
-  height:60%;
-  background: radial-gradient(circle at bottom, rgba(255,255,255,.45), transparent 70%);
-  opacity:0;
-  transition: opacity .45s var(--transition-ease);
-}
-.gallery a:hover::after,
-.gallery .placeholder:hover::after { opacity:1; }
 .gallery a:hover,
 .gallery .placeholder:hover {
   transform: scale(1.05);
@@ -185,30 +171,6 @@ section h2 {
   z-index:2;
 }
 
-/* DOWNLOAD BUTTONS */
-.download-buttons {
-  display:flex;
-  flex-direction:column;
-  gap:.8rem;
-  margin-top:1.4rem;
-}
-.download-buttons a {
-  text-align:center;
-  padding:1rem 1.4rem;
-  border-radius:50px;
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:.7rem;
-  letter-spacing:.22em;
-  color:#fff;
-  text-decoration:none;
-  min-height:48px;
-  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
-}
-.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
-.apple { background: linear-gradient(135deg,#000,#555); }
-.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background:linear-gradient(135deg,#007ACC,#005A99); }
-
 /* FOOTER */
 footer {
   text-align:center;
@@ -216,7 +178,13 @@ footer {
   font-size:.8rem;
   color:var(--accento);
 }
-footer a { color:var(--accento); text-decoration:none; }
+footer a { 
+  color:var(--accento); 
+  text-decoration:none; 
+  display:inline-flex; 
+  align-items:center; 
+  gap:.4rem; 
+}
 
 /* ANIMAZIONI */
 @keyframes float {
@@ -235,15 +203,11 @@ footer a { color:var(--accento); text-decoration:none; }
   opacity: 1;
   transform: translateY(0);
 }
-.reveal[data-delay] { transition-delay: 0ms; }
 
 /* RESPONSIVE */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
-  .download-buttons { flex-direction:row; }
-  .download-buttons a { flex:1; }
-  .card.founder { grid-column: 1 / -1; }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
@@ -251,19 +215,7 @@ footer a { color:var(--accento); text-decoration:none; }
   .card { padding:2.6rem; }
 }
 
-/* REDUCE MOTION */
-@media (prefers-reduced-motion: reduce) {
-  .card, .gallery a, .gallery .placeholder, .download-buttons a {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
-}
-
-/* =========================
-   FONDATORE CARD OTTIMIZZATA RESPONSIVE
-========================= */
+/* FONDATORE CARD SENZA VELO */
 .card.founder {
   display: flex;
   flex-direction: row;
@@ -271,19 +223,17 @@ footer a { color:var(--accento); text-decoration:none; }
   min-height: 420px;
   border-radius: 18px;
   overflow: hidden;
-  background-color: #111;
+  background-color: #111; /* solo sfondo scuro se testo trasparente */
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
 }
-
 .card.founder img {
   width: 50%;
   height: 100%;
   object-fit: cover;
   flex-shrink: 0;
 }
-
 .founder-text {
   padding: 2rem 2.6rem;
   font-size: 1rem;
@@ -292,29 +242,6 @@ footer a { color:var(--accento); text-decoration:none; }
   flex: 1;
   overflow-y: auto;
 }
-
-/* overlay e micro-effetti rimangono invariati */
-.card.founder::before, .card.founder::after { content: ""; position: absolute; inset:0; border-radius: inherit; pointer-events: none; }
-.card.founder::before {
-  background: linear-gradient(90deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.65) 25%, rgba(0,0,0,.35) 60%, rgba(0,0,0,.1) 100%);
-  z-index:1;
-}
-.card.founder::after {
-  background: linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.00) 100%);
-  z-index:2;
-  opacity:0;
-  transition: opacity .45s ease;
-}
-.card.founder:hover::after { opacity: 1; }
-
-.card.founder.reveal.in-view,
-.card.founder:hover,
-.card.founder:focus-within {
-  box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 0 4px rgba(201,214,223,0.04);
-  border-color: rgba(255,255,255,.14);
-  transform: translateY(-4px);
-}
-
 .founder-badge{
   position:absolute;
   left:16px;
@@ -328,13 +255,7 @@ footer a { color:var(--accento); text-decoration:none; }
   letter-spacing:.12em;
   text-transform:uppercase;
   font-family:'LemonMilkLight', sans-serif;
-  backdrop-filter: blur(6px);
-  transition: transform .25s ease, opacity .25s ease;
-  opacity:0.95;
 }
-.card.founder:hover .founder-badge,
-.card.founder.reveal.in-view .founder-badge { transform: scale(1.03); }
-
 .founder-signature{
   position: absolute;
   right: 18px;
@@ -342,20 +263,11 @@ footer a { color:var(--accento); text-decoration:none; }
   z-index: 4;
   font-family: 'LemonMilkLight', sans-serif;
   font-size: 1rem;
-  color: rgba(255,255,255,0.0);
+  color: #fff;
   background: rgba(0,0,0,0.22);
   padding: 6px 10px;
   border-radius: 8px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s cubic-bezier(.2,.9,.2,1);
-  transform: translateY(8px);
 }
-.card.founder.reveal.in-view .founder-signature{
-  transform: translateY(0);
-  opacity: 1;
-}
-
 @media (max-width:767px){
   .card.founder { flex-direction: column; min-height:auto; border-radius:14px; }
   .card.founder img { width:100%; height:auto; }
@@ -461,7 +373,12 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
-    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a></p>
+    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
+      <img src="icons/mail.svg" alt="Mail" style="width:16px;height:16px;vertical-align:middle;"> astrinascenti.astronomia@gmail.com</a>
+    </p>
+    <p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
+      <img src="icons/instagram.svg" alt="Instagram" style="width:16px;height:16px;vertical-align:middle;"> IG Astri Nascenti</a>
+    </p>
   </div>
 </section>
 
@@ -493,20 +410,14 @@ footer a { color:var(--accento); text-decoration:none; }
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
-        if (delay) el.style.transitionDelay = (delay/1000)+'s';
-        el.classList.add('in-view');
+        const delay = parseInt(el.getAttribute('data-delay')) || 0;
+        setTimeout(()=>el.classList.add('in-view'), delay);
         obs.unobserve(el);
       }
     });
-  }, {
-    root: null,
-    rootMargin: '0px 0px -10% 0px',
-    threshold: 0.08
-  });
+  }, {threshold: 0.15});
   reveals.forEach(el => observer.observe(el));
 })();
 </script>
-
 </body>
 </html>
