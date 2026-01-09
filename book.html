@@ -1,184 +1,199 @@
-<!DOCTYPE html>
+<!doctype html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Osservazioni — Archivio Foto Astri Nascenti</title>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>ASTRI NASCENTI — Book 2025</title>
 
 <style>
-@font-face {
-  font-family: 'LemonMilkLight';
-  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
-       url('fonts/LemonMilk-Light.woff') format('woff');
-  font-display: swap;
-}
-
-body {
+html,body{
   margin:0;
-  font-family:Arial,sans-serif;
-  background:#000;
+  background:#0a0a0a;
   color:#fff;
+  font-family:system-ui, Arial;
 }
 
-h1 {
-  font-family:'LemonMilkLight', sans-serif;
-  letter-spacing:.28em;
-  text-transform:uppercase;
-  text-align:center;
-  margin:3rem 1rem 1rem;
-}
-
-p {
-  text-align:center;
-  color:#c9d6df;
-  margin-bottom:3rem;
-}
-
-/* GALLERY */
-.gallery {
-  max-width:1200px;
-  margin:0 auto 4rem;
-  padding:0 1rem;
-  display:grid;
-  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
-  gap:1.5rem;
-}
-
-.gallery img {
-  width:100%;
-  border-radius:18px;
-  box-shadow:0 20px 50px rgba(0,0,0,.6);
-  display:block;
-}
-
-/* LIGHTBOX */
-.lightbox {
-  position:fixed;
-  inset:0;
-  background:rgba(0,0,0,.95);
-  display:none;
-  z-index:999;
-}
-
-.lightbox:target {
+.container{
+  min-height:100vh;
   display:flex;
   flex-direction:column;
   align-items:center;
   justify-content:center;
 }
 
-.lightbox a.close {
+.book{
+  position:relative;
+  width:900px;
+  height:600px;
+  perspective:2000px;
+}
+
+.page{
+  position:absolute;
+  top:0;
+  width:50%;
+  height:100%;
+  overflow:hidden;
+  background:#111;
+}
+
+.page img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  user-select:none;
+  -webkit-user-drag:none;
+}
+
+/* PAGINA SINISTRA */
+.page.left{
+  left:0;
+  box-shadow: inset -15px 0 30px rgba(0,0,0,.6);
+}
+
+/* PAGINA DESTRA */
+.page.right{
+  right:0;
+  box-shadow: inset 15px 0 30px rgba(0,0,0,.6);
+}
+
+/* PAGINA CHE SI GIRA */
+.page.flip{
+  transform-origin:left center;
+  transform-style:preserve-3d;
+  transition:transform 0.9s ease;
+  z-index:10;
+}
+
+.page.flip.turn{
+  transform:rotateY(-180deg);
+}
+
+.page.flip .back{
   position:absolute;
   inset:0;
+  transform:rotateY(180deg);
+  backface-visibility:hidden;
 }
 
-/* IMMAGINE */
-.lightbox img {
-  max-width:90vw;
-  max-height:80vh;
-  border-radius:10px;
-  box-shadow:0 30px 80px rgba(0,0,0,.8);
-}
-
-/* NAVIGAZIONE IN BASSO */
-.nav {
-  margin-top:2rem;
+/* CONTROLLI */
+.controls{
+  margin-top:30px;
   display:flex;
-  gap:3rem;
+  gap:20px;
+  align-items:center;
 }
 
-.nav a {
-  color:#c9d6df;
-  text-decoration:none;
-  font-size:0.9rem;
-  letter-spacing:0.1em;
-  text-transform:uppercase;
-}
-
-.nav a:hover {
+button{
+  background:rgba(255,255,255,.08);
+  border:1px solid rgba(255,255,255,.2);
   color:#fff;
+  padding:12px 20px;
+  font-size:15px;
+  border-radius:10px;
+  cursor:pointer;
 }
 
-/* BACK */
-.back {
-  text-align:center;
-  margin:2.5rem 0 4rem;
+button:hover{
+  background:rgba(255,255,255,.15);
 }
 
-.back a {
-  color:#c9d6df;
-  text-decoration:none;
+.status{
+  font-size:14px;
+  opacity:.8;
 }
 </style>
 </head>
 
 <body>
 
-<h1>Osservazioni</h1>
-<p>Galleria: immagini dalle serate di osservazione</p>
+<div class="container">
 
-<div class="gallery">
-  <a href="#o1"><img src="images/astrinascentifoto1.jpg" loading="lazy"></a>
-  <a href="#o2"><img src="images/astrinascentifoto2.jpg" loading="lazy"></a>
-  <a href="#o3"><img src="images/astrinascentifoto3.jpg" loading="lazy"></a>
-  <a href="#o4"><img src="images/astrinascentifoto4.jpg" loading="lazy"></a>
-  <a href="#o5"><img src="images/astrinascentifoto5.jpg" loading="lazy"></a>
-  <a href="#o6"><img src="images/astrinascentifoto6.jpg" loading="lazy"></a>
+  <div class="book">
 
-  <a href="#o16"><img src="images/astrinascentifoto16.jpg" loading="lazy"></a>
-  <a href="#o17"><img src="images/astrinascentifoto17.jpg" loading="lazy"></a>
-  <a href="#o18"><img src="images/astrinascentifoto18.jpg" loading="lazy"></a>
-  <a href="#o19"><img src="images/astrinascentifoto19.jpg" loading="lazy"></a>
-  <a href="#o20"><img src="images/astrinascentifoto20.jpg" loading="lazy"></a>
-  <a href="#o21"><img src="images/astrinascentifoto21.jpg" loading="lazy"></a>
-  <a href="#o22"><img src="images/astrinascentifoto22.jpg" loading="lazy"></a>
-  <a href="#o23"><img src="images/astrinascentifoto23.jpg" loading="lazy"></a>
-  <a href="#o24"><img src="images/astrinascentifoto24.jpg" loading="lazy"></a>
-  <a href="#o25"><img src="images/astrinascentifoto25.jpg" loading="lazy"></a>
-  <a href="#o26"><img src="images/astrinascentifoto26.jpg" loading="lazy"></a>
-  <a href="#o27"><img src="images/astrinascentifoto27.jpg" loading="lazy"></a>
-  <a href="#o28"><img src="images/astrinascentifoto28.jpg" loading="lazy"></a>
-  <a href="#o29"><img src="images/astrinascentifoto29.jpg" loading="lazy"></a>
-  <a href="#o30"><img src="images/astrinascentifoto30.jpg" loading="lazy"></a>
-  <a href="#o31"><img src="images/astrinascentifoto31.jpg" loading="lazy"></a>
-  <a href="#o32"><img src="images/astrinascentifoto32.jpg" loading="lazy"></a>
-  <a href="#o33"><img src="images/astrinascentifoto33.jpg" loading="lazy"></a>
-  <a href="#o34"><img src="images/astrinascentifoto34.jpg" loading="lazy"></a>
-  <a href="#o35"><img src="images/astrinascentifoto35.jpg" loading="lazy"></a>
-  <a href="#o36"><img src="images/astrinascentifoto36.jpg" loading="lazy"></a>
-</div>
+    <!-- PAGINA SINISTRA -->
+    <div class="page left">
+      <img id="leftImg">
+    </div>
 
-<!-- LIGHTBOX + NAV -->
-<div id="o1" class="lightbox">
-  <a href="#" class="close"></a>
-  <img src="images/astrinascentifoto1.jpg">
-  <div class="nav">
-    <a href="#o2">Successiva →</a>
+    <!-- PAGINA DESTRA (CHE SI GIRA) -->
+    <div class="page right flip" id="flipPage">
+      <img id="rightImg">
+      <div class="back">
+        <img id="nextLeftImg">
+      </div>
+    </div>
+
   </div>
-</div>
 
-<div id="o2" class="lightbox">
-  <a href="#" class="close"></a>
-  <img src="images/astrinascentifoto2.jpg">
-  <div class="nav">
-    <a href="#o1">← Precedente</a>
-    <a href="#o3">Successiva →</a>
+  <div class="controls">
+    <button id="prev">◀ Pagina</button>
+    <div class="status" id="status">1–2 / 36</div>
+    <button id="next">Pagina ▶</button>
   </div>
+
 </div>
 
-<!-- (stesso schema fino a o36) -->
+<script>
+/* CONFIGURAZIONE */
+const TOTAL = 36;
+const PATH  = 'Pag/astri-nascenti-2025-';
+const EXT   = '.jpg';
 
-<div id="o36" class="lightbox">
-  <a href="#" class="close"></a>
-  <img src="images/astrinascentifoto36.jpg">
-  <div class="nav">
-    <a href="#o35">← Precedente</a>
-  </div>
-</div>
+/* ELEMENTI */
+const leftImg     = document.getElementById('leftImg');
+const rightImg    = document.getElementById('rightImg');
+const nextLeftImg = document.getElementById('nextLeftImg');
+const flipPage    = document.getElementById('flipPage');
+const status      = document.getElementById('status');
 
-<div class="back">
-  <a href="index.html">← Torna alla home</a>
-</div>
+let page = 1;
+let busy = false;
+
+const src = n => `${PATH}${n}${EXT}`;
+
+function update(){
+  leftImg.src  = src(page);
+  rightImg.src = src(page + 1);
+  nextLeftImg.src = src(page + 2);
+  status.textContent = `${page}–${page+1} / ${TOTAL}`;
+}
+
+function next(){
+  if(busy || page + 2 > TOTAL) return;
+  busy = true;
+
+  flipPage.classList.add('turn');
+
+  setTimeout(()=>{
+    flipPage.classList.remove('turn');
+    page += 2;
+    update();
+    busy = false;
+  }, 900);
+}
+
+function prev(){
+  if(busy || page <= 1) return;
+  busy = true;
+
+  page -= 2;
+  update();
+
+  flipPage.classList.add('turn');
+  setTimeout(()=>{
+    flipPage.classList.remove('turn');
+    busy = false;
+  }, 50);
+}
+
+/* EVENTI */
+document.getElementById('next').onclick = next;
+document.getElementById('prev').onclick = prev;
+
+/* AVVIO */
+update();
+</script>
 
 </body>
 </html>
