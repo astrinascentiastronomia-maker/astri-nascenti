@@ -193,53 +193,44 @@ section h2 {
 }
 
 /* =========================
-   DOWNLOAD
+   FONDATORE ORIGINALE SENZA VELO
 ========================= */
-.download-buttons {
-  display:flex;
-  flex-direction:column;
-  gap:.8rem;
-  margin-top:1.4rem;
+.card.founder {
+  padding:0;
+  min-height:380px;
+  border-radius:18px;
+  overflow:hidden;
+  background-color:#111;
+  background-position:center;
+  background-size:cover;
+  background-repeat:no-repeat;
+  grid-column: 1 / -1;
+  box-shadow:0 20px 55px rgba(0,0,0,.6);
+  border:1px solid rgba(255,255,255,.06);
 }
-.download-buttons a {
-  text-align:center;
-  padding:1rem 1.4rem;
-  border-radius:50px;
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:.7rem;
-  letter-spacing:.22em;
+
+/* =========================
+   CONTATTI CON TESTO E ICONE
+========================= */
+.contact-item {
+  display:flex;
+  align-items:center;
+  gap:.8rem;
+  margin-bottom:.8rem;
+}
+.contact-item svg {
+  width:24px; height:24px; fill:#fff;
+  transition: transform .3s;
+}
+.contact-item a {
   color:#fff;
   text-decoration:none;
-  min-height:48px;
-  transition:transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  font-weight:bold;
+  font-size:1rem;
 }
-.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
-.apple { background: linear-gradient(135deg,#000,#555); }
-.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background: linear-gradient(135deg,#007ACC,#005A99); }
-
-/* =========================
-   FOOTER
-========================= */
-footer {
-  text-align:center;
-  padding:3rem 1rem 4rem;
-  font-size:.8rem;
-  color:var(--accento);
+.contact-item a:hover svg {
+  transform: rotate(15deg);
 }
-footer a { color:var(--accento); text-decoration:none; }
-
-/* =========================
-   ANIMAZIONI
-========================= */
-@keyframes float { 0%,100% { transform:translateY(0); } 50% { transform:translateY(-10px); } }
-@keyframes revealUp { from { opacity: 0; transform: translateY(40px); } to { opacity: 1; transform: translateY(0); } }
-
-/* =========================
-   REVEAL
-========================= */
-.reveal { opacity: 0; transform: translateY(40px); transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease); will-change: opacity, transform; }
-.reveal.in-view { opacity: 1; transform: translateY(0); }
 
 /* =========================
    RESPONSIVE
@@ -247,106 +238,9 @@ footer a { color:var(--accento); text-decoration:none; }
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
-  .download-buttons { flex-direction:row; }
-  .download-buttons a { flex:1; }
 }
-@media (min-width:1024px) {
-  header h1 { font-size:3.1rem; }
-  section h2 { font-size:2rem; }
-  .card { padding:2.6rem; }
-}
-
-/* =========================
-   REDUCE MOTION
-========================= */
-@media (prefers-reduced-motion: reduce) {
-  .card, .gallery a, .gallery .placeholder, .download-buttons a {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
-}
-
-/* =========================
-   FONDATORE CON TESTO MOBILE-FRIENDLY
-========================= */
-.card.founder {
-  padding: 0;
-  min-height: 380px;
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #111;
-  background-position: center;
-  background-size: cover;
-  background-repeat: no-repeat;
-  position: relative;
-  box-shadow: 0 20px 55px rgba(0,0,0,.6);
-  border: 1px solid rgba(255,255,255,.06);
-  grid-column: 1 / -1;
-}
-
-.founder-text-overlay {
-  position: absolute;
-  inset: 0;
-  display: flex;
-  flex-direction: column;
-  justify-content: center;
-  align-items: flex-start;
-  padding: 2.6rem;
-  overflow-y: auto;
-}
-
-.founder-text-overlay::before {
-  content:"";
-  position:absolute;
-  inset:0;
-  background: linear-gradient(90deg, rgba(0,0,0,0.65) 0%, rgba(0,0,0,0.1) 100%);
-  z-index: 2;
-}
-
-.founder-text {
-  position: relative;
-  z-index: 3;
-  max-width: 920px;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #fff;
-}
-
-@media (max-width:767px){
-  .founder-text { font-size:.95rem; }
-  .card.founder { min-height: 300px; border-radius:14px; }
-}
-
-/* =========================
-   CONTATTI CON ICONE
-========================= */
-.contact-links {
-  display:flex;
-  justify-content:center;
-  gap:1.4rem;
-  align-items:center;
-  margin-top:1rem;
-}
-.contact-links a {
-  display:flex;
-  align-items:center;
-  justify-content:center;
-  width:48px;
-  height:48px;
-  border-radius:50%;
-  background:rgba(255,255,255,0.15);
-  color:#fff;
-  transition: transform .3s, background .3s;
-}
-.contact-links a:hover { transform: scale(1.15); background:rgba(255,255,255,0.3); }
-.contact-links svg { width:24px; height:24px; fill:#fff; transition: transform .3s; }
-.contact-links a:hover svg { transform: rotate(15deg); }
-
 </style>
 </head>
-
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
 
@@ -396,14 +290,7 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-    <div class="card founder reveal" data-delay="620" style="background-image:url('Ritratti/RItratto1.jpg');">
-      <div class="founder-text-overlay">
-        <div class="founder-text">
-          <p>Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
-          <p>La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
-        </div>
-      </div>
-    </div>
+    <div class="card founder reveal" data-delay="620" style="background-image:url('Ritratti/RItratto1.jpg');"></div>
     <div class="card reveal" data-delay="660">
       <h3>Co-fondatore</h3>
       <p>Inserisci qui la mini-biografia del tuo socio.</p>
@@ -414,13 +301,13 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
-    <div class="contact-links">
-      <a href="mailto:astrinascenti.astronomia@gmail.com" aria-label="Email">
-        <svg viewBox="0 0 512 512"><path d="M502.3 190.8L327.4 365.7c-11.7 11.7-30.7 11.7-42.4 0L9.7 190.8C3.9 185 0 176.7 0 168.1V464c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V168.1c0-8.6-3.9-16.9-9.7-22.3zM256 320L32 96h448L256 320z"/></svg>
-      </a>
-      <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer" aria-label="Instagram">
-        <svg viewBox="0 0 448 512"><path d="M224 202.66A53.34 53.34 0 1 0 277.34 256 53.38 53.38 0 0 0 224 202.66zm124.71-41a54.49 54.49 0 0 0-30.37-30.38C291.59 124 224 124 224 124s-67.59 0-94.34 7.29a54.49 54.49 0 0 0-30.37 30.38C96 160.41 96 224 96 224s0 63.59 3.29 94.34a54.49 54.49 0 0 0 30.37 30.38C156.41 324 224 324 224 324s67.59 0 94.34-7.29a54.49 54.49 0 0 0 30.37-30.38C352 287.59 352 224 352 224s0-63.59-3.29-94.34zM224 338a84 84 0 1 1 84-84 84.09 84.09 0 0 1-84 84zm85.5-148a19.5 19.5 0 1 1 19.5-19.5 19.51 19.51 0 0 1-19.5 19.5z"/></svg>
-      </a>
+    <div class="contact-item">
+      <svg viewBox="0 0 512 512"><path d="M502.3 190.8L327.4 365.7c-11.7 11.7-30.7 11.7-42.4 0L9.7 190.8C3.9 185 0 176.7 0 168.1V464c0 26.5 21.5 48 48 48h416c26.5 0 48-21.5 48-48V168.1c0-8.6-3.9-16.9-9.7-22.3zM256 320L32 96h448L256 320z"/></svg>
+      <a href="mailto:astrinascenti.astronomia@gmail.com">astrinascenti.astronomia@gmail.com</a>
+    </div>
+    <div class="contact-item">
+      <svg viewBox="0 0 448 512"><path d="M224 202.66A53.34 53.34 0 1 0 277.34 256 53.38 53.38 0 0 0 224 202.66zm124.71-41a54.49 54.49 0 0 0-30.37-30.38C291.59 124 224 124 224 124s-67.59 0-94.34 7.29a54.49 54.49 0 0 0-30.37 30.38C96 160.41 96 224 96 224s0 63.59 3.29 94.34a54.49 54.49 0 0 0 30.37 30.38C156.41 324 224 324 224 324s67.59 0 94.34-7.29a54.49 54.49 0 0 0 30.37-30.38C352 287.59 352 224 352 224s0-63.59-3.29-94.34zM224 338a84 84 0 1 1 84-84 84.09 84.09 0 0 1-84 84zm85.5-148a19.5 19.5 0 1 1 19.5-19.5 19.51 19.51 0 0 1-19.5 19.5z"/></svg>
+      <a href="https://www.instagram.com/astri.nascenti" target="_blank">@astri.nascenti</a>
     </div>
   </div>
 </section>
@@ -443,13 +330,11 @@ footer a { color:var(--accento); text-decoration:none; }
     });
     return;
   }
-
   const reveals = Array.from(document.querySelectorAll('.reveal'));
   if (!('IntersectionObserver' in window) || reveals.length === 0) {
     reveals.forEach(el => el.classList.add('in-view'));
     return;
   }
-
   const observer = new IntersectionObserver((entries, obs) => {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
@@ -460,15 +345,9 @@ footer a { color:var(--accento); text-decoration:none; }
         obs.unobserve(el);
       }
     });
-  }, {
-    root: null,
-    rootMargin: '0px 0px -10% 0px',
-    threshold: 0.08
-  });
-
+  }, { root:null, rootMargin:'0px 0px -10% 0px', threshold:0.08 });
   reveals.forEach(el => observer.observe(el));
 })();
 </script>
-
 </body>
 </html>
