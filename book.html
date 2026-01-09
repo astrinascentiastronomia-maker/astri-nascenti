@@ -32,7 +32,6 @@ html,body{
   width:100%;
   max-width:var(--max-book-width);
   height:85vh;
-  max-height:85vh;
   position:relative;
   perspective:1400px;
 }
@@ -49,7 +48,7 @@ html,body{
   margin-left:auto;
 }
 
-/* layer */
+/* livelli */
 .layer{
   position:absolute;
   inset:0;
@@ -106,10 +105,9 @@ html,body{
 
 .status{
   font-size:13px;
-  opacity:.8;
+  opacity:.85;
 }
 
-/* hint */
 .hint{
   position:absolute;
   top:10px;
@@ -117,31 +115,26 @@ html,body{
   font-size:13px;
   opacity:.8;
 }
-
-/* mobile */
-@media(max-width:420px){
-  .book{ height:80vh; }
-}
 </style>
 </head>
 
 <body>
 
 <div class="wrap">
-  <div class="book" id="book">
+  <div class="book">
 
     <div class="page-viewport" id="viewport">
 
-      <!-- pagina successiva sotto -->
-      <div class="layer" id="nextLayer">
-        <img id="nextImg" alt="">
+      <!-- PAGINA SUCCESSIVA (SOTTO) -->
+      <div class="layer">
+        <img id="nextImg" alt="pagina successiva">
       </div>
 
-      <!-- pagina che gira -->
+      <!-- PAGINA CHE SI SFOGLIA -->
       <div class="layer flipper" id="flipper">
-        <img id="currentImg" alt="">
+        <img id="currentImg" alt="pagina corrente">
         <div class="back">
-          <img id="backImg" alt="">
+          <img id="backImg" alt="retro pagina">
         </div>
       </div>
 
@@ -159,76 +152,100 @@ html,body{
 </div>
 
 <script>
+/*
+══════════════════════════════════════════════
+ STRUTTURA FILE OBBLIGATORIA
+══════════════════════════════════════════════
+
+/book.html
+/Pag/
+  astri-nascenti-2025-1.jpg
+  astri-nascenti-2025-2.jpg
+  astri-nascenti-2025-3.jpg
+  ...
+  astri-nascenti-2025-36.jpg
+
+══════════════════════════════════════════════
+*/
+
 (() => {
-  const total = 36;
-  const prefix = 'ASTRI NASCENTI 2025-';
-  const ext = '.jpg';
 
-  const curImg = document.getElementById('currentImg');
-  const backImg = document.getElementById('backImg');
-  const nextImg = document.getElementById('nextImg');
-  const flipper = document.getElementById('flipper');
-  const status = document.getElementById('status');
+  const TOTAL_PAGES = 36;
 
-  let index = 1;
+  /* PERCORSO IMMAGINI */
+  const PATH = 'Pag/astri-nascenti-2025-';
+  const EXT  = '.jpg';
+
+  const currentImg = document.getElementById('currentImg');
+  const backImg    = document.getElementById('backImg');
+  const nextImg    = document.getElementById('nextImg');
+  const flipper    = document.getElementById('flipper');
+  const status     = document.getElementById('status');
+  const viewport   = document.getElementById('viewport');
+
+  let page = 1;
   let busy = false;
 
-  const src = i => encodeURI(prefix + i + ext);
+  const src = n => `${PATH}${n}${EXT}`;
 
-  function update(){
-    status.textContent = `${index} / ${total}`;
-  }
-
-  async function load(img, s){
-    return new Promise(r => {
+  function load(img, src){
+    return new Promise(r=>{
       img.onload = img.onerror = r;
-      img.src = s;
+      img.src = src;
     });
   }
 
-  async function go(to){
-    if(busy || to < 1 || to > total || to === index) return;
+  function updateStatus(){
+    status.textContent = `${page} / ${TOTAL_PAGES}`;
+  }
+
+  async function turn(to){
+    if(busy || to < 1 || to > TOTAL_PAGES || to === page) return;
     busy = true;
 
-    await load(curImg, src(index));
+    await load(currentImg, src(page));
     await load(backImg, src(to));
     await load(nextImg, src(to));
 
     flipper.classList.add('turn');
 
-    setTimeout(async () => {
+    setTimeout(async ()=>{
       flipper.classList.remove('turn');
-      index = to;
-      update();
+      page = to;
+      updateStatus();
 
-      await load(curImg, src(index));
-      await load(backImg, src(index));
-      await load(nextImg, src(Math.min(index+1,total)));
+      await load(currentImg, src(page));
+      await load(backImg, src(page));
+      await load(nextImg, src(Math.min(page+1, TOTAL_PAGES)));
 
       busy = false;
     }, 700);
   }
 
-  document.getElementById('next').onclick = () => go(index+1);
-  document.getElementById('prev').onclick = () => go(index-1);
+  document.getElementById('next').onclick = () => turn(page+1);
+  document.getElementById('prev').onclick = () => turn(page-1);
 
-  // swipe
-  let x0=0;
-  viewport.addEventListener('touchstart',e=>x0=e.touches[0].clientX,{passive:true});
-  viewport.addEventListener('touchend',e=>{
-    const dx=e.changedTouches[0].clientX-x0;
-    if(Math.abs(dx)>40){
-      dx<0 ? go(index+1) : go(index-1);
+  /* SWIPE MOBILE */
+  let startX = 0;
+  viewport.addEventListener('touchstart', e=>{
+    startX = e.touches[0].clientX;
+  }, {passive:true});
+
+  viewport.addEventListener('touchend', e=>{
+    const dx = e.changedTouches[0].clientX - startX;
+    if(Math.abs(dx) > 40){
+      dx < 0 ? turn(page+1) : turn(page-1);
     }
-  },{passive:true});
+  }, {passive:true});
 
-  // init
+  /* AVVIO */
   (async ()=>{
-    update();
-    await load(curImg, src(1));
+    updateStatus();
+    await load(currentImg, src(1));
     await load(backImg, src(1));
     await load(nextImg, src(2));
   })();
+
 })();
 </script>
 
