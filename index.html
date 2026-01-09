@@ -146,20 +146,6 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
-.gallery a::after,
-.gallery .placeholder::after {
-  content:"";
-  position:absolute;
-  bottom:-40%;
-  left:-10%;
-  width:120%;
-  height:60%;
-  background: radial-gradient(circle at bottom, rgba(255,255,255,.45), transparent 70%);
-  opacity:0;
-  transition: opacity .45s var(--transition-ease);
-}
-.gallery a:hover::after,
-.gallery .placeholder:hover::after { opacity:1; }
 .gallery a:hover,
 .gallery .placeholder:hover {
   transform: scale(1.05);
@@ -185,30 +171,6 @@ section h2 {
   z-index:2;
 }
 
-/* DOWNLOAD BUTTONS */
-.download-buttons {
-  display:flex;
-  flex-direction:column;
-  gap:.8rem;
-  margin-top:1.4rem;
-}
-.download-buttons a {
-  text-align:center;
-  padding:1rem 1.4rem;
-  border-radius:50px;
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:.7rem;
-  letter-spacing:.22em;
-  color:#fff;
-  text-decoration:none;
-  min-height:48px;
-  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
-}
-.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
-.apple { background: linear-gradient(135deg,#000,#555); }
-.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background:linear-gradient(135deg,#007ACC,#005A99); }
-
 /* FOOTER */
 footer {
   text-align:center;
@@ -216,7 +178,13 @@ footer {
   font-size:.8rem;
   color:var(--accento);
 }
-footer a { color:var(--accento); text-decoration:none; display:inline-flex; align-items:center; gap:.4rem; }
+footer a { 
+  color:var(--accento); 
+  text-decoration:none; 
+  display:inline-flex; 
+  align-items:center; 
+  gap:.4rem; 
+}
 
 /* ANIMAZIONI */
 @keyframes float {
@@ -235,15 +203,11 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   opacity: 1;
   transform: translateY(0);
 }
-.reveal[data-delay] { transition-delay: 0ms; }
 
 /* RESPONSIVE */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
-  .download-buttons { flex-direction:row; }
-  .download-buttons a { flex:1; }
-  .card.founder { grid-column: 1 / -1; }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
@@ -251,17 +215,7 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   .card { padding:2.6rem; }
 }
 
-/* REDUCE MOTION */
-@media (prefers-reduced-motion: reduce) {
-  .card, .gallery a, .gallery .placeholder, .download-buttons a {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
-}
-
-/* FONDATORE CARD */
+/* FONDATORE CARD SENZA VELO */
 .card.founder {
   display: flex;
   flex-direction: row;
@@ -269,7 +223,7 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   min-height: 420px;
   border-radius: 18px;
   overflow: hidden;
-  background-color: #111;
+  background-color: #111; /* solo sfondo scuro se testo trasparente */
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
@@ -288,25 +242,6 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   flex: 1;
   overflow-y: auto;
 }
-.card.founder::before, .card.founder::after { content: ""; position: absolute; inset:0; border-radius: inherit; pointer-events: none; }
-.card.founder::before {
-  background: linear-gradient(90deg, rgba(0,0,0,.8) 0%, rgba(0,0,0,.65) 25%, rgba(0,0,0,.35) 60%, rgba(0,0,0,.1) 100%);
-  z-index:1;
-}
-.card.founder::after {
-  background: linear-gradient(90deg, rgba(255,255,255,0.00) 0%, rgba(255,255,255,0.06) 50%, rgba(255,255,255,0.00) 100%);
-  z-index:2;
-  opacity:0;
-  transition: opacity .45s ease;
-}
-.card.founder:hover::after { opacity: 1; }
-.card.founder.reveal.in-view,
-.card.founder:hover,
-.card.founder:focus-within {
-  box-shadow: 0 30px 90px rgba(0,0,0,.7), 0 0 0 4px rgba(201,214,223,0.04);
-  border-color: rgba(255,255,255,.14);
-  transform: translateY(-4px);
-}
 .founder-badge{
   position:absolute;
   left:16px;
@@ -320,12 +255,7 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   letter-spacing:.12em;
   text-transform:uppercase;
   font-family:'LemonMilkLight', sans-serif;
-  backdrop-filter: blur(6px);
-  transition: transform .25s ease, opacity .25s ease;
-  opacity:0.95;
 }
-.card.founder:hover .founder-badge,
-.card.founder.reveal.in-view .founder-badge { transform: scale(1.03); }
 .founder-signature{
   position: absolute;
   right: 18px;
@@ -333,18 +263,10 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
   z-index: 4;
   font-family: 'LemonMilkLight', sans-serif;
   font-size: 1rem;
-  color: rgba(255,255,255,0.0);
+  color: #fff;
   background: rgba(0,0,0,0.22);
   padding: 6px 10px;
   border-radius: 8px;
-  backdrop-filter: blur(4px);
-  box-shadow: 0 6px 18px rgba(0,0,0,.35);
-  transition: transform .6s cubic-bezier(.2,.9,.2,1), opacity .6s cubic-bezier(.2,.9,.2,1);
-  transform: translateY(8px);
-}
-.card.founder.reveal.in-view .founder-signature{
-  transform: translateY(0);
-  opacity: 1;
 }
 @media (max-width:767px){
   .card.founder { flex-direction: column; min-height:auto; border-radius:14px; }
@@ -416,4 +338,86 @@ footer a { color:var(--accento); text-decoration:none; display:inline-flex; alig
           La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
         </p>
         <p>
-          Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10
+          Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.
+        </p>
+        <p>
+          Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.
+        </p>
+        <p>
+          Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.
+        </p>
+        <p>
+          Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.
+        </p>
+        <p>
+          A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.
+        </p>
+      </div>
+      <div class="founder-signature" aria-hidden="true">Roger</div>
+    </div>
+
+    <div class="card reveal" data-delay="660">
+      <h3>Co-fondatore</h3>
+      <p>Inserisci qui la mini-biografia del tuo socio.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="reveal" data-delay="700">Calendario eventi</h2>
+  <div class="card reveal" data-delay="740">
+    <p>Date in aggiornamento.</p>
+  </div>
+</section>
+
+<section>
+  <h2 class="reveal" data-delay="780">Contatti</h2>
+  <div class="card reveal" data-delay="820">
+    <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
+      <img src="icons/mail.svg" alt="Mail" style="width:16px;height:16px;vertical-align:middle;"> astrinascenti.astronomia@gmail.com</a>
+    </p>
+    <p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
+      <img src="icons/instagram.svg" alt="Instagram" style="width:16px;height:16px;vertical-align:middle;"> IG Astri Nascenti</a>
+    </p>
+  </div>
+</section>
+
+</main>
+
+<footer>
+  © Astri Nascenti – Astronomia per le scuole<br>
+  <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
+</footer>
+
+<script>
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('in-view');
+      el.style.transition = 'none';
+      el.style.opacity = 1;
+      el.style.transform = 'none';
+    });
+    return;
+  }
+  const reveals = Array.from(document.querySelectorAll('.reveal'));
+  if (!('IntersectionObserver' in window) || reveals.length === 0) {
+    reveals.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.getAttribute('data-delay')) || 0;
+        setTimeout(()=>el.classList.add('in-view'), delay);
+        obs.unobserve(el);
+      }
+    });
+  }, {threshold: 0.15});
+  reveals.forEach(el => observer.observe(el));
+})();
+</script>
+</body>
+</html>
