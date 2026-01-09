@@ -23,7 +23,7 @@ html,body{
   justify-content:center;
 }
 
-/* LIBRO */
+/* LIBRO: dimensioni moderate */
 .book{
   width:520px;
   height:720px;
@@ -39,6 +39,7 @@ html,body{
   overflow:hidden;
   background:#111;
   box-shadow:0 30px 80px rgba(0,0,0,.8);
+  border-radius:8px;
 }
 
 /* STRATI */
@@ -66,7 +67,7 @@ html,body{
 /* PAGINA CHE GIRA */
 .flipper{
   transform-origin:left center;
-  transition:transform 0.85s ease;
+  transition:transform 0.85s cubic-bezier(.2,.9,.2,1);
   z-index:2;
 }
 
@@ -119,16 +120,16 @@ button:hover{
   <div class="book">
     <div class="viewport">
 
-      <!-- PAGINA SUCCESSIVA (GIÀ VISIBILE SOTTO) -->
+      <!-- PAGINA SUCCESSIVA (GIÀ ATTACCATA SOTTO) -->
       <div class="layer next">
-        <img id="nextImg">
+        <img id="nextImg" alt="pagina sotto">
       </div>
 
       <!-- PAGINA CHE GIRA -->
       <div class="layer flipper" id="flipper">
-        <img id="currentImg">
+        <img id="currentImg" alt="pagina corrente">
         <div class="back">
-          <img id="backImg">
+          <img id="backImg" alt="retro pagina">
         </div>
       </div>
 
@@ -144,7 +145,7 @@ button:hover{
 </div>
 
 <script>
-/* CONFIG */
+/* CONFIGURAZIONE */
 const TOTAL = 36;
 const PATH  = 'Pag/astri-nascenti-2025-';
 const EXT   = '.jpg';
@@ -155,50 +156,124 @@ const backImg    = document.getElementById('backImg');
 const flipper    = document.getElementById('flipper');
 const status     = document.getElementById('status');
 
-let index = 1;
-let busy  = false;
+let index = 1;           // pagina corrente (1-based)
+let busy  = false;       // blocco animazioni
+let flipping = false;    // stato flip in corso
 
 const src = i => `${PATH}${i}${EXT}`;
 
-/* CARICA PAGINE */
-function load(){
+/* PRELOAD UTILE: assicura immagine pronta */
+function preload(n){
+  return new Promise(r=>{
+    const img = new Image();
+    img.onload = img.onerror = r;
+    img.src = src(n);
+  });
+}
+
+/* CARICA VISUALIZZAZIONE ATTUALE (senza animazione) */
+function renderImmediate(){
   currentImg.src = src(index);
-  backImg.src    = src(index + 1 <= TOTAL ? index + 1 : index);
-  nextImg.src    = src(index + 1 <= TOTAL ? index + 1 : index);
+  // backImg e nextImg mostrano la pagina successiva (duplicata per continuità visiva)
+  const nextIndex = Math.min(index + 1, TOTAL);
+  backImg.src    = src(nextIndex);
+  nextImg.src    = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 }
 
-/* AVANTI */
+/* PROCEDURA DI FLIP AVANTI (senza rimbalzo)
+   - aggiunge classe 'turn' per avviare la rotazione
+   - attende 'transitionend' per aggiornare gli src senza animazione visibile
+*/
 function next(){
   if(busy || index >= TOTAL) return;
   busy = true;
+  flipping = true;
 
-  flipper.classList.add('turn');
+  // assicurati che le immagini da mostrare siano caricate (preload)
+  const target = index + 1;
+  Promise.all([preload(index), preload(target)]).then(()=>{
+    // metti il retro (backImg) con la pagina di destinazione - già fatto dal preload
+    backImg.src = src(target);
+    nextImg.src = src(target);
 
-  setTimeout(()=>{
-    flipper.classList.remove('turn');
-    index++;
-    load();
-    busy = false;
-  }, 850);
+    // start animation
+    // ascolteremo 'transitionend' sull'elemento flipper
+    flipper.classList.add('turn');
+    // il resto è gestito dall'evento transitionend
+  });
 }
 
-/* INDIETRO */
+/* Gestione fine transizione: aggiorna stato senza mostrare flip-back
+   L'evento può scattare anche in altre condizioni: filtriamo per propertyName == 'transform'
+*/
+function onTransitionEnd(e){
+  if(!flipping) return;
+  if(e.propertyName !== 'transform') return;
+
+  // abbiamo completato la rotazione — ora dobbiamo:
+  // 1) Incrementare index
+  // 2) Aggiornare le immagini correnti in modo istantaneo senza animazione visibile
+  // 3) Rimuovere la classe 'turn' senza che ciò causi animazione (disabilitando temporaneamente transition)
+  flipping = false;
+  index = Math.min(index + 1, TOTAL);
+
+  // disabilita transizione del flipper per il reset visivo
+  const prevTransition = flipper.style.transition;
+  flipper.style.transition = 'none';
+
+  // rimuovi la classe che applica la rotazione (ora il flipper tornerà alla posizione normale istantaneamente
+  // ma poiché abbiamo disabilitato la transition non vedrai il "ritorno")
+  flipper.classList.remove('turn');
+
+  // aggiorna le immagini immediate alla nuova pagina corrente
+  // settiamo currentImg = index, backImg = index+1, nextImg = index+1
+  currentImg.src = src(index);
+  const nextIndex = Math.min(index + 1, TOTAL);
+  backImg.src    = src(nextIndex);
+  nextImg.src    = src(nextIndex);
+  status.textContent = `${index} / ${TOTAL}`;
+
+  // forziamo reflow per essere sicuri
+  void flipper.offsetWidth;
+
+  // ripristiniamo la transizione al valore originale dopo un frame
+  requestAnimationFrame(()=> {
+    flipper.style.transition = prevTransition || 'transform 0.85s cubic-bezier(.2,.9,.2,1)';
+    // sblocchiamo
+    busy = false;
+  });
+}
+
+/* INDIETRO: semplice decremento senza animazione di ritorno (puoi personalizzarlo) */
 function prev(){
   if(busy || index <= 1) return;
   busy = true;
 
-  index--;
-  load();
-  busy = false;
+  // per coerenza visiva non animiamo il "flip indietro": decrementiamo e ri-renderizziamo
+  index = Math.max(1, index - 1);
+  currentImg.src = src(index);
+  const nextIndex = Math.min(index + 1, TOTAL);
+  backImg.src    = src(nextIndex);
+  nextImg.src    = src(nextIndex);
+  status.textContent = `${index} / ${TOTAL}`;
+
+  // piccolo ritardo per evitare click rapidissimi
+  setTimeout(()=> busy = false, 150);
 }
 
 /* EVENTI */
 document.getElementById('next').onclick = next;
 document.getElementById('prev').onclick = prev;
+flipper.addEventListener('transitionend', onTransitionEnd);
 
-/* INIT */
-load();
+/* INIZIALIZZAZIONE */
+(function init(){
+  // preload primo e secondo per evitare flicker
+  Promise.all([preload(1), preload(2)]).then(()=>{
+    renderImmediate();
+  });
+})();
 </script>
 
 </body>
