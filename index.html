@@ -220,7 +220,6 @@ section h2 {
   gap:.8rem;
   margin-top:1.4rem;
 }
-
 .download-buttons a {
   text-align:center;
   padding:1rem 1.4rem;
@@ -231,13 +230,12 @@ section h2 {
   color:#fff;
   text-decoration:none;
   min-height:48px;
-  transition:transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
-
 .download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
 .apple { background: linear-gradient(135deg,#000,#555); }
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web { background: linear-gradient(135deg,#007ACC,#005A99); }
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
 
 /* =========================
    FOOTER
@@ -277,6 +275,9 @@ footer a { color:var(--accento); text-decoration:none; }
   transform: translateY(0);
 }
 
+/* small utility for delaying reveal (data-delay in ms) */
+.reveal[data-delay] { transition-delay: 0ms; }
+
 /* =========================
    RESPONSIVE
 ========================= */
@@ -306,11 +307,10 @@ footer a { color:var(--accento); text-decoration:none; }
 
 /* =========================
    STILE PER IL FONDATORE SOSTITUITO DALL'IMMAGINE
-   (queste regole centrano il background e lo fanno occupare tutto il riquadro)
 ========================= */
 .card.founder {
   padding: 0;                     /* nessun padding: l'immagine deve riempire il riquadro */
-  min-height: 320px;              /* riquadro più grande per valorizzare il ritratto */
+  min-height: 380px;              /* riquadro più grande per valorizzare il ritratto */
   border-radius: 18px;
   overflow: hidden;
   background-color: #111;         /* fallback se l'immagine non carica */
@@ -319,10 +319,80 @@ footer a { color:var(--accento); text-decoration:none; }
   background-repeat: no-repeat;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
+  position: relative;
 }
-.card.founder .sr-only {
-  position: absolute !important;
-  width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
+
+/* overlay gradiente nero (da sinistra 60% a destra 10%) */
+.card.founder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.25) 65%, rgba(0,0,0,.1) 100%);
+  pointer-events: none;
+}
+
+/* micro-effetto luce che scorre al passaggio del mouse */
+.card.founder::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at left center, rgba(255,255,255,0.12), rgba(255,255,255,0.06) 10%, transparent 30%);
+  background-repeat: no-repeat;
+  background-size: 60% 100%;
+  background-position: left center;
+  opacity: 0;
+  transition: background-position .9s ease, opacity .45s ease;
+}
+
+/* al passaggio del mouse la luce scorre verso destra e diventa visibile */
+.card.founder:hover::after{
+  background-position: right center;
+  opacity: 1;
+}
+
+/* testo sopra l'immagine */
+.founder-text{
+  position: relative;
+  z-index: 3;
+  padding: 2.2rem;
+  max-width: 680px;
+  font-size: .98rem;
+  line-height: 1.6;
+  color: #fff;
+  transform: translateX(-18px);
+  opacity: 0;
+  transition: transform .8s var(--transition-ease), opacity .8s var(--transition-ease);
+}
+
+/* quando il riquadro diventa in-view, il testo entra da sinistra */
+.card.founder.reveal.in-view .founder-text{
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* firma elegante in basso a destra */
+.founder-signature{
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,.95);
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* small responsive tweak */
+@media (max-width:767px){
+  .founder-text{ padding:1.2rem; font-size:.95rem; }
+  .card.founder{ min-height: 300px; border-radius:14px; }
 }
 </style>
 </head>
@@ -413,9 +483,20 @@ footer a { color:var(--accento); text-decoration:none; }
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
     <!-- CARD SOSTITUITA DALL'IMMAGINE: riempie completamente il riquadro -->
-    <div class="card reveal founder" data-delay="620" role="img" aria-label="Ritratto del fondatore"
+    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore"
          style="background-image: url('Ritratti/RItratto1.jpg');">
-      <span class="sr-only">Fondatore</span>
+      <div class="founder-text">
+        <p>
+          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino.
+          Sagittario, cuspide, ascendente sagittario. Per chiarezza: non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.
+        </p>
+        <p>
+          La passione per l’astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo la Luna piena per timore che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
+        </p>
+      </div>
+
+      <!-- firma elegante -->
+      <div class="founder-signature" aria-hidden="true">Roger</div>
     </div>
 
     <div class="card reveal" data-delay="660">
