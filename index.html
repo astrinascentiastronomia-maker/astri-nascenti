@@ -171,11 +171,10 @@ section h2 {
   z-index:2;
 }
 
-/* FONDATORE CARD FOTO SINISTRA, TESTO DESTRA, SENZA VELO */
+/* FONDATORE CARD FOTO SINISTRA, TESTO DESTRA, PROPORZIONI CORRETTE, VELO RIMOSSO */
 .card.founder {
   display: flex;
   flex-direction: row;
-  padding: 0;
   min-height: 420px;
   border-radius: 18px;
   overflow: hidden;
@@ -185,13 +184,13 @@ section h2 {
   border: 1px solid rgba(255,255,255,.06);
 }
 .card.founder img {
-  width: 50%;
-  height: 100%;
+  width: 40%;
+  height: auto;
   object-fit: cover;
   flex-shrink: 0;
 }
 .founder-text {
-  padding: 2rem 2.6rem;
+  padding: 2rem;
   font-size: 1rem;
   line-height: 1.6;
   color: #fff;
