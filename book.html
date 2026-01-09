@@ -12,6 +12,7 @@ html,body{
   background:#0b0b0b;
   color:#fff;
   font-family:system-ui, Arial;
+  touch-action:pan-y;
 }
 
 /* CONTENITORE */
@@ -23,12 +24,21 @@ html,body{
   justify-content:center;
 }
 
-/* LIBRO: dimensioni moderate */
+/* LIBRO */
 .book{
   width:520px;
   height:720px;
   position:relative;
   perspective:1800px;
+}
+
+/* MOBILE: scala fluida */
+@media (max-width:600px){
+  .book{
+    width:90vw;
+    height:125vw;
+    max-height:90vh;
+  }
 }
 
 /* FINESTRA PAGINA */
@@ -57,9 +67,10 @@ html,body{
   object-fit:cover;
   user-select:none;
   -webkit-user-drag:none;
+  pointer-events:none;
 }
 
-/* PAGINA SOTTO (GIÀ ATTACCATA) */
+/* PAGINA SOTTO */
 .next{
   z-index:1;
 }
@@ -76,7 +87,7 @@ html,body{
   transform:rotateY(-180deg);
 }
 
-/* RETRO DELLA PAGINA */
+/* RETRO */
 .flipper .back{
   position:absolute;
   inset:0;
@@ -118,14 +129,12 @@ button:hover{
 <div class="wrap">
 
   <div class="book">
-    <div class="viewport">
+    <div class="viewport" id="viewport">
 
-      <!-- PAGINA SUCCESSIVA (GIÀ ATTACCATA SOTTO) -->
       <div class="layer next">
         <img id="nextImg" alt="pagina sotto">
       </div>
 
-      <!-- PAGINA CHE GIRA -->
       <div class="layer flipper" id="flipper">
         <img id="currentImg" alt="pagina corrente">
         <div class="back">
@@ -155,14 +164,14 @@ const nextImg    = document.getElementById('nextImg');
 const backImg    = document.getElementById('backImg');
 const flipper    = document.getElementById('flipper');
 const status     = document.getElementById('status');
+const viewport   = document.getElementById('viewport');
 
-let index = 1;           // pagina corrente (1-based)
-let busy  = false;       // blocco animazioni
-let flipping = false;    // stato flip in corso
+let index = 1;
+let busy  = false;
+let flipping = false;
 
 const src = i => `${PATH}${i}${EXT}`;
 
-/* PRELOAD UTILE: assicura immagine pronta */
 function preload(n){
   return new Promise(r=>{
     const img = new Image();
@@ -171,110 +180,76 @@ function preload(n){
   });
 }
 
-/* CARICA VISUALIZZAZIONE ATTUALE (senza animazione) */
 function renderImmediate(){
   currentImg.src = src(index);
-  // backImg e nextImg mostrano la pagina successiva (duplicata per continuità visiva)
   const nextIndex = Math.min(index + 1, TOTAL);
-  backImg.src    = src(nextIndex);
-  nextImg.src    = src(nextIndex);
+  backImg.src = src(nextIndex);
+  nextImg.src = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 }
 
-/* PROCEDURA DI FLIP AVANTI (senza rimbalzo)
-   - aggiunge classe 'turn' per avviare la rotazione
-   - attende 'transitionend' per aggiornare gli src senza animazione visibile
-*/
 function next(){
   if(busy || index >= TOTAL) return;
   busy = true;
   flipping = true;
 
-  // assicurati che le immagini da mostrare siano caricate (preload)
   const target = index + 1;
   Promise.all([preload(index), preload(target)]).then(()=>{
-    // metti il retro (backImg) con la pagina di destinazione - già fatto dal preload
     backImg.src = src(target);
     nextImg.src = src(target);
-
-    // start animation
-    // ascolteremo 'transitionend' sull'elemento flipper
     flipper.classList.add('turn');
-    // il resto è gestito dall'evento transitionend
   });
 }
 
-/* Gestione fine transizione: aggiorna stato senza mostrare flip-back
-   L'evento può scattare anche in altre condizioni: filtriamo per propertyName == 'transform'
-*/
 function onTransitionEnd(e){
-  if(!flipping) return;
-  if(e.propertyName !== 'transform') return;
+  if(!flipping || e.propertyName !== 'transform') return;
 
-  // abbiamo completato la rotazione — ora dobbiamo:
-  // 1) Incrementare index
-  // 2) Aggiornare le immagini correnti in modo istantaneo senza animazione visibile
-  // 3) Rimuovere la classe 'turn' senza che ciò causi animazione (disabilitando temporaneamente transition)
   flipping = false;
   index = Math.min(index + 1, TOTAL);
 
-  // disabilita transizione del flipper per il reset visivo
   const prevTransition = flipper.style.transition;
   flipper.style.transition = 'none';
-
-  // rimuovi la classe che applica la rotazione (ora il flipper tornerà alla posizione normale istantaneamente
-  // ma poiché abbiamo disabilitato la transition non vedrai il "ritorno")
   flipper.classList.remove('turn');
 
-  // aggiorna le immagini immediate alla nuova pagina corrente
-  // settiamo currentImg = index, backImg = index+1, nextImg = index+1
-  currentImg.src = src(index);
   const nextIndex = Math.min(index + 1, TOTAL);
-  backImg.src    = src(nextIndex);
-  nextImg.src    = src(nextIndex);
+  currentImg.src = src(index);
+  backImg.src = src(nextIndex);
+  nextImg.src = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 
-  // forziamo reflow per essere sicuri
   void flipper.offsetWidth;
 
-  // ripristiniamo la transizione al valore originale dopo un frame
-  requestAnimationFrame(()=> {
+  requestAnimationFrame(()=>{
     flipper.style.transition = prevTransition || 'transform 0.85s cubic-bezier(.2,.9,.2,1)';
-    // sblocchiamo
     busy = false;
   });
 }
 
-/* INDIETRO: semplice decremento senza animazione di ritorno (puoi personalizzarlo) */
 function prev(){
   if(busy || index <= 1) return;
   busy = true;
 
-  // per coerenza visiva non animiamo il "flip indietro": decrementiamo e ri-renderizziamo
   index = Math.max(1, index - 1);
-  currentImg.src = src(index);
   const nextIndex = Math.min(index + 1, TOTAL);
-  backImg.src    = src(nextIndex);
-  nextImg.src    = src(nextIndex);
+  currentImg.src = src(index);
+  backImg.src = src(nextIndex);
+  nextImg.src = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 
-  // piccolo ritardo per evitare click rapidissimi
   setTimeout(()=> busy = false, 150);
 }
 
-/* EVENTI */
-document.getElementById('next').onclick = next;
-document.getElementById('prev').onclick = prev;
-flipper.addEventListener('transitionend', onTransitionEnd);
+/* TOUCH SWIPE MOBILE */
+let touchStartX = 0;
+let touchEndX   = 0;
+const SWIPE_THRESHOLD = 50;
 
-/* INIZIALIZZAZIONE */
-(function init(){
-  // preload primo e secondo per evitare flicker
-  Promise.all([preload(1), preload(2)]).then(()=>{
-    renderImmediate();
-  });
-})();
-</script>
+viewport.addEventListener('touchstart', e=>{
+  touchStartX = e.changedTouches[0].screenX;
+},{passive:true});
 
-</body>
-</html>
+viewport.addEventListener('touchend', e=>{
+  touchEndX = e.changedTouches[0].screenX;
+  const delta = touchEndX - touchStartX;
+
+  if(Math.abs(delta) < SWIP
