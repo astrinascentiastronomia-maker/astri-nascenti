@@ -8,7 +8,7 @@
 <style>
 html,body{
   margin:0;
-  background:#0a0a0a;
+  background:#070707;
   color:#fff;
   font-family:system-ui, Arial;
 }
@@ -21,13 +21,31 @@ html,body{
   justify-content:center;
 }
 
+/* DIMENSIONI LIBRO (AUMENTATE) */
 .book{
   position:relative;
-  width:900px;
-  height:600px;
-  perspective:2000px;
+  width:1100px;
+  height:720px;
+  perspective:2600px;
 }
 
+/* COPERTINA */
+.cover{
+  position:absolute;
+  inset:0;
+  background:#000;
+  z-index:20;
+  cursor:pointer;
+}
+
+.cover img{
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  box-shadow:0 30px 80px rgba(0,0,0,.9);
+}
+
+/* PAGINE */
 .page{
   position:absolute;
   top:0;
@@ -45,31 +63,47 @@ html,body{
   -webkit-user-drag:none;
 }
 
-/* PAGINA SINISTRA */
+/* SINISTRA */
 .page.left{
   left:0;
-  box-shadow: inset -15px 0 30px rgba(0,0,0,.6);
+  box-shadow: inset -20px 0 40px rgba(0,0,0,.7);
 }
 
-/* PAGINA DESTRA */
+/* DESTRA */
 .page.right{
   right:0;
-  box-shadow: inset 15px 0 30px rgba(0,0,0,.6);
+  box-shadow: inset 20px 0 40px rgba(0,0,0,.7);
+}
+
+/* RILEGATURA */
+.spine{
+  position:absolute;
+  left:50%;
+  top:0;
+  width:4px;
+  height:100%;
+  background:linear-gradient(
+    to right,
+    rgba(0,0,0,.9),
+    rgba(255,255,255,.08),
+    rgba(0,0,0,.9)
+  );
+  z-index:5;
 }
 
 /* PAGINA CHE SI GIRA */
-.page.flip{
+.flip{
   transform-origin:left center;
   transform-style:preserve-3d;
   transition:transform 0.9s ease;
   z-index:10;
 }
 
-.page.flip.turn{
+.flip.turn{
   transform:rotateY(-180deg);
 }
 
-.page.flip .back{
+.flip .back{
   position:absolute;
   inset:0;
   transform:rotateY(180deg);
@@ -78,29 +112,29 @@ html,body{
 
 /* CONTROLLI */
 .controls{
-  margin-top:30px;
+  margin-top:28px;
   display:flex;
-  gap:20px;
+  gap:26px;
   align-items:center;
 }
 
 button{
   background:rgba(255,255,255,.08);
-  border:1px solid rgba(255,255,255,.2);
+  border:1px solid rgba(255,255,255,.25);
   color:#fff;
-  padding:12px 20px;
-  font-size:15px;
-  border-radius:10px;
+  padding:14px 26px;
+  font-size:16px;
+  border-radius:14px;
   cursor:pointer;
 }
 
 button:hover{
-  background:rgba(255,255,255,.15);
+  background:rgba(255,255,255,.16);
 }
 
 .status{
-  font-size:14px;
-  opacity:.8;
+  font-size:15px;
+  opacity:.85;
 }
 </style>
 </head>
@@ -111,12 +145,17 @@ button:hover{
 
   <div class="book">
 
+    <!-- COPERTINA -->
+    <div class="cover" id="cover">
+      <img src="Pag/astri-nascenti-2025-1.jpg" alt="Copertina">
+    </div>
+
     <!-- PAGINA SINISTRA -->
     <div class="page left">
       <img id="leftImg">
     </div>
 
-    <!-- PAGINA DESTRA (CHE SI GIRA) -->
+    <!-- PAGINA DESTRA (FLIP) -->
     <div class="page right flip" id="flipPage">
       <img id="rightImg">
       <div class="back">
@@ -124,12 +163,15 @@ button:hover{
       </div>
     </div>
 
+    <!-- RILEGATURA -->
+    <div class="spine"></div>
+
   </div>
 
   <div class="controls">
-    <button id="prev">◀ Pagina</button>
-    <div class="status" id="status">1–2 / 36</div>
-    <button id="next">Pagina ▶</button>
+    <button id="prev">◀ Indietro</button>
+    <div class="status" id="status">Copertina</div>
+    <button id="next">Avanti ▶</button>
   </div>
 
 </div>
@@ -141,13 +183,15 @@ const PATH  = 'Pag/astri-nascenti-2025-';
 const EXT   = '.jpg';
 
 /* ELEMENTI */
+const cover       = document.getElementById('cover');
 const leftImg     = document.getElementById('leftImg');
 const rightImg    = document.getElementById('rightImg');
 const nextLeftImg = document.getElementById('nextLeftImg');
 const flipPage    = document.getElementById('flipPage');
 const status      = document.getElementById('status');
 
-let page = 1;
+let page = 2;       // prima pagina interna
+let opened = false;
 let busy = false;
 
 const src = n => `${PATH}${n}${EXT}`;
@@ -159,8 +203,16 @@ function update(){
   status.textContent = `${page}–${page+1} / ${TOTAL}`;
 }
 
+/* APERTURA COPERTINA */
+cover.onclick = () => {
+  cover.style.display = 'none';
+  opened = true;
+  update();
+};
+
+/* AVANTI */
 function next(){
-  if(busy || page + 2 > TOTAL) return;
+  if(!opened || busy || page + 2 > TOTAL) return;
   busy = true;
 
   flipPage.classList.add('turn');
@@ -173,26 +225,19 @@ function next(){
   }, 900);
 }
 
+/* INDIETRO */
 function prev(){
-  if(busy || page <= 1) return;
+  if(!opened || busy || page <= 2) return;
   busy = true;
 
   page -= 2;
   update();
-
-  flipPage.classList.add('turn');
-  setTimeout(()=>{
-    flipPage.classList.remove('turn');
-    busy = false;
-  }, 50);
+  busy = false;
 }
 
 /* EVENTI */
 document.getElementById('next').onclick = next;
 document.getElementById('prev').onclick = prev;
-
-/* AVVIO */
-update();
 </script>
 
 </body>
