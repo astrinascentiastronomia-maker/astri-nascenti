@@ -171,51 +171,7 @@ section h2 {
   z-index:2;
 }
 
-/* FOOTER */
-footer {
-  text-align:center;
-  padding:3rem 1rem 4rem;
-  font-size:.8rem;
-  color:var(--accento);
-}
-footer a { 
-  color:var(--accento); 
-  text-decoration:none; 
-  display:inline-flex; 
-  align-items:center; 
-  gap:.4rem; 
-}
-
-/* ANIMAZIONI */
-@keyframes float {
-  0%,100% { transform:translateY(0); }
-  50% { transform:translateY(-10px); }
-}
-
-/* REVEAL */
-.reveal {
-  opacity: 0;
-  transform: translateY(40px);
-  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
-  will-change: opacity, transform;
-}
-.reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
-}
-
-/* RESPONSIVE */
-@media (min-width:768px) {
-  .grid { grid-template-columns: repeat(2,1fr); }
-  .gallery { grid-template-columns: repeat(4,1fr); }
-}
-@media (min-width:1024px) {
-  header h1 { font-size:3.1rem; }
-  section h2 { font-size:2rem; }
-  .card { padding:2.6rem; }
-}
-
-/* FONDATORE CARD SENZA VELO */
+/* FONDATORE CARD FOTO SINISTRA, TESTO DESTRA, SENZA VELO */
 .card.founder {
   display: flex;
   flex-direction: row;
@@ -223,7 +179,7 @@ footer a {
   min-height: 420px;
   border-radius: 18px;
   overflow: hidden;
-  background-color: #111; /* solo sfondo scuro se testo trasparente */
+  background-color: #111;
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
@@ -273,6 +229,56 @@ footer a {
   .card.founder img { width:100%; height:auto; }
   .founder-text { padding:1.2rem; font-size:.95rem; }
   .founder-badge{ left:12px; top:12px; }
+}
+
+/* CONTATTI ICONE */
+.contact-icon {
+  width:20px;
+  height:20px;
+  vertical-align:middle;
+  margin-right:6px;
+  transition: transform .3s ease;
+}
+.contact-icon:hover {
+  transform: scale(1.2) rotate(-10deg);
+}
+
+/* FOOTER */
+footer {
+  text-align:center;
+  padding:3rem 1rem 4rem;
+  font-size:.8rem;
+  color:var(--accento);
+}
+footer a { color:var(--accento); text-decoration:none; }
+
+/* ANIMAZIONI */
+@keyframes float {
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-10px); }
+}
+
+/* REVEAL */
+.reveal {
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
+  will-change: opacity, transform;
+}
+.reveal.in-view {
+  opacity: 1;
+  transform: translateY(0);
+}
+
+/* RESPONSIVE */
+@media (min-width:768px) {
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .gallery { grid-template-columns: repeat(4,1fr); }
+}
+@media (min-width:1024px) {
+  header h1 { font-size:3.1rem; }
+  section h2 { font-size:2rem; }
+  .card { padding:2.6rem; }
 }
 </style>
 </head>
@@ -330,28 +336,13 @@ footer a {
       <img src="Ritratti/RItratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
       <div class="founder-badge" aria-hidden="true">Fondatore</div>
       <div class="founder-text">
-        <p>
-          Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo.
-          Per tutti, da sempre, sono Roger.
-        </p>
-        <p>
-          La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.
-        </p>
-        <p>
-          Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.
-        </p>
-        <p>
-          Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.
-        </p>
-        <p>
-          Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.
-        </p>
-        <p>
-          Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.
-        </p>
-        <p>
-          A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.
-        </p>
+        <p>Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
+        <p>La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
+        <p>Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
+        <p>Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.</p>
+        <p>Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.</p>
+        <p>Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.</p>
+        <p>A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.</p>
       </div>
       <div class="founder-signature" aria-hidden="true">Roger</div>
     </div>
@@ -374,10 +365,10 @@ footer a {
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
     <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
-      <img src="icons/mail.svg" alt="Mail" style="width:16px;height:16px;vertical-align:middle;"> astrinascenti.astronomia@gmail.com</a>
+      <img src="icons/mail.svg" alt="Mail" class="contact-icon"> astrinascenti.astronomia@gmail.com</a>
     </p>
     <p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
-      <img src="icons/instagram.svg" alt="Instagram" style="width:16px;height:16px;vertical-align:middle;"> IG Astri Nascenti</a>
+      <img src="icons/instagram.svg" alt="Instagram" class="contact-icon"> IG Astri Nascenti</a>
     </p>
   </div>
 </section>
@@ -410,14 +401,16 @@ footer a {
     entries.forEach(entry => {
       if (entry.isIntersecting) {
         const el = entry.target;
-        const delay = parseInt(el.getAttribute('data-delay')) || 0;
-        setTimeout(()=>el.classList.add('in-view'), delay);
+        const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
+        if (delay) el.style.transitionDelay = (delay/1000)+'s';
+        el.classList.add('in-view');
         obs.unobserve(el);
       }
     });
-  }, {threshold: 0.15});
+  }, {root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08});
   reveals.forEach(el => observer.observe(el));
 })();
 </script>
+
 </body>
 </html>
