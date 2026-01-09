@@ -5,6 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
+<!-- =========================
+     FAVICON (assicurati i file nella stessa cartella)
+========================= -->
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -14,6 +17,9 @@
 <meta name="theme-color" content="#000000">
 
 <style>
+/* =========================
+   FONT DEFINITIVO
+========================= */
 @font-face {
   font-family: 'LemonMilkLight';
   src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
@@ -21,6 +27,9 @@
   font-display: swap;
 }
 
+/* =========================
+   VARIABILI
+========================= */
 :root{
   --bianco: #ffffff;
   --nero: #000000;
@@ -32,6 +41,9 @@
   --transition-ease: cubic-bezier(.2,.9,.2,1);
 }
 
+/* =========================
+   RESET + BASE
+========================= */
 * { box-sizing: border-box; margin:0; padding:0; }
 html,body { height:100%; }
 body {
@@ -46,6 +58,7 @@ body {
   -moz-osx-font-smoothing:grayscale;
 }
 
+/* skip link */
 .skip-link {
   position: absolute;
   left: -9999px; top: auto;
@@ -56,6 +69,9 @@ body {
   padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
 }
 
+/* =========================
+   TITOLI (FORZATI)
+========================= */
 h1,h2,h3 {
   font-family: 'LemonMilkLight', sans-serif !important;
   text-transform: uppercase;
@@ -63,6 +79,9 @@ h1,h2,h3 {
   font-weight: normal;
 }
 
+/* =========================
+   HEADER
+========================= */
 header {
   text-align:center;
   padding:3.5rem 1.2rem 4.5rem;
@@ -80,6 +99,9 @@ header p {
   font-size:1rem;
 }
 
+/* =========================
+   SEZIONI
+========================= */
 main { padding-bottom:4rem; }
 section {
   max-width:1100px;
@@ -93,6 +115,9 @@ section h2 {
   margin-bottom:2rem;
 }
 
+/* =========================
+   CARD
+========================= */
 .card {
   background:var(--card-bg);
   backdrop-filter: blur(10px);
@@ -105,19 +130,28 @@ section h2 {
   will-change: transform;
   border: 1px solid rgba(255,255,255,.06);
 }
+
 .card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
+
 .card h3 { font-size:.85rem; margin-bottom:1rem; }
 
+/* =========================
+   GRID
+========================= */
 .grid { display:grid; grid-template-columns:1fr; gap:2rem; }
 
+/* =========================
+   GALLERY HOME
+========================= */
 .gallery {
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:1rem;
 }
+
 .gallery a,
 .gallery .placeholder {
   position:relative;
@@ -133,6 +167,8 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
+
+/* glow dal basso */
 .gallery a::after,
 .gallery .placeholder::after {
   content:"";
@@ -147,11 +183,13 @@ section h2 {
 }
 .gallery a:hover::after,
 .gallery .placeholder:hover::after { opacity:1; }
+
 .gallery a:hover,
 .gallery .placeholder:hover {
   transform: scale(1.05);
   box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
+
 .gallery img {
   width:100%;
   height:100%;
@@ -159,6 +197,7 @@ section h2 {
   transition: transform .6s var(--transition-ease);
 }
 .gallery a:hover img { transform: scale(1.12); }
+
 .gallery span {
   position:absolute;
   bottom:12px;
@@ -172,12 +211,16 @@ section h2 {
   z-index:2;
 }
 
+/* =========================
+   DOWNLOAD
+========================= */
 .download-buttons {
   display:flex;
   flex-direction:column;
   gap:.8rem;
   margin-top:1.4rem;
 }
+
 .download-buttons a {
   text-align:center;
   padding:1rem 1.4rem;
@@ -188,13 +231,17 @@ section h2 {
   color:#fff;
   text-decoration:none;
   min-height:48px;
-  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  transition:transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
+
 .download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
 .apple { background: linear-gradient(135deg,#000,#555); }
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
 .web { background: linear-gradient(135deg,#007ACC,#005A99); }
 
+/* =========================
+   FOOTER
+========================= */
 footer {
   text-align:center;
   padding:3rem 1rem 4rem;
@@ -203,6 +250,9 @@ footer {
 }
 footer a { color:var(--accento); text-decoration:none; }
 
+/* =========================
+   ANIMAZIONI
+========================= */
 @keyframes float {
   0%,100% { transform:translateY(0); }
   50% { transform:translateY(-10px); }
@@ -213,6 +263,9 @@ footer a { color:var(--accento); text-decoration:none; }
   to   { opacity: 1; transform: translateY(0); }
 }
 
+/* =========================
+   REVEAL (default hidden, then set in-view via JS)
+========================= */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -224,6 +277,9 @@ footer a { color:var(--accento); text-decoration:none; }
   transform: translateY(0);
 }
 
+/* =========================
+   RESPONSIVE
+========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
@@ -235,6 +291,10 @@ footer a { color:var(--accento); text-decoration:none; }
   section h2 { font-size:2rem; }
   .card { padding:2.6rem; }
 }
+
+/* =========================
+   REDUCE MOTION
+========================= */
 @media (prefers-reduced-motion: reduce) {
   .card, .gallery a, .gallery .placeholder, .download-buttons a {
     transition: none !important;
@@ -245,22 +305,24 @@ footer a { color:var(--accento); text-decoration:none; }
 }
 
 /* =========================
-   STILE FOTO CHI SIAMO
+   STILE PER IL FONDATORE SOSTITUITO DALL'IMMAGINE
+   (queste regole centrano il background e lo fanno occupare tutto il riquadro)
 ========================= */
 .card.founder {
-  display:flex;
-  flex-direction:column;
-  align-items:center;
-  text-align:center;
-  padding:2rem;
+  padding: 0;                     /* nessun padding: l'immagine deve riempire il riquadro */
+  min-height: 320px;              /* riquadro più grande per valorizzare il ritratto */
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #111;         /* fallback se l'immagine non carica */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 20px 55px rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.06);
 }
-.card.founder img {
-  width:200px;
-  height:200px;
-  object-fit:cover;
-  border-radius:18px;
-  box-shadow:0 16px 40px rgba(0,0,0,.6);
-  margin-bottom:1.4rem;
+.card.founder .sr-only {
+  position: absolute !important;
+  width:1px; height:1px; padding:0; margin:-1px; overflow:hidden; clip:rect(0 0 0 0); white-space:nowrap; border:0;
 }
 </style>
 </head>
@@ -293,18 +355,25 @@ footer a { color:var(--accento); text-decoration:none; }
     </div>
 
     <div class="gallery" aria-label="Galleria fotografica">
+      <!-- ARCHIVIO FOTO ASTROFILI - INVARIATO -->
       <a href="foto-astrofili.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astrofili">
         <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
         <span>Archivio Foto Astrofili</span>
       </a>
+
+      <!-- TELESCOPI - SERIE FOTO STRUMENTI -->
       <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Telescopi · Serie strumenti">
         <img src="images/astrinascentifoto38.jpg" alt="Telescopi · Serie strumenti">
         <span>Telescopi · Serie strumenti</span>
       </a>
+
+      <!-- OSSERVAZIONI -->
       <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" aria-label="Osservazioni" target="_blank" rel="noopener noreferrer">
         <img src="images/astrinascentifoto1.jpg" alt="Osservazioni">
         <span>Osservazioni</span>
       </a>
+
+      <!-- ATTIVITÀ DIDATTICHE: copertina book -->
       <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Attività didattiche - Sfoglia il book" target="_blank" rel="noopener noreferrer">
         <img src="Pag/astri-nascenti-2025-1.jpg" alt="Attività didattiche">
         <span>Attività didattiche</span>
@@ -343,12 +412,12 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-    <!-- CARD FONDATORE CON FOTO -->
-    <div class="card reveal founder" data-delay="620">
-      <img src="Ritratti/Ritratto1.jpg" alt="Fondatore">
-      <h3>Fondatore</h3>
-      <p>Inserisci qui la tua mini-biografia.</p>
+    <!-- CARD SOSTITUITA DALL'IMMAGINE: riempie completamente il riquadro -->
+    <div class="card reveal founder" data-delay="620" role="img" aria-label="Ritratto del fondatore"
+         style="background-image: url('Ritratti/RItratto1.jpg');">
+      <span class="sr-only">Fondatore</span>
     </div>
+
     <div class="card reveal" data-delay="660">
       <h3>Co-fondatore</h3>
       <p>Inserisci qui la mini-biografia del tuo socio.</p>
@@ -377,6 +446,9 @@ footer a { color:var(--accento); text-decoration:none; }
   <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
 </footer>
 
+<!-- =========================
+     JS: IntersectionObserver per reveal on scroll
+========================= -->
 <script>
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
