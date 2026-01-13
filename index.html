@@ -171,11 +171,11 @@ section h2 {
   z-index:2;
 }
 
-/* FONDATORE CARD FOTO SINISTRA, TESTO DESTRA, PROPORZIONI CORRETTE, VELO RIMOSSO */
+/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO */
 .card.founder {
   display: flex;
-  flex-direction: row;
-  min-height: 420px;
+  flex-direction: column; /* sempre colonna, foto sopra */
+  min-height: auto; 
   border-radius: 18px;
   overflow: hidden;
   background-color: #111;
@@ -184,7 +184,7 @@ section h2 {
   border: 1px solid rgba(255,255,255,.06);
 }
 .card.founder img {
-  width: 40%;
+  width: 100%; 
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
@@ -194,7 +194,6 @@ section h2 {
   font-size: 1rem;
   line-height: 1.6;
   color: #fff;
-  flex: 1;
   overflow-y: auto;
 }
 .founder-badge{
@@ -222,12 +221,6 @@ section h2 {
   background: rgba(0,0,0,0.22);
   padding: 6px 10px;
   border-radius: 8px;
-}
-@media (max-width:767px){
-  .card.founder { flex-direction: column; min-height:auto; border-radius:14px; }
-  .card.founder img { width:100%; height:auto; }
-  .founder-text { padding:1.2rem; font-size:.95rem; }
-  .founder-badge{ left:12px; top:12px; }
 }
 
 /* CONTATTI ICONE */
@@ -331,12 +324,13 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-    <!-- FONDATORE -->
+
+    <!-- Fondatore -->
     <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore" tabindex="0">
       <img src="Ritratti/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
       <div class="founder-badge" aria-hidden="true">Fondatore</div>
       <div class="founder-text">
-        <p>Mi chiamo Matteo e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
+        <p>Mi chiamo Matteo, ho 45 anni e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non faccio oroscopi, mi limito a osservare il cielo. Per tutti, da sempre, sono Roger.</p>
         <p>La passione per l’Astronomia nasce molto presto, da bambino, da una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
         <p>Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano (specializzazione in Copywriting), ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
         <p>Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.</p>
@@ -347,13 +341,13 @@ footer a { color:var(--accento); text-decoration:none; }
       <div class="founder-signature" aria-hidden="true">Roger</div>
     </div>
 
-    <!-- CO-FONDATORE -->
+    <!-- Co-fondatore -->
     <div class="card founder reveal" data-delay="660" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
       <img src="Ritratti/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
       <div class="founder-badge" aria-hidden="true">Co-fondatore</div>
       <div class="founder-text">
         <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani, entrambi insegnanti di lettere e laureati in materie umanistiche: Filosofia, mia madre, Lettere Antiche mio padre. I miei genitori mi hanno trasmesso la passione per la lettura, i classici e per il valore fondamentale dell'istruzione. Nonostante una forte impronta classicista della mia famiglia, fin da piccolo ho nutrito una forte curiosità verso le scienze ed in particolar modo l'astronomia.</p>
-        <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e a riconoscere i principali oggetti con un piccolo binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche: notti che hanno acceso una passione destinata a crescere nel tempo.</p>
+        <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti con un piccolo binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche: notti che hanno acceso una passione destinata a crescere nel tempo.</p>
         <p>Dopo il diploma di maturità al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia, frequentare il Planetario e incontrare, nel 2005, i primi circoli di appassionati. Con loro ho iniziato a osservare il cielo in modo condiviso sono entrato a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community online e all’organizzazione di Star Party sotto alcuni dei cieli più bui d’Italia.</p>
         <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando in AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto, Responsabile Acquisti ed Export Manager.</p>
         <p>Accanto all’astronomia coltivo l’amore per la mitologia, l’etimologia e la storia delle costellazioni. Continuo ancora oggi le osservazioni notturne dal balcone di Milano, con la paziente complicità della mia compagna Daniela e l’entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della costellazione della Corona Boreale.</p>
