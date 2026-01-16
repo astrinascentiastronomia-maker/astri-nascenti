@@ -5,7 +5,9 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0" />
 <title>Astri Nascenti – Astronomia per le scuole</title>
 
-<!-- FAVICON -->
+<!-- =========================
+     FAVICON (assicurati i file nella stessa cartella)
+========================= -->
 <link rel="icon" href="favicon.ico" type="image/x-icon">
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon">
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png">
@@ -25,7 +27,9 @@
   font-display: swap;
 }
 
-/* VARIABILI */
+/* =========================
+   VARIABILI
+========================= */
 :root{
   --bianco: #ffffff;
   --nero: #000000;
@@ -37,7 +41,9 @@
   --transition-ease: cubic-bezier(.2,.9,.2,1);
 }
 
-/* RESET + BASE */
+/* =========================
+   RESET + BASE
+========================= */
 * { box-sizing: border-box; margin:0; padding:0; }
 html,body { height:100%; }
 body {
@@ -63,7 +69,9 @@ body {
   padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
 }
 
-/* TITOLI */
+/* =========================
+   TITOLI (FORZATI)
+========================= */
 h1,h2,h3 {
   font-family: 'LemonMilkLight', sans-serif !important;
   text-transform: uppercase;
@@ -71,7 +79,9 @@ h1,h2,h3 {
   font-weight: normal;
 }
 
-/* HEADER */
+/* =========================
+   HEADER
+========================= */
 header {
   text-align:center;
   padding:3.5rem 1.2rem 4.5rem;
@@ -89,7 +99,9 @@ header p {
   font-size:1rem;
 }
 
-/* SEZIONI */
+/* =========================
+   SEZIONI
+========================= */
 main { padding-bottom:4rem; }
 section {
   max-width:1100px;
@@ -103,7 +115,9 @@ section h2 {
   margin-bottom:2rem;
 }
 
-/* CARD */
+/* =========================
+   CARD
+========================= */
 .card {
   background:var(--card-bg);
   backdrop-filter: blur(10px);
@@ -116,21 +130,28 @@ section h2 {
   will-change: transform;
   border: 1px solid rgba(255,255,255,.06);
 }
+
 .card:hover {
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
+
 .card h3 { font-size:.85rem; margin-bottom:1rem; }
 
-/* GRID */
+/* =========================
+   GRID
+========================= */
 .grid { display:grid; grid-template-columns:1fr; gap:2rem; }
 
-/* GALLERY */
+/* =========================
+   GALLERY HOME
+========================= */
 .gallery {
   display:grid;
   grid-template-columns:1fr 1fr;
   gap:1rem;
 }
+
 .gallery a,
 .gallery .placeholder {
   position:relative;
@@ -146,11 +167,29 @@ section h2 {
   color:#000;
   transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
+
+/* glow dal basso */
+.gallery a::after,
+.gallery .placeholder::after {
+  content:"";
+  position:absolute;
+  bottom:-40%;
+  left:-10%;
+  width:120%;
+  height:60%;
+  background: radial-gradient(circle at bottom, rgba(255,255,255,.45), transparent 70%);
+  opacity:0;
+  transition: opacity .45s var(--transition-ease);
+}
+.gallery a:hover::after,
+.gallery .placeholder:hover::after { opacity:1; }
+
 .gallery a:hover,
 .gallery .placeholder:hover {
   transform: scale(1.05);
   box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
+
 .gallery img {
   width:100%;
   height:100%;
@@ -158,6 +197,7 @@ section h2 {
   transition: transform .6s var(--transition-ease);
 }
 .gallery a:hover img { transform: scale(1.12); }
+
 .gallery span {
   position:absolute;
   bottom:12px;
@@ -171,71 +211,35 @@ section h2 {
   z-index:2;
 }
 
-/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO */
-.card.founder {
-  display: flex;
-  flex-direction: column; /* sempre colonna, foto sopra */
-  min-height: auto; 
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #111;
-  position: relative;
-  box-shadow: 0 20px 55px rgba(0,0,0,.6);
-  border: 1px solid rgba(255,255,255,.06);
+/* =========================
+   DOWNLOAD
+========================= */
+.download-buttons {
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-top:1.4rem;
 }
-.card.founder img {
-  width: 100%; 
-  height: auto;
-  object-fit: cover;
-  flex-shrink: 0;
-}
-.founder-text {
-  padding: 2rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #fff;
-  overflow-y: auto;
-}
-.founder-badge{
-  position:absolute;
-  left:16px;
-  top:16px;
-  z-index:4;
-  background: rgba(0,0,0,0.35);
-  color:#fff;
-  padding:6px 10px;
-  border-radius:10px;
-  font-size:.72rem;
-  letter-spacing:.12em;
-  text-transform:uppercase;
+.download-buttons a {
+  text-align:center;
+  padding:1rem 1.4rem;
+  border-radius:50px;
   font-family:'LemonMilkLight', sans-serif;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  color:#fff;
+  text-decoration:none;
+  min-height:48px;
+  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
-.founder-signature{
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  z-index: 4;
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(0,0,0,0.22);
-  padding: 6px 10px;
-  border-radius: 8px;
-}
+.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+.apple { background: linear-gradient(135deg,#000,#555); }
+.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
 
-/* CONTATTI ICONE */
-.contact-icon {
-  width:20px;
-  height:20px;
-  vertical-align:middle;
-  margin-right:6px;
-  transition: transform .3s ease;
-}
-.contact-icon:hover {
-  transform: scale(1.2) rotate(-10deg);
-}
-
-/* FOOTER */
+/* =========================
+   FOOTER
+========================= */
 footer {
   text-align:center;
   padding:3rem 1rem 4rem;
@@ -244,13 +248,22 @@ footer {
 }
 footer a { color:var(--accento); text-decoration:none; }
 
-/* ANIMAZIONI */
+/* =========================
+   ANIMAZIONI
+========================= */
 @keyframes float {
   0%,100% { transform:translateY(0); }
   50% { transform:translateY(-10px); }
 }
 
-/* REVEAL */
+@keyframes revealUp {
+  from { opacity: 0; transform: translateY(40px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
+
+/* =========================
+   REVEAL (default hidden, then set in-view via JS)
+========================= */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
@@ -262,15 +275,142 @@ footer a { color:var(--accento); text-decoration:none; }
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* small utility for delaying reveal (data-delay in ms) */
+.reveal[data-delay] { transition-delay: 0ms; }
+
+/* =========================
+   RESPONSIVE
+========================= */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
+  .download-buttons { flex-direction:row; }
+  .download-buttons a { flex:1; }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
   section h2 { font-size:2rem; }
   .card { padding:2.6rem; }
+}
+
+/* =========================
+   REDUCE MOTION
+========================= */
+@media (prefers-reduced-motion: reduce) {
+  .card, .gallery a, .gallery .placeholder, .download-buttons a {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* =========================
+   STILE PER IL FONDATORE SOSTITUITO DALL'IMMAGINE
+========================= */
+.card.founder {
+  padding: 0;                     /* nessun padding: l'immagine deve riempire il riquadro */
+  min-height: 380px;              /* riquadro più grande per valorizzare il ritratto */
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #111;         /* fallback se l'immagine non carica */
+  background-position: center;
+  background-size: cover;
+  background-repeat: no-repeat;
+  box-shadow: 0 20px 55px rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.06);
+  position: relative;
+}
+
+/* overlay gradiente nero (da sinistra 60% a destra 10%) */
+.card.founder::before {
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 1;
+  background: linear-gradient(90deg, rgba(0,0,0,.6) 0%, rgba(0,0,0,.45) 35%, rgba(0,0,0,.25) 65%, rgba(0,0,0,.1) 100%);
+  pointer-events: none;
+}
+
+/* micro-effetto luce che scorre al passaggio del mouse */
+.card.founder::after{
+  content: "";
+  position: absolute;
+  inset: 0;
+  z-index: 2;
+  pointer-events: none;
+  background: radial-gradient(circle at left center, rgba(255,255,255,0.12), rgba(255,255,255,0.06) 10%, transparent 30%);
+  background-repeat: no-repeat;
+  background-size: 60% 100%;
+  background-position: left center;
+  opacity: 0;
+  transition: background-position .9s ease, opacity .45s ease;
+}
+
+/* al passaggio del mouse la luce scorre verso destra e diventa visibile */
+.card.founder:hover::after{
+  background-position: right center;
+  opacity: 1;
+}
+
+/* testo sopra l'immagine */
+.founder-text{
+  position: relative;
+  z-index: 3;
+  padding: 2.2rem;
+  max-width: 680px;
+  font-size: .98rem;
+  line-height: 1.6;
+  color: #fff;
+  transform: translateX(-18px);
+  opacity: 0;
+  transition: transform .8s var(--transition-ease), opacity .8s var(--transition-ease);
+}
+
+/* quando il riquadro diventa in-view, il testo entra da sinistra */
+.card.founder.reveal.in-view .founder-text{
+  transform: translateX(0);
+  opacity: 1;
+}
+
+/* firma elegante in basso a destra */
+.founder-signature{
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: rgba(255,255,255,.95);
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
+  backdrop-filter: blur(4px);
+  box-shadow: 0 6px 18px rgba(0,0,0,.35);
+}
+
+/* --- badge per Fondatore / Co-fondatore --- */
+.founder-badge{
+  position: absolute;
+  left: 18px;
+  top: 18px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: .78rem;
+  color: rgba(255,255,255,.98);
+  background: rgba(0,0,0,0.28);
+  padding: 6px 10px;
+  border-radius: 10px;
+  letter-spacing: .18em;
+  text-transform: uppercase;
+  backdrop-filter: blur(4px);
+  border: 1px solid rgba(255,255,255,0.06);
+}
+
+/* small responsive tweak */
+@media (max-width:767px){
+  .founder-text{ padding:1.2rem; font-size:.95rem; }
+  .card.founder{ min-height: 300px; border-radius:14px; }
 }
 </style>
 </head>
@@ -281,7 +421,7 @@ footer a { color:var(--accento); text-decoration:none; }
 <header class="reveal" data-delay="0">
   <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
   <h1>ASTRI NASCENTI</h1>
-  <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie di Milano Municipio 2.</p>
+  <p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie.</p>
 </header>
 
 <main id="main" tabindex="-1">
@@ -295,28 +435,64 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="180">Serate osservative</h2>
+  <h2 class="reveal" data-delay="180">Serate di osservazione</h2>
+
   <div class="grid">
     <div class="card reveal" data-delay="220">
-      <p>Impareremo ad orientarci di notte riconoscendo le principali costellazioni; osserveremo Luna, pianeti e gli oggetti più brillanti del cielo profondo come galassie, nebulose e ammassi stellari con l'ausilio di laser verdi e telescopi professionali.</p>
+      <p>Durante le serate osservative si osservano Luna, pianeti, stelle e galassie attraverso telescopi professionali.</p>
     </div>
+
     <div class="gallery" aria-label="Galleria fotografica">
-      <a href="foto-astronomiche.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astronomiche">
-        <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astronomiche">
-        <span>Archivio Foto Astronomiche</span>
+      <!-- ARCHIVIO FOTO ASTROFILI - INVARIATO -->
+      <a href="foto-astrofili.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astrofili">
+        <img src="images/astrinascentifoto11.jpg" alt="Archivio Foto Astrofili">
+        <span>Archivio Foto Astrofili</span>
       </a>
-      <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Strumentazione">
-        <img src="images/astrinascentifoto38.jpg" alt="Strumentazione">
-        <span>Strumentazione</span>
+
+      <!-- TELESCOPI - SERIE FOTO STRUMENTI -->
+      <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Telescopi · Serie strumenti">
+        <img src="images/astrinascentifoto38.jpg" alt="Telescopi · Serie strumenti">
+        <span>Telescopi · Serie strumenti</span>
       </a>
+
+      <!-- OSSERVAZIONI -->
       <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" aria-label="Osservazioni" target="_blank" rel="noopener noreferrer">
         <img src="images/astrinascentifoto1.jpg" alt="Osservazioni">
         <span>Osservazioni</span>
       </a>
-      <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Il Progetto Astri Nascenti - Sfoglia il book" target="_blank" rel="noopener noreferrer">
-        <img src="Pag/astri-nascenti-2025-1.jpg" alt="Il Progetto Astri Nascenti">
-        <span>Il Progetto Astri Nascenti</span>
+
+      <!-- ATTIVITÀ DIDATTICHE: copertina book -->
+      <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Attività didattiche - Sfoglia il book" target="_blank" rel="noopener noreferrer">
+        <img src="Pag/astri-nascenti-2025-1.jpg" alt="Attività didattiche">
+        <span>Attività didattiche</span>
       </a>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="reveal" data-delay="420">Software consigliati</h2>
+  <div class="grid">
+    <div class="card reveal" data-delay="460">
+      <h3>Moon Globe</h3>
+      <div class="download-buttons">
+        <a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
+      </div>
+    </div>
+
+    <div class="card reveal" data-delay="500">
+      <h3>Star Walk</h3>
+      <div class="download-buttons">
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight</a>
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2</a>
+      </div>
+    </div>
+
+    <div class="card reveal" data-delay="540">
+      <h3>Stellarium</h3>
+      <div class="download-buttons">
+        <a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
+      </div>
     </div>
   </div>
 </section>
@@ -324,10 +500,9 @@ footer a { color:var(--accento); text-decoration:none; }
 <section>
   <h2 class="reveal" data-delay="580">Chi siamo</h2>
   <div class="grid">
-
-    <!-- Fondatore -->
-    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore" tabindex="0">
-      <img src="Ritratti/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
+    <!-- CARD FONDATORE: immagine full-bleed con testo sovrapposto (logica mantenuta) -->
+    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore" tabindex="0"
+         style="background-image: url('Ritratti/Ritratto1.jpg');">
       <div class="founder-badge" aria-hidden="true">Fondatore</div>
       <div class="founder-text">
         <p>Mi chiamo Matteo e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non si fanno oroscopi, qua si osserva il cielo. Per tutti, da sempre, sono Roger.</p>
@@ -341,19 +516,23 @@ footer a { color:var(--accento); text-decoration:none; }
       <div class="founder-signature" aria-hidden="true">Roger</div>
     </div>
 
-    <!-- Co-fondatore -->
-    <div class="card founder reveal" data-delay="660" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
-      <img src="Ritratti/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
-      <div class="founder-badge" aria-hidden="true">Co-fondatore</div>
-      <div class="founder-text">
-        <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani, entrambi insegnanti di lettere e laureati in materie umanistiche: Filosofia, mia madre, Lettere Antiche mio padre. I miei genitori mi hanno trasmesso la passione per la lettura, i classici e per il valore fondamentale dell'istruzione. Nonostante una forte impronta classicista della mia famiglia, fin da piccolo ho nutrito una forte curiosità verso le scienze ed in particolar modo l'astronomia.</p>
-        <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti con un piccolo binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche: notti che hanno acceso una passione destinata a crescere nel tempo.</p>
-        <p>Dopo il diploma di maturità al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia, frequentare il Planetario e incontrare, nel 2005, i primi circoli di appassionati. Con loro ho iniziato a osservare il cielo in modo condiviso sono entrato a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community online e all’organizzazione di Star Party sotto alcuni dei cieli più bui d’Italia.</p>
-        <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando in AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto, Responsabile Acquisti ed Export Manager.</p>
-        <p>Accanto all’astronomia coltivo l’amore per la mitologia, l’etimologia e la storia delle costellazioni. Continuo ancora oggi le osservazioni notturne dal balcone di Milano, con la paziente complicità della mia compagna Daniela e l’entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della costellazione della Corona Boreale.</p>
-        <p>Sul finire del 2024 incontro Roger durante una serata di divulgazione astronomica nella scuola di mia figlia e mi appassiono al progetto Astri Nascenti. Da qui nasce un sodalizio che ci porta a raccontare il cielo ai più piccoli, sperando che qualcuno di loro inizi, proprio come noi, ad avere la testa sempre più oltre le nuvole.</p>
+    <!-- CARD CO-FONDATORE: ho inserito la biografia completa che mi hai fornito -->
+    <div class="card reveal" data-delay="660" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
+      <div style="display:flex; gap:1.2rem; align-items:flex-start; flex-wrap:wrap;">
+        <img src="Ritratti/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async" style="width:140px; height:140px; object-fit:cover; border-radius:10px; box-shadow:0 10px 30px rgba(0,0,0,.45);">
+        <div style="flex:1; min-width:200px;">
+          <h3 style="margin-bottom:.6rem;">Co-fondatore</h3>
+          <div style="font-size:.95rem; line-height:1.5; color: #111;">
+            <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani, entrambi insegnanti di lettere e laureati in materie umanistiche: Filosofia, mia madre, Lettere Antiche mio padre. I miei genitori mi hanno trasmesso la passione per la lettura, i classici e per il valore fondamentale dell'istruzione. Nonostante una forte impronta classicista della mia famiglia, fin da piccolo ho nutrito una forte curiosità verso le scienze ed in particolar modo l'astronomia.</p>
+            <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti con un piccolo binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche: notti che hanno acceso una passione destinata a crescere nel tempo.</p>
+            <p>Dopo il diploma di maturità al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia, frequentare il Planetario e incontrare, nel 2005, i primi circoli di appassionati. Con loro ho iniziato a osservare il cielo in modo condiviso sono entrato a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community online e all’organizzazione di Star Party sotto alcuni dei cieli più bui d’Italia.</p>
+            <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando in AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto, Responsabile Acquisti ed Export Manager.</p>
+            <p>Accanto all’astronomia coltivo l’amore per la mitologia, l’etimologia e la storia delle costellazioni. Continuo ancora oggi le osservazioni notturne dal balcone di Milano, con la paziente complicità della mia compagna Daniela e l’entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della costellazione della Corona Boreale.</p>
+            <p>Sul finire del 2024 incontro Roger durante una serata di divulgazione astronomica nella scuola di mia figlia e mi appassiono al progetto Astri Nascenti. Da qui nasce un sodalizio che ci porta a raccontare il cielo ai più piccoli, sperando che qualcuno di loro inizi, proprio come noi, ad avere la testa sempre più oltre le nuvole.</p>
+          </div>
+          <div style="margin-top:.8rem; font-family:'LemonMilkLight', sans-serif; color:#333;">Matteo Di Bella</div>
+        </div>
       </div>
-      <div class="founder-signature" aria-hidden="true">Matteo Di Bella</div>
     </div>
 
   </div>
@@ -370,10 +549,10 @@ footer a { color:var(--accento); text-decoration:none; }
   <h2 class="reveal" data-delay="780">Contatti</h2>
   <div class="card reveal" data-delay="820">
     <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
-      <img src="icons/mail.svg" alt="Mail" class="contact-icon"> astrinascenti.astronomia@gmail.com</a>
+      <img src="icons/mail.svg" alt="Mail" class="contact-icon" style="width:16px; vertical-align:middle; margin-right:6px;"> astrinascenti.astronomia@gmail.com</a>
     </p>
     <p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
-      <img src="icons/instagram.svg" alt="Instagram" class="contact-icon"> IG Astri Nascenti</a>
+      <img src="icons/instagram.svg" alt="Instagram" class="contact-icon" style="width:16px; vertical-align:middle; margin-right:6px;"> IG Astri Nascenti</a>
     </p>
   </div>
 </section>
