@@ -184,7 +184,7 @@ section h2 {
   z-index:2;
 }
 
-/* DOWNLOAD BUTTONS */
+/* DOWNLOAD BUTTONS (software consigliati) */
 .download-buttons {
   display:flex;
   flex-direction:column;
@@ -208,21 +208,20 @@ section h2 {
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
 .web { background:linear-gradient(135deg,#007ACC,#005A99); }
 
-/* FONDATORE (immagine + testo) */
+/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO (mobile) */
 .card.founder {
   display: flex;
-  flex-direction: column; /* mobile first: immagine sopra */
-  min-height: auto;
+  flex-direction: column;
+  min-height: auto; 
   border-radius: 18px;
   overflow: hidden;
   background-color: #111;
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
-  align-items: stretch;
 }
 .card.founder img {
-  width: 100%;
+  width: 100%; 
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
@@ -232,8 +231,8 @@ section h2 {
   font-size: 1rem;
   line-height: 1.6;
   color: #fff;
-  /* NON limitare l'altezza del testo: lascia che si espanda verticalmente */
-  overflow-y: visible;
+  /* IMPORTANT: non limitare verticalmente il testo: lasciamo che cresca naturalmente */
+  overflow: visible;
 }
 .founder-badge{
   position:absolute;
@@ -301,7 +300,7 @@ footer a { color:var(--accento); text-decoration:none; }
   transform: translateY(0);
 }
 
-/* RESPONSIVE */
+/* RESPONSIVE: desktop layout */
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
@@ -313,30 +312,29 @@ footer a { color:var(--accento); text-decoration:none; }
   section h2 { font-size:2rem; }
   .card { padding:2.6rem; }
 
-  /* su desktop: fondatore con immagine a sinistra e testo a destra,
-     limite solo all'immagine (larghezza fissa), testo NON limitato verticalmente */
+  /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
+     e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
   .card.founder {
     flex-direction: row;
-    align-items: flex-start;
+    align-items: flex-start; /* permetti al testo di espandersi verso il basso se necessario */
   }
-
   .card.founder img {
-    width: 360px;       /* larghezza fissa controllata */
+    width: 360px;       /* blocco larghezza fisso per limitare l'immagine */
     max-width: 360px;
-    height: auto;       /* IMPORTANTE: NON height:100% — lasciare altezza automatica */
+    height: auto;      /* non forziamo height:100% per non far "tirare" l'intera card all'altezza dell'immagine */
     object-fit: cover;
     object-position: center;
     flex-shrink: 0;
   }
-
   .founder-text {
     width: calc(100% - 360px);
-    /* RIMOSSO max-height e overflow: il testo può espandersi in verticale liberamente */
-    overflow-y: visible;
+    /* NON mettiamo max-height né overflow-y: auto: lasciamo il testo espandersi verticalmente */
+    overflow: visible;
+    max-height: none;
   }
 }
 
-/* REDUCE MOTION */
+/* ARIA: riduci movimento se richiesto dal sistema */
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
   .card, .gallery a, .gallery .placeholder, .download-buttons a {
@@ -385,20 +383,20 @@ footer a { color:var(--accento); text-decoration:none; }
     </div>
     <div class="gallery" aria-label="Galleria fotografica">
       <a href="foto-astronomiche.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astronomiche">
-        <!-- COPERTINA SOSTITUITA COME RICHIESTO -->
-        <img src="images/ast/ast1.PNG" alt="Archivio Foto Astronomiche">
+        <!-- COPERTINA CAMBIATA: immagine desiderata -->
+        <img src="images/ast/ast1.PNG" alt="Archivio Foto Astronomiche" loading="lazy" decoding="async">
         <span>Archivio Foto Astronomiche</span>
       </a>
       <a href="telescopi.html" class="reveal" data-delay="300" aria-label="Strumentazione">
-        <img src="images/astrinascentifoto38.jpg" alt="Strumentazione">
+        <img src="images/astrinascentifoto38.jpg" alt="Strumentazione" loading="lazy" decoding="async">
         <span>Strumentazione</span>
       </a>
       <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/osservazioni.html" class="reveal" data-delay="340" aria-label="Osservazioni" target="_blank" rel="noopener noreferrer">
-        <img src="images/astrinascentifoto1.jpg" alt="Osservazioni">
+        <img src="images/astrinascentifoto1.jpg" alt="Osservazioni" loading="lazy" decoding="async">
         <span>Osservazioni</span>
       </a>
       <a href="book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Il Progetto Astri Nascenti - Sfoglia il book" target="_blank" rel="noopener noreferrer">
-        <img src="Pag/astri-nascenti-2025-1.jpg" alt="Il Progetto Astri Nascenti">
+        <img src="Pag/astri-nascenti-2025-1.jpg" alt="Il Progetto Astri Nascenti" loading="lazy" decoding="async">
         <span>Il Progetto Astri Nascenti</span>
       </a>
     </div>
@@ -410,7 +408,7 @@ footer a { color:var(--accento); text-decoration:none; }
   <div class="grid">
     <div class="card reveal" data-delay="620">
       <h3>Moon Globe</h3>
-      <div class="download-buttons">
+      <div class="download-buttons" aria-hidden="false">
         <a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
       </div>
       <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Ottimo per esplorare la superficie lunare con mappe dettagliate e informazioni storiche sulle missioni.</p>
@@ -418,16 +416,16 @@ footer a { color:var(--accento); text-decoration:none; }
 
     <div class="card reveal" data-delay="660">
       <h3>Star Walk / Sky Tonight</h3>
-      <div class="download-buttons">
-        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight</a>
-        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2</a>
+      <div class="download-buttons" aria-hidden="false">
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight (Android)</a>
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2 (Android)</a>
       </div>
       <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Applicazioni ideali per le uscite serali: puntano il cielo in tempo reale e forniscono dati immediati su stelle e pianeti.</p>
     </div>
 
     <div class="card reveal" data-delay="700">
       <h3>Stellarium</h3>
-      <div class="download-buttons">
+      <div class="download-buttons" aria-hidden="false">
         <a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
       </div>
       <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Software desktop e mobile: planetario virtuale professionale, ottimo per simulazioni e lezioni in aula.</p>
@@ -542,6 +540,7 @@ footer a { color:var(--accento); text-decoration:none; }
   if (reduce) return; // niente animazione se ridotto movimento
 
   const canvas = document.getElementById('starfield');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
   let w = canvas.width = innerWidth;
   let h = canvas.height = innerHeight;
@@ -552,7 +551,7 @@ footer a { color:var(--accento); text-decoration:none; }
   canvas.style.height = h + 'px';
   ctx.scale(DPR, DPR);
 
-  const NUM_STARS = Math.round((w * h) / 6000); // densità responsiva
+  const NUM_STARS = Math.round((w * h) / 6000);
   const stars = [];
 
   function rand(min, max){ return Math.random() * (max - min) + min; }
