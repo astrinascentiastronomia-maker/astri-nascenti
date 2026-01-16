@@ -50,7 +50,20 @@ body {
   overflow-x:hidden;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
+  position:relative;
 }
+
+/* canvas starfield (sopra il background, sotto il contenuto) */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+}
+
+/* content container deve stare sopra le stelle */
+main, header, footer, .card, .gallery { position: relative; z-index: 2; }
 
 /* skip link */
 .skip-link {
@@ -171,20 +184,45 @@ section h2 {
   z-index:2;
 }
 
-/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO */
+/* DOWNLOAD BUTTONS */
+.download-buttons {
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-top:1.4rem;
+}
+.download-buttons a {
+  text-align:center;
+  padding:1rem 1.4rem;
+  border-radius:50px;
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  color:#fff;
+  text-decoration:none;
+  min-height:48px;
+  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+}
+.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+.apple { background: linear-gradient(135deg,#000,#555); }
+.google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+
+/* FONDATORE (immagine + testo) */
 .card.founder {
   display: flex;
-  flex-direction: column; /* sempre colonna, foto sopra */
-  min-height: auto; 
+  flex-direction: column; /* mobile first: immagine sopra */
+  min-height: auto;
   border-radius: 18px;
   overflow: hidden;
   background-color: #111;
   position: relative;
   box-shadow: 0 20px 55px rgba(0,0,0,.6);
   border: 1px solid rgba(255,255,255,.06);
+  align-items: stretch;
 }
 .card.founder img {
-  width: 100%; 
+  width: 100%;
   height: auto;
   object-fit: cover;
   flex-shrink: 0;
@@ -194,7 +232,8 @@ section h2 {
   font-size: 1rem;
   line-height: 1.6;
   color: #fff;
-  overflow-y: auto;
+  /* NON limitare l'altezza del testo: lascia che si espanda verticalmente */
+  overflow-y: visible;
 }
 .founder-badge{
   position:absolute;
@@ -266,42 +305,61 @@ footer a { color:var(--accento); text-decoration:none; }
 @media (min-width:768px) {
   .grid { grid-template-columns: repeat(2,1fr); }
   .gallery { grid-template-columns: repeat(4,1fr); }
+  .download-buttons { flex-direction:row; }
+  .download-buttons a { flex:1; }
 }
 @media (min-width:1024px) {
   header h1 { font-size:3.1rem; }
   section h2 { font-size:2rem; }
   .card { padding:2.6rem; }
-}
 
-/* ----------------------------
-   Regole aggiuntive per il fondatore su desktop
-   - impediscono all'immagine di allargarsi troppo orizzontalmente
-   - mantengono layout foto a sinistra / testo a destra su desktop
----------------------------- */
-@media (min-width:1024px) {
+  /* su desktop: fondatore con immagine a sinistra e testo a destra,
+     limite solo all'immagine (larghezza fissa), testo NON limitato verticalmente */
   .card.founder {
     flex-direction: row;
-    min-height: 520px;
+    align-items: flex-start;
   }
+
   .card.founder img {
     width: 360px;       /* larghezza fissa controllata */
     max-width: 360px;
-    height: 100%;
+    height: auto;       /* IMPORTANTE: NON height:100% — lasciare altezza automatica */
     object-fit: cover;
     object-position: center;
     flex-shrink: 0;
   }
+
   .founder-text {
     width: calc(100% - 360px);
-    max-height: 520px;
-    overflow-y: auto;
+    /* RIMOSSO max-height e overflow: il testo può espandersi in verticale liberamente */
+    overflow-y: visible;
   }
+}
+
+/* REDUCE MOTION */
+@media (prefers-reduced-motion: reduce) {
+  #starfield { display: none !important; }
+  .card, .gallery a, .gallery .placeholder, .download-buttons a {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+
+/* small responsive tweak */
+@media (max-width:767px){
+  .founder-text{ padding:1.2rem; font-size:.95rem; }
+  .card.founder{ min-height: 300px; border-radius:14px; }
 }
 </style>
 </head>
 
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
+
+<!-- Canvas starfield -->
+<canvas id="starfield" aria-hidden="true"></canvas>
 
 <header class="reveal" data-delay="0">
   <img src="logo-astri-nascenti.png" alt="Astri Nascenti">
@@ -327,6 +385,7 @@ footer a { color:var(--accento); text-decoration:none; }
     </div>
     <div class="gallery" aria-label="Galleria fotografica">
       <a href="foto-astronomiche.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astronomiche">
+        <!-- COPERTINA SOSTITUITA COME RICHIESTO -->
         <img src="images/ast/ast1.PNG" alt="Archivio Foto Astronomiche">
         <span>Archivio Foto Astronomiche</span>
       </a>
@@ -347,11 +406,41 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="580">Chi siamo</h2>
+  <h2 class="reveal" data-delay="580">Software consigliati</h2>
+  <div class="grid">
+    <div class="card reveal" data-delay="620">
+      <h3>Moon Globe</h3>
+      <div class="download-buttons">
+        <a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
+      </div>
+      <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Ottimo per esplorare la superficie lunare con mappe dettagliate e informazioni storiche sulle missioni.</p>
+    </div>
+
+    <div class="card reveal" data-delay="660">
+      <h3>Star Walk / Sky Tonight</h3>
+      <div class="download-buttons">
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight</a>
+        <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2</a>
+      </div>
+      <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Applicazioni ideali per le uscite serali: puntano il cielo in tempo reale e forniscono dati immediati su stelle e pianeti.</p>
+    </div>
+
+    <div class="card reveal" data-delay="700">
+      <h3>Stellarium</h3>
+      <div class="download-buttons">
+        <a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
+      </div>
+      <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Software desktop e mobile: planetario virtuale professionale, ottimo per simulazioni e lezioni in aula.</p>
+    </div>
+  </div>
+</section>
+
+<section>
+  <h2 class="reveal" data-delay="740">Chi siamo</h2>
   <div class="grid">
 
     <!-- Fondatore -->
-    <div class="card founder reveal" data-delay="620" role="img" aria-label="Ritratto del fondatore" tabindex="0">
+    <div class="card founder reveal" data-delay="780" role="img" aria-label="Ritratto del fondatore" tabindex="0">
       <img src="Ritratti/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
       <div class="founder-badge" aria-hidden="true">Fondatore</div>
       <div class="founder-text">
@@ -367,7 +456,7 @@ footer a { color:var(--accento); text-decoration:none; }
     </div>
 
     <!-- Co-fondatore -->
-    <div class="card founder reveal" data-delay="660" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
+    <div class="card founder reveal" data-delay="820" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
       <img src="Ritratti/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
       <div class="founder-badge" aria-hidden="true">Co-fondatore</div>
       <div class="founder-text">
@@ -385,15 +474,15 @@ footer a { color:var(--accento); text-decoration:none; }
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="700">Calendario eventi</h2>
-  <div class="card reveal" data-delay="740">
+  <h2 class="reveal" data-delay="860">Calendario eventi</h2>
+  <div class="card reveal" data-delay="900">
     <p>Date in aggiornamento.</p>
   </div>
 </section>
 
 <section>
-  <h2 class="reveal" data-delay="780">Contatti</h2>
-  <div class="card reveal" data-delay="820">
+  <h2 class="reveal" data-delay="940">Contatti</h2>
+  <div class="card reveal" data-delay="980">
     <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
       <img src="icons/mail.svg" alt="Mail" class="contact-icon"> astrinascenti.astronomia@gmail.com</a>
     </p>
@@ -411,6 +500,9 @@ footer a { color:var(--accento); text-decoration:none; }
 </footer>
 
 <script>
+/* =========================
+   IntersectionObserver reveal
+========================= */
 (function(){
   const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
   if (reduce) {
@@ -439,6 +531,90 @@ footer a { color:var(--accento); text-decoration:none; }
     });
   }, {root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08});
   reveals.forEach(el => observer.observe(el));
+})();
+
+/* =========================
+   Starfield canvas animation
+   respects prefers-reduced-motion
+========================= */
+(function(){
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return; // niente animazione se ridotto movimento
+
+  const canvas = document.getElementById('starfield');
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+  const DPR = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = w * DPR;
+  canvas.height = h * DPR;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(DPR, DPR);
+
+  const NUM_STARS = Math.round((w * h) / 6000); // densità responsiva
+  const stars = [];
+
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+
+  for (let i=0;i<NUM_STARS;i++){
+    stars.push({
+      x: rand(0, w),
+      y: rand(0, h),
+      r: Math.random() < 0.02 ? rand(1.2,2.6) : rand(0.4,1.1),
+      tw: rand(0.01, 0.9),
+      alpha: rand(0.2, 0.95),
+      vx: rand(-0.02, 0.02),
+      vy: rand(-0.02, 0.02)
+    });
+  }
+
+  let t0 = performance.now();
+  function draw(now){
+    const dt = (now - t0) / 1000;
+    t0 = now;
+    ctx.clearRect(0,0,w,h);
+
+    stars.forEach(s => {
+      const pulse = 0.5 + 0.5 * Math.sin(now * 0.0025 + s.tw * Math.PI * 2);
+      const a = Math.min(1, Math.max(0.12, s.alpha * pulse));
+
+      s.x += s.vx * (dt * 60);
+      s.y += s.vy * (dt * 60);
+
+      if (s.x < -10) s.x = w + 10;
+      if (s.x > w + 10) s.x = -10;
+      if (s.y < -10) s.y = h + 10;
+      if (s.y > h + 10) s.y = -10;
+
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
+      grad.addColorStop(0, 'rgba(255,255,255,' + (0.8 * a) + ')');
+      grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.18 * a) + ')');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.9 * a) + ')';
+      ctx.fill();
+    });
+
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', () => {
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+    canvas.width = w * DPR;
+    canvas.height = h * DPR;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(DPR, DPR);
+  });
+
+  requestAnimationFrame(draw);
 })();
 </script>
 
