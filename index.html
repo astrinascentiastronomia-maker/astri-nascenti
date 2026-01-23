@@ -413,22 +413,22 @@ footer a { color:var(--accento); text-decoration:none; }
     La costellazione del mese di gennaio <span style="color:#e53935">Orione</span>
   </h2>
 
-  <!-- Contenitore principale (senza 'card'): immagine come sfondo a sinistra + testo a destra -->
+  <!-- Contenitore principale (visual left as background + text right) -->
   <div class="reveal" data-delay="460" style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
 
-    <!-- Visual (left) - placeholder come background; la url è vuota per ora -->
+    <!-- Visual (left) - ora punta all'immagine fornita -->
     <div
       class="reveal"
       data-delay="480"
       role="img"
-      aria-label="Immagine Orione (placeholder)"
+      aria-label="Immagine Orione"
       tabindex="0"
       style="
-        flex:1 1 360px;
-        min-width:240px;
-        max-width:560px;
-        min-height:320px;
-        background-image: url('');
+        flex:1 1 420px;
+        min-width:260px;
+        max-width:720px;
+        min-height:380px;
+        background-image: url('images/costellazione/costellazionemese.jpg');
         background-size: cover;
         background-position: left center;
         background-repeat: no-repeat;
@@ -441,22 +441,28 @@ footer a { color:var(--accento); text-decoration:none; }
         position:absolute;
         inset:0;
         pointer-events:none;
-        background: linear-gradient(90deg, rgba(0,0,0,0) 55%, rgba(0,0,0,0.78) 100%);
+        background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%);
       " aria-hidden="true"></div>
     </div>
 
     <!-- Testo (right) -->
     <div style="
-      flex:1 1 320px;
-      min-width:220px;
+      flex:1 1 380px;
+      min-width:260px;
       display:flex;
       align-items:center;
       padding:2rem;
       color:var(--bianco);
-      background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);">
-      <p style="margin:0; font-size:1.1rem; line-height:1.4;">
-        Gennaio non festeggia solo l'inizio dell'anno
-      </p>
+      background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
+    ">
+      <div>
+        <p style="margin:0 0 0.8rem 0; font-size:1.05rem; line-height:1.5;">
+          Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.
+        </p>
+        <a href="https://example.com" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
+          Altro...
+        </a>
+      </div>
     </div>
 
   </div>
