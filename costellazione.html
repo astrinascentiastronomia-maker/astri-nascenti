@@ -1,8 +1,8 @@
 <!DOCTYPE html>
 <html lang="it">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Il cielo di gennaio 2026</title>
 
 <!-- FONT -->
@@ -13,139 +13,238 @@
        url('fonts/LemonMilk-Light.woff') format('woff');
   font-display: swap;
 }
-body {
-  margin:0;
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  background:
-    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
-    url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
-  color:#fff;
-  line-height:1.6;
-  padding:1rem;
+
+/* VARIABILI */
+:root{
+  --bg-gradient: linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95));
+  --content-bg: rgba(0,0,0,0.45);
+  --accent: #c9d6df;
+  --highlight: #e53935;
+  --base-font-size: 18px; /* dimensione unica per tutti i testi */
+  --text-color: #ffffff;
 }
 
-/* TITOLI */
+/* RESET + BASE */
+* { box-sizing: border-box; margin:0; padding:0; }
+html { font-size: var(--base-font-size); }
+body {
+  font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
+  color: var(--text-color);
+  line-height: 1.5;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+  position:relative;
+  padding: 1rem;
+}
+
+/* canvas stelle (sopra background, sotto contenuto) */
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
+  display:block;
+}
+
+/* contenuto principale sopra le stelle */
+.page {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 1.2rem auto;
+}
+
+/* Usare UNA SOLA dimensione per tutto: titolo, testo, link */
+h1, h2, p, a, li {
+  font-size: 1rem; /* = var(--base-font-size) */
+  font-weight: 400;
+  text-transform: none; /* importante: niente maiuscole forzate */
+  letter-spacing: normal;
+  line-height: 1.6;
+  color: var(--text-color);
+}
+
+/* header */
+header {
+  text-align: center;
+  margin-bottom: 1rem;
+}
 header h1 {
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:2.8rem;
-  text-transform: uppercase;
-  letter-spacing: 0.15em;
-  text-align:center;
-  margin-bottom:0.5rem;
+  margin-bottom: 0.3rem;
 }
 header p.subtitle {
-  font-size:1.2rem;
-  text-align:center;
-  color:#fff;
-  margin-bottom:2rem;
-  max-width:900px;
-  margin-left:auto;
-  margin-right:auto;
+  margin-top: 0.35rem;
+  color: var(--text-color);
+  opacity: 0.95;
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 880px;
 }
 
-/* MAIN IMAGE */
+/* immagine principale */
 img.main-image {
   display:block;
-  max-width:100%;
+  width:100%;
   height:auto;
-  margin:0 auto 2rem auto;
-  border-radius:12px;
-  box-shadow:0 12px 40px rgba(0,0,0,.6);
+  margin: 1rem 0;
+  border-radius: 10px;
+  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
 }
 
-/* CONTENUTO */
+/* box testo leggermente traslucido per leggibilità */
 .content {
-  max-width:960px;
-  margin:0 auto 3rem auto;
-  padding:2rem;
-  background: rgba(0,0,0,0.45);
+  background: var(--content-bg);
   backdrop-filter: blur(8px);
-  border-radius:18px;
+  padding: 1.2rem;
+  border-radius: 14px;
+  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
 }
 
-.content p {
-  margin-bottom:1rem;
-  font-family:'LemonMilkLight', sans-serif;
-  font-size:1rem;
-}
-
+/* titoli sezione (stesso font-size, visivamente separati con margine) */
 .content h2 {
-  font-size:1.3rem;
-  margin-top:2rem;
-  margin-bottom:1rem;
-  text-transform:uppercase;
-  color:#fff;
+  margin-top: 1rem;
+  margin-bottom: 0.6rem;
+  color: var(--accent);
+  font-weight: 600;
 }
 
-.content ul {
-  padding-left:1.5rem;
-  margin-bottom:1rem;
-}
+/* liste e link */
+.content ul { padding-left: 1.1rem; margin-bottom: 1rem; }
+.content li { margin-bottom: 0.45rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
-.content li {
-  margin-bottom:0.5rem;
-}
+/* footer piccolo */
+footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
 
-a {
-  color:#c9d6df;
-  text-decoration:none;
-  font-weight:600;
-}
-a:hover {
-  text-decoration:underline;
-}
-
-/* RESPONSIVE */
-@media (min-width:768px) {
-  header h1 { font-size:3.5rem; }
-  .content p { font-size:1.1rem; }
-  .content h2 { font-size:1.5rem; }
+/* prefer-reduced-motion */
+@media (prefers-reduced-motion: reduce) {
+  #starfield { display: none !important; }
 }
 </style>
 </head>
 <body>
 
-<header>
-  <h1>Il cielo di <span id="current-month">Gennaio</span> 2026</h1>
-  <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
-</header>
+<!-- canvas per stelle (animazione) -->
+<canvas id="starfield" aria-hidden="true"></canvas>
 
-<img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
+<div class="page">
+  <header>
+    <h1>Il cielo di <span id="current-month">Gennaio</span> 2026</h1>
+    <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
+  </header>
 
-<div class="content">
-  <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
+  <img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
 
-  <h2>La Luna</h2>
-  <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo. Queste fasi sono utili sia per capire quando guardare, sia per scegliere come farlo; ad esempio, la Luna nuova è ideale per osservare galassie e nebulose, mentre la Luna piena illumina il paesaggio rendendo difficile l’osservazione degli oggetti più deboli.</p>
+  <main class="content" role="main">
+    <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
 
-  <h2>I pianeti: chi brilla e chi si nasconde</h2>
-  <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere inoltre le quattro lune principali (le lune galileiane) che giocano a rincorrersi attorno al pianeta gigante.</p>
-  <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli (anche se non così spettacolari come durante l’opposizione).</p>
-  <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
+    <h2>La Luna</h2>
+    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo. Queste fasi sono utili sia per capire quando guardare, sia per scegliere come farlo; ad esempio, la Luna nuova è ideale per osservare galassie e nebulose, mentre la Luna piena illumina il paesaggio rendendo difficile l’osservazione degli oggetti più deboli.</p>
 
-  <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-  <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Anche con un semplice binocolo appare come una piccola nuvola luminosa. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto nella fascia degli oggetti deboli potresti tentare di scorgere galassie lontane come quella di Andromeda (M31), visibile come una piccola macchia allungata sotto cieli davvero bui.</p>
+    <h2>I pianeti: chi brilla e chi si nasconde</h2>
+    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere inoltre le quattro lune principali (le lune galileiane) che giocano a rincorrersi attorno al pianeta gigante.</p>
 
-  <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
-  <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1). Questo oggetto è stato identificato come il probabile corpo progenitore dello sciame: alcuni astronomi ritengono che possa essere ciò che resta di una cometa estinta nota come C/1490 Y1, osservata oltre 500 anni fa da astronomi cinesi, giapponesi e coreani.</p>
+    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli (anche se non così spettacolari come durante l’opposizione).</p>
 
-  <h2>Consigli rapidi per osservare</h2>
-  <ul>
-    <li>Trova un luogo buio lontano dalle luci della città.</li>
-    <li>Occhi adattati al buio: non esporli a luci dirette restando all’aperto in penombra e dopo circa 15 minuti noterai più stelle.</li>
-    <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
-  </ul>
+    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
 
-  <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove (la superstar della notte), tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre, buon 2026 a tutti gli Astri Nascenti!</p>
+    <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
+    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Anche con un semplice binocolo appare come una piccola nuvola luminosa. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto nella fascia degli oggetti deboli potresti tentare di scorgere galassie lontane come quella di Andromeda (M31), visibile come una piccola macchia allungata sotto cieli davvero bui.</p>
 
-  <p><a href="https://example.com" style="color:#e53935; font-weight:bold;">Altro...</a></p>
+    <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
+    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1). Questo oggetto è stato identificato come il probabile corpo progenitore dello sciame: alcuni astronomi ritengono che possa essere ciò che resta di una cometa estinta nota come C/1490 Y1, osservata oltre 500 anni fa da astronomi cinesi, giapponesi e coreani.</p>
+
+    <h2>Consigli rapidi per osservare</h2>
+    <ul>
+      <li>Trova un luogo buio lontano dalle luci della città.</li>
+      <li>Occhi adattati al buio: non esporli a luci dirette restando all’aperto in penombra e dopo circa 15 minuti noterai più stelle.</li>
+      <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
+    </ul>
+
+    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove (la superstar della notte), tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre, buon 2026 a tutti gli Astri Nascenti!</p>
+
+    <p><a href="https://astrinascenti.example" style="color:var(--highlight); font-weight:700;">Altro...</a></p>
+  </main>
+
+  <footer>© Astri Nascenti</footer>
 </div>
 
 <script>
-  // Aggiorna il mese automaticamente nel titolo
+/* Aggiorna il mese automaticamente nel titolo */
+(function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
-  document.getElementById("current-month").textContent = months[now.getMonth()];
+  const el = document.getElementById("current-month");
+  if (el) el.textContent = months[now.getMonth()];
+})();
+
+/* Starfield canvas animation (leggero) */
+(function(){
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  const canvas = document.getElementById('starfield');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+  let w = canvas.width = innerWidth;
+  let h = canvas.height = innerHeight;
+  const DPR = Math.max(1, window.devicePixelRatio || 1);
+  canvas.width = w * DPR;
+  canvas.height = h * DPR;
+  canvas.style.width = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(DPR, DPR);
+
+  const NUM = Math.round((w * h) / 90000) * 30; // regola densità
+  const stars = [];
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+  for(let i=0;i<NUM;i++){
+    stars.push({
+      x: rand(0,w),
+      y: rand(0,h),
+      r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
+      alpha: rand(0.15,0.95),
+      tw: rand(0,Math.PI*2)
+    });
+  }
+
+  let last = performance.now();
+  function draw(now){
+    const dt = (now - last)/1000;
+    last = now;
+    ctx.clearRect(0,0,w,h);
+    stars.forEach(s=>{
+      const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
+      const a = Math.max(0.08, s.alpha * pulse);
+      ctx.beginPath();
+      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
+      grad.addColorStop(0, `rgba(255,255,255,${0.9*a})`);
+      grad.addColorStop(0.4, `rgba(255,255,255,${0.2*a})`);
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+      ctx.beginPath();
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = `rgba(255,255,255,${0.9*a})`;
+      ctx.fill();
+    });
+    requestAnimationFrame(draw);
+  }
+
+  window.addEventListener('resize', ()=>{
+    w = canvas.width = innerWidth;
+    h = canvas.height = innerHeight;
+    canvas.width = w * DPR;
+    canvas.height = h * DPR;
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(DPR, DPR);
+  });
+
+  requestAnimationFrame(draw);
+})();
 </script>
 
 </body>
