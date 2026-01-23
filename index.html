@@ -315,22 +315,20 @@ footer a { color:var(--accento); text-decoration:none; }
   /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
      e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
   .card.founder {
-    flex-direction: row;
-    align-items: flex-start; /* permetti al testo di espandersi verso il basso se necessario */
-  }
-  .card.founder img {
-    width: 360px;       /* blocco larghezza fisso per limitare l'immagine */
-    max-width: 360px;
-    height: auto;      /* non forziamo height:100% per non far "tirare" l'intera card all'altezza dell'immagine */
-    object-fit: cover;
-    object-position: center;
-    flex-shrink: 0;
-  }
-  .founder-text {
-    width: calc(100% - 360px);
-    /* NON mettiamo max-height né overflow-y: auto: lasciamo il testo espandersi verticalmente */
-    overflow: visible;
-    max-height: none;
+  flex-direction: column;
+  align-items: stretch;
+}
+
+.card.founder img {
+  width: 100%;
+  max-width: 100%;
+  height: auto;
+  object-fit: cover;
+}
+
+.founder-text {
+  width: 100%;
+  max-width: none;
   }
 }
 
