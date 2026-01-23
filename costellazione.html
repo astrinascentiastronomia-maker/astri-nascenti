@@ -5,76 +5,109 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Il cielo di gennaio 2026</title>
 
+<!-- FONT -->
 <style>
-  body {
-    margin:0;
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background: #000;
-    color: #fff;
-    line-height: 1.6;
-    padding: 1rem;
-  }
+@font-face {
+  font-family: 'LemonMilkLight';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
+}
+body {
+  margin:0;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
+    url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
+  color:#fff;
+  line-height:1.6;
+  padding:1rem;
+}
 
-  header {
-    text-align:center;
-    margin-bottom:2rem;
-  }
-  header h1 {
-    font-size:2.4rem;
-    text-transform: uppercase;
-    letter-spacing: 0.15em;
-  }
+/* TITOLI */
+header h1 {
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:2.8rem;
+  text-transform: uppercase;
+  letter-spacing: 0.15em;
+  text-align:center;
+  margin-bottom:0.5rem;
+}
+header p.subtitle {
+  font-size:1.2rem;
+  text-align:center;
+  color:#fff;
+  margin-bottom:2rem;
+  max-width:900px;
+  margin-left:auto;
+  margin-right:auto;
+}
 
-  img.main-image {
-    display:block;
-    max-width: 100%;
-    height:auto;
-    margin: 0 auto 2rem auto;
-    border-radius: 12px;
-    box-shadow: 0 10px 40px rgba(0,0,0,0.6);
-  }
+/* MAIN IMAGE */
+img.main-image {
+  display:block;
+  max-width:100%;
+  height:auto;
+  margin:0 auto 2rem auto;
+  border-radius:12px;
+  box-shadow:0 12px 40px rgba(0,0,0,.6);
+}
 
-  .content p {
-    margin-bottom: 1rem;
-    font-size: 1rem;
-  }
+/* CONTENUTO */
+.content {
+  max-width:960px;
+  margin:0 auto 3rem auto;
+  padding:2rem;
+  background: rgba(0,0,0,0.45);
+  backdrop-filter: blur(8px);
+  border-radius:18px;
+}
 
-  .content h2 {
-    font-size: 1.2rem;
-    margin-top:2rem;
-    margin-bottom:1rem;
-    text-transform: uppercase;
-    color:#e53935;
-  }
+.content p {
+  margin-bottom:1rem;
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:1rem;
+}
 
-  .content ul {
-    padding-left:1.5rem;
-    margin-bottom:1rem;
-  }
+.content h2 {
+  font-size:1.3rem;
+  margin-top:2rem;
+  margin-bottom:1rem;
+  text-transform:uppercase;
+  color:#fff;
+}
 
-  .content li {
-    margin-bottom:0.5rem;
-  }
+.content ul {
+  padding-left:1.5rem;
+  margin-bottom:1rem;
+}
 
-  a {
-    color:#c9d6df;
-    text-decoration:none;
-    font-weight:600;
-  }
-  a:hover {
-    text-decoration:underline;
-  }
+.content li {
+  margin-bottom:0.5rem;
+}
 
-  @media (min-width:768px) {
-    header h1 { font-size:3rem; }
-    .content p { font-size:1.1rem; }
-  }
+a {
+  color:#c9d6df;
+  text-decoration:none;
+  font-weight:600;
+}
+a:hover {
+  text-decoration:underline;
+}
+
+/* RESPONSIVE */
+@media (min-width:768px) {
+  header h1 { font-size:3.5rem; }
+  .content p { font-size:1.1rem; }
+  .content h2 { font-size:1.5rem; }
+}
 </style>
 </head>
 <body>
 
 <header>
   <h1>Il cielo di <span id="current-month">Gennaio</span> 2026</h1>
+  <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
 </header>
 
 <img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
@@ -104,6 +137,8 @@
   </ul>
 
   <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove (la superstar della notte), tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre, buon 2026 a tutti gli Astri Nascenti!</p>
+
+  <p><a href="https://example.com" style="color:#e53935; font-weight:bold;">Altro...</a></p>
 </div>
 
 <script>
