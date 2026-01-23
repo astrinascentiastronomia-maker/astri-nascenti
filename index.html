@@ -332,6 +332,13 @@ footer a { color:var(--accento); text-decoration:none; }
   }
 }
 
+   /* FIX: Chi siamo a una colonna anche su desktop */
+@media (min-width:768px) {
+  .chi-siamo .grid {
+    grid-template-columns: 1fr;
+  }
+}
+
 /* ARIA: riduci movimento se richiesto dal sistema */
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
