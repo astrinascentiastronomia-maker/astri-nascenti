@@ -329,17 +329,22 @@ transform: none !important;
 .founder-text{ padding:1.2rem; font-size:.95rem; } 
 .card.founder{ min-height: 300px; border-radius:14px; } 
 } 
-  /* --- limitare a 3 righe e stile pulsante per le biografie --- */
+/* --- biografie: clamp affidabile (max-height) + stile pulsante --- */
+.founder-text{
+  line-height:1.6;
+  transition: max-height .45s var(--transition-ease), opacity .35s var(--transition-ease);
+  overflow: visible;
+}
+.founder-text p{ margin:0 0 .6rem 0; } /* margini preservati */
 .founder-text.clamp{
-  display: -webkit-box;
-  -webkit-line-clamp: 3;
-  -webkit-box-orient: vertical;
+  max-height: calc(1.6em * 3); /* 3 righe */
   overflow: hidden;
 }
 .founder-text.expanded{
-  display:block;
-  -webkit-line-clamp: unset;
+  max-height: 1200px; /* valore alto per espandere */
+  overflow: visible;
 }
+/* bottone */
 .bio-toggle{
   background: transparent;
   border: none;
@@ -678,37 +683,42 @@ ctx.scale(DPR, DPR);
 requestAnimationFrame(draw); 
 })(); 
 </script> 
-  <script>
+ <script>
 (function(){
-  const cards = document.querySelectorAll('.card.founder');
-  if(!cards.length) return;
-  cards.forEach(card=>{
+  const txts = Array.from(document.querySelectorAll('.founder-text'));
+  if(!txts.length) return;
+  // rimuovo eventuali bottoni precedenti (evita duplicati)
+  document.querySelectorAll('.bio-toggle').forEach(b=>b.remove());
+  // stato iniziale: clamp su tutti
+  txts.forEach(t=> t.classList.add('clamp'));
+  let expanded = false;
+  function setState(exp){
+    expanded = !!exp;
+    txts.forEach(t=>{
+      if(expanded){
+        t.classList.remove('clamp');
+        t.classList.add('expanded');
+      } else {
+        t.classList.add('clamp');
+        t.classList.remove('expanded');
+      }
+    });
+    document.querySelectorAll('.bio-toggle').forEach(btn=>{
+      btn.setAttribute('aria-expanded', String(expanded));
+      btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
+    });
+  }
+  // creo un pulsante per ogni colonna, ma il loro comportamento è sincronizzato
+  document.querySelectorAll('.card.founder').forEach(card=>{
     const txt = card.querySelector('.founder-text');
     if(!txt) return;
-    // applica clamp iniziale
-    txt.classList.add('clamp');
-    // crea pulsante e inseriscilo dopo il testo
     const btn = document.createElement('button');
     btn.type = 'button';
     btn.className = 'bio-toggle';
     btn.setAttribute('aria-expanded','false');
     btn.textContent = 'Continua...';
     txt.after(btn);
-    // gestione click
-    btn.addEventListener('click', ()=>{
-      const expanded = btn.getAttribute('aria-expanded') === 'true';
-      if(expanded){
-        txt.classList.add('clamp');
-        txt.classList.remove('expanded');
-        btn.setAttribute('aria-expanded','false');
-        btn.textContent = 'Continua...';
-      } else {
-        txt.classList.remove('clamp');
-        txt.classList.add('expanded');
-        btn.setAttribute('aria-expanded','true');
-        btn.textContent = 'Mostra meno';
-      }
-    });
+    btn.addEventListener('click', ()=> setState(!expanded));
   });
 })();
 </script>
