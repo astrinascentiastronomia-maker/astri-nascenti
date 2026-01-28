@@ -329,21 +329,55 @@ transform: none !important;
 .founder-text{ padding:1.2rem; font-size:.95rem; } 
 .card.founder{ min-height: 300px; border-radius:14px; } 
 } 
-/* --- biografie: clamp affidabile (max-height) + stile pulsante --- */
+/* --- biografie: permettere l'espansione completa senza clipping --- */
+.card.founder{
+  /* consentiamo al contenuto di uscire dal contenitore quando si espande */
+  overflow: visible;
+  /* preserva il resto delle proprietà già presenti */
+}
+
+/* testo */
 .founder-text{
   line-height:1.6;
   transition: max-height .45s var(--transition-ease), opacity .35s var(--transition-ease);
   overflow: visible;
 }
-.founder-text p{ margin:0 0 .6rem 0; } /* margini preservati */
+.founder-text p{ margin:0 0 .6rem 0; }
+
+/* clamp a 3 righe */
 .founder-text.clamp{
-  max-height: calc(1.6em * 3); /* 3 righe */
+  max-height: calc(1.6em * 3);
   overflow: hidden;
 }
 .founder-text.expanded{
-  max-height: 1200px; /* valore alto per espandere */
+  max-height: 1200px;
   overflow: visible;
 }
+
+/* quando il testo è espanso, spostiamo la firma sotto il testo (evitiamo sovrapposizioni) */
+.founder-text.expanded ~ .founder-signature{
+  position: static;
+  display: block;
+  margin-top: .6rem;
+  right: auto;
+  bottom: auto;
+  background: rgba(0,0,0,0.22);
+}
+
+/* la firma in stato normale resta assoluta come prima (manteniamo stile originale) */
+.founder-signature{
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
 /* bottone */
 .bio-toggle{
   background: transparent;
@@ -683,7 +717,7 @@ ctx.scale(DPR, DPR);
 requestAnimationFrame(draw); 
 })(); 
 </script> 
- <script>
+<script>
 (function(){
   const txts = Array.from(document.querySelectorAll('.founder-text'));
   if(!txts.length) return;
@@ -707,8 +741,15 @@ requestAnimationFrame(draw);
       btn.setAttribute('aria-expanded', String(expanded));
       btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
     });
+    // se vuoi, portiamo in vista la sezione quando si espande (esperienza utente)
+    if(expanded){
+      const firstCard = document.querySelector('.card.founder');
+      if(firstCard){
+        firstCard.scrollIntoView({behavior:'smooth', block:'nearest'});
+      }
+    }
   }
-  // creo un pulsante per ogni colonna, ma il loro comportamento è sincronizzato
+  // creo un pulsante per ogni colonna, comportamento sincronizzato
   document.querySelectorAll('.card.founder').forEach(card=>{
     const txt = card.querySelector('.founder-text');
     if(!txt) return;
