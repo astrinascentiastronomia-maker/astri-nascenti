@@ -5,7 +5,6 @@
 <meta name="viewport" content="width=device-width,initial-scale=1" />
 <title>Il cielo di gennaio 2026</title>
 
-<!-- FONT -->
 <style>
 @font-face {
   font-family: 'LemonMilkLight';
@@ -39,6 +38,11 @@ body {
   padding: 1rem;
 }
 
+/* FORZA TESTO NORMALE */
+body, h1, h2, h3, h4, h5, h6, p, li, a, span {
+    text-transform: none !important;
+}
+
 /* canvas stelle */
 #starfield {
   position: fixed;
@@ -60,7 +64,6 @@ body {
 h1, h2, p, a, li {
   font-size: 1rem;
   font-weight: 400;
-  text-transform: none;
   letter-spacing: normal;
   line-height: 1.7;
   color: var(--text-color);
@@ -141,7 +144,7 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 
 <div class="page">
   <header>
-    <h1>Il cielo di <span id="current-month">Gennaio</span> 2026</h1>
+    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
     <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
@@ -151,17 +154,17 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
     <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
 
     <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
+    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
 
     <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra.</p>
+    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere le quattro lune principali che giocano a rincorrersi attorno al pianeta gigante.</p>
 
     <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
 
     <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
 
     <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42). Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
+    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
 
     <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
     <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1).</p>
@@ -180,6 +183,7 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 </div>
 
 <script>
+/* Aggiorna il mese automaticamente nel titolo */
 (function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
@@ -211,7 +215,6 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 
   let last = performance.now();
   function draw(now){
-    const dt = (now - last)/1000;
     last = now;
     ctx.clearRect(0,0,w,h);
     stars.forEach(s=>{
