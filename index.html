@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+  <!DOCTYPE html> 
 <html lang="it"> 
 <head> 
 <meta charset="UTF-8" /> 
@@ -329,6 +329,34 @@ transform: none !important;
 .founder-text{ padding:1.2rem; font-size:.95rem; } 
 .card.founder{ min-height: 300px; border-radius:14px; } 
 } 
+  /* --- limitare a 3 righe e stile pulsante per le biografie --- */
+.founder-text.clamp{
+  display: -webkit-box;
+  -webkit-line-clamp: 3;
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+}
+.founder-text.expanded{
+  display:block;
+  -webkit-line-clamp: unset;
+}
+.bio-toggle{
+  background: transparent;
+  border: none;
+  color: var(--accento);
+  font-family: 'LemonMilkLight', sans-serif;
+  letter-spacing: .12em;
+  cursor: pointer;
+  font-size: .95rem;
+  padding: .35rem .5rem;
+  margin-top: .6rem;
+  display: inline-block;
+}
+.bio-toggle:focus{
+  outline: 2px solid rgba(201,214,223,0.45);
+  outline-offset: 3px;
+  border-radius: 6px;
+}
 </style> 
 </head> 
 <body> 
@@ -619,6 +647,40 @@ ctx.scale(DPR, DPR);
 requestAnimationFrame(draw); 
 })(); 
 </script> 
+  <script>
+(function(){
+  const cards = document.querySelectorAll('.card.founder');
+  if(!cards.length) return;
+  cards.forEach(card=>{
+    const txt = card.querySelector('.founder-text');
+    if(!txt) return;
+    // applica clamp iniziale
+    txt.classList.add('clamp');
+    // crea pulsante e inseriscilo dopo il testo
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'bio-toggle';
+    btn.setAttribute('aria-expanded','false');
+    btn.textContent = 'Continua...';
+    txt.after(btn);
+    // gestione click
+    btn.addEventListener('click', ()=>{
+      const expanded = btn.getAttribute('aria-expanded') === 'true';
+      if(expanded){
+        txt.classList.add('clamp');
+        txt.classList.remove('expanded');
+        btn.setAttribute('aria-expanded','false');
+        btn.textContent = 'Continua...';
+      } else {
+        txt.classList.remove('clamp');
+        txt.classList.add('expanded');
+        btn.setAttribute('aria-expanded','true');
+        btn.textContent = 'Mostra meno';
+      }
+    });
+  });
+})();
+</script>
 </body> 
 </html>
 
