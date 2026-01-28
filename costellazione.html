@@ -17,7 +17,7 @@
 /* VARIABILI */
 :root{
   --bg-gradient: linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95));
-  --content-bg: rgba(0,0,0,0.45);
+  --content-bg: rgba(0,0,0,0.55);
   --accent: #c9d6df;
   --highlight: #e53935;
   --base-font-size: 18px;
@@ -31,7 +31,7 @@ body {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
   background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
   color: var(--text-color);
-  line-height: 1.5;
+  line-height: 1.6;
   -webkit-font-smoothing:antialiased;
   -moz-osx-font-smoothing:grayscale;
   min-height:100vh;
@@ -46,7 +46,6 @@ body {
   z-index: 0;
   pointer-events: none;
   mix-blend-mode: screen;
-  display:block;
 }
 
 /* contenuto principale */
@@ -54,54 +53,38 @@ body {
   position: relative;
   z-index: 2;
   max-width: 980px;
-  margin: 1.2rem auto;
+  margin: 1.5rem auto;
 }
 
-/* Testo normale per tutto */
+/* testi e titoli */
 h1, h2, p, a, li {
   font-size: 1rem;
   font-weight: 400;
   text-transform: none;
   letter-spacing: normal;
-  line-height: 1.6;
+  line-height: 1.7;
   color: var(--text-color);
 }
 
-/* Titolo più grande e distinto */
-header h1{
-  font-family: 'LemonMilkLight', system-ui, -apple-system, "Helvetica Neue", Arial;
-  font-size: clamp(2.4rem, 6vw, 3.6rem);
-  line-height: 1.02;
-  font-weight: 700;
-  letter-spacing: 0.02em;
-  margin: 0 0 .35rem 0;
-  text-transform: none;
-  color: var(--text-color);
+header {
   text-align: center;
-  position: relative;
+  margin-bottom: 1.5rem;
 }
 
-/* sottolinea decorativa */
-header h1::after{
-  content: "";
-  display: block;
-  width: 72px;
-  height: 4px;
-  background: linear-gradient(90deg, var(--highlight), var(--accent));
-  margin: 10px auto 0;
-  border-radius: 4px;
-  opacity: 0.95;
+header h1 {
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
 }
 
-/* header */
-header { text-align:center; margin-bottom: 1rem; }
 header p.subtitle {
-  margin-top: 0.35rem;
+  margin-top: 0.4rem;
   color: var(--text-color);
-  opacity: 0.95;
+  opacity: 0.9;
+  max-width: 880px;
   margin-left: auto;
   margin-right: auto;
-  max-width: 880px;
+  font-style: italic;
 }
 
 /* immagine principale */
@@ -109,31 +92,42 @@ img.main-image {
   display:block;
   width:100%;
   height:auto;
-  margin: 1rem 0;
-  border-radius: 10px;
-  box-shadow: 0 10px 40px rgba(0,0,0,0.6);
+  margin: 1.2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+  transition: transform 0.3s ease;
+}
+img.main-image:hover {
+  transform: scale(1.02);
 }
 
-/* box testo traslucido */
+/* box contenuto */
 .content {
   background: var(--content-bg);
-  backdrop-filter: blur(8px);
-  padding: 1.2rem;
-  border-radius: 14px;
-  box-shadow: 0 8px 30px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
 
 /* titoli sezione */
-.content h2 { margin-top: 1rem; margin-bottom: 0.6rem; color: var(--accent); font-weight: 600; }
+.content h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+  color: var(--accent);
+  font-weight: 600;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 0.25rem;
+}
 
 /* liste e link */
-.content ul { padding-left: 1.1rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.45rem; }
+.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+.content li { margin-bottom: 0.5rem; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* footer */
-footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
+footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
 
 /* prefer-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
@@ -143,7 +137,6 @@ footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); fo
 </head>
 <body>
 
-<!-- canvas stelle -->
 <canvas id="starfield" aria-hidden="true"></canvas>
 
 <div class="page">
@@ -158,34 +151,35 @@ footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); fo
     <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
 
     <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte...</p>
+    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
 
     <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese...</p>
+    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra.</p>
+
+    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
+
+    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
 
     <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Costellazioni invernali come Orione diventano le tue migliori amiche...</p>
+    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42). Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
 
     <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
-    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti”...</p>
+    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1).</p>
 
     <h2>Consigli rapidi per osservare</h2>
     <ul>
       <li>Trova un luogo buio lontano dalle luci della città.</li>
-      <li>Occhi adattati al buio: dopo circa 15 minuti noterai più stelle.</li>
+      <li>Occhi adattati al buio: non esporli a luci dirette e dopo circa 15 minuti noterai più stelle.</li>
       <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
     </ul>
 
-    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare Giove, Saturno, la Luna e oggetti profondi attorno a Orione.</p>
-
-    <p><a href="https://astrinascenti.example" style="color:var(--highlight); font-weight:700;">Altro...</a></p>
+    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre. Buon 2026 a tutti gli Astri Nascenti!</p>
   </main>
 
   <footer>© Astri Nascenti</footer>
 </div>
 
 <script>
-/* Aggiorna il mese automaticamente */
 (function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
@@ -193,7 +187,7 @@ footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); fo
   if (el) el.textContent = months[now.getMonth()];
 })();
 
-/* Starfield leggero */
+/* Starfield canvas animation */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
@@ -212,13 +206,7 @@ footer { text-align:center; margin-top:1.2rem; color: rgba(255,255,255,0.75); fo
   const stars = [];
   function rand(a,b){ return Math.random()*(b-a)+a; }
   for(let i=0;i<NUM;i++){
-    stars.push({
-      x: rand(0,w),
-      y: rand(0,h),
-      r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
-      alpha: rand(0.15,0.95),
-      tw: rand(0,Math.PI*2)
-    });
+    stars.push({ x: rand(0,w), y: rand(0,h), r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0), alpha: rand(0.15,0.95), tw: rand(0,Math.PI*2) });
   }
 
   let last = performance.now();
