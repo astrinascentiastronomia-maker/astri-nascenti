@@ -38,8 +38,8 @@ body {
   padding: 1rem;
 }
 
-/* FORZA TESTO NORMALE */
-body, h1, h2, h3, h4, h5, h6, p, li, a, span {
+/* FORZA TESTO NORMALE IN MINUSCOLO */
+p, li, span, a {
     text-transform: lowercase !important;
 }
 
@@ -64,38 +64,30 @@ body, h1, h2, h3, h4, h5, h6, p, li, a, span {
 h1, h2, p, a, li {
   font-size: 1rem;
   font-weight: 400;
-  letter-spacing: 0.5px;
+  letter-spacing: normal;
   line-height: 1.7;
   color: var(--text-color);
-  font-style: italic;
 }
 
 header {
   text-align: center;
-  margin-bottom: 2rem;
+  margin-bottom: 1.5rem;
 }
 
 header h1 {
-  font-size: 2.5rem;
-  font-weight: 700;
-  margin-bottom: 0.5rem;
-  color: var(--accent);
-}
-
-header h1 span#current-month {
-  font-size: 3rem;
-  color: var(--highlight);
+  font-size: 1.8rem;
+  font-weight: 600;
+  margin-bottom: 0.3rem;
 }
 
 header p.subtitle {
-  margin-top: 0.6rem;
+  margin-top: 0.4rem;
   color: var(--text-color);
-  opacity: 0.85;
+  opacity: 0.9;
   max-width: 880px;
   margin-left: auto;
   margin-right: auto;
   font-style: italic;
-  letter-spacing: 0.6px;
 }
 
 /* immagine principale */
@@ -103,43 +95,42 @@ img.main-image {
   display:block;
   width:100%;
   height:auto;
-  margin: 1.5rem 0;
-  border-radius: 14px;
-  box-shadow: 0 14px 45px rgba(0,0,0,0.65);
+  margin: 1.2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
   transition: transform 0.3s ease;
 }
 img.main-image:hover {
-  transform: scale(1.03);
+  transform: scale(1.02);
 }
 
 /* box contenuto */
 .content {
   background: var(--content-bg);
-  backdrop-filter: blur(12px);
-  padding: 2rem;
-  border-radius: 18px;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.6);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
 
 /* titoli sezione */
 .content h2 {
-  margin-top: 2rem;
-  margin-bottom: 1rem;
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
   color: var(--accent);
   font-weight: 600;
-  border-bottom: 1px solid rgba(255,255,255,0.25);
-  padding-bottom: 0.35rem;
-  font-style: normal;
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 0.25rem;
 }
 
 /* liste e link */
-.content ul { padding-left: 1.5rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.6rem; }
+.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
+.content li { margin-bottom: 0.5rem; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 /* footer */
-footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
+footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
 
 /* prefer-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
@@ -153,42 +144,42 @@ footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font
 
 <div class="page">
   <header>
-    <h1>il cielo di <span id="current-month">gennaio</span> 2026</h1>
-    <p class="subtitle">scopri le stelle, la luna e i pianeti più visibili nel cielo di questo mese</p>
+    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
+    <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
-  <img src="images/costellazione/stellarium.jpg" alt="cielo di gennaio" class="main-image">
+  <img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
 
   <main class="content" role="main">
-    <p>gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
+    <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
 
-    <h2>la luna</h2>
-    <p>la nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà luna piena alle 10:03 utc, detta wolf moon per le antiche leggende invernali. brillerà potente e piena, illuminando il paesaggio notturno. il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. il 18 gennaio sarà luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il primo quarto, alta nel cielo.</p>
+    <h2>La Luna</h2>
+    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
 
-    <h2>i pianeti: chi brilla e chi si nasconde</h2>
-    <p>giove è senza dubbio il protagonista del cielo del mese. intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla terra. con un semplice binocolo o un telescopio potrai vedere le quattro lune principali che giocano a rincorrersi attorno al pianeta gigante.</p>
+    <h2>I pianeti: chi brilla e chi si nasconde</h2>
+    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere le quattro lune principali che giocano a rincorrersi attorno al pianeta gigante.</p>
 
-    <p>saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
+    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
 
-    <p>mercurio, venere e marte faranno i timidi nascondendosi dietro o in prossimità del sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
+    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
 
-    <h2>cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>anche se i giganti del sistema solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. costellazioni invernali come orione diventano le tue migliori amiche: qui puoi trovare la spettacolare nebulosa di orione (m42), un gigantesco “nido” di stelle appena nate. sempre nella stessa zona c’è l’ammasso delle pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. più in alto potresti tentare di scorgere galassie lontane come quella di andromeda (m31).</p>
+    <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
+    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
 
-    <h2>evento speciale: lo sciame delle quadrantidi</h2>
-    <p>all’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 eh1).</p>
+    <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
+    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1).</p>
 
-    <h2>consigli rapidi per osservare</h2>
+    <h2>Consigli rapidi per osservare</h2>
     <ul>
-      <li>trova un luogo buio lontano dalle luci della città.</li>
-      <li>occhi adattati al buio: non esporli a luci dirette e dopo circa 15 minuti noterai più stelle.</li>
-      <li>binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
+      <li>Trova un luogo buio lontano dalle luci della città.</li>
+      <li>Occhi adattati al buio: non esporli a luci dirette e dopo circa 15 minuti noterai più stelle.</li>
+      <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
     </ul>
 
-    <p>in sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto giove, tenere d’occhio saturno, divertirsi con la luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di orione e oltre. buon 2026 a tutti gli astri nascenti!</p>
+    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre. Buon 2026 a tutti gli Astri Nascenti!</p>
   </main>
 
-  <footer>© astri nascenti</footer>
+  <footer>© Astri Nascenti</footer>
 </div>
 
 <script>
