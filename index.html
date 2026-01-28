@@ -329,46 +329,36 @@ transform: none !important;
 .founder-text{ padding:1.2rem; font-size:.95rem; } 
 .card.founder{ min-height: 300px; border-radius:14px; } 
 } 
-/* --- biografie: permettere l'espansione completa senza clipping --- */
+/* --- biografie: il contenitore cresce con il contenuto, no overflow --- */
 .card.founder{
-  /* consentiamo al contenuto di uscire dal contenitore quando si espande */
-  overflow: visible;
-  /* preserva il resto delle proprietà già presenti */
+  /* il contenitore deve adattarsi all'altezza del contenuto */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
 }
 
 /* testo */
 .founder-text{
   line-height:1.6;
   transition: max-height .45s var(--transition-ease), opacity .35s var(--transition-ease);
-  overflow: visible;
+  overflow: hidden; /* IMPORTANT: il testo viene tagliato dal suo max-height, non dal parent */
 }
 .founder-text p{ margin:0 0 .6rem 0; }
 
-/* clamp a 3 righe */
+/* clamp affidabile a ~3 righe (includiamo un piccolo extra per margini tra <p>) */
 .founder-text.clamp{
-  max-height: calc(1.6em * 3);
-  overflow: hidden;
+  max-height: calc(1.6em * 3 + 0.8rem);
 }
 .founder-text.expanded{
-  max-height: 1200px;
-  overflow: visible;
+  max-height: 2000px; /* valore alto che permette espansione completa */
 }
 
-/* quando il testo è espanso, spostiamo la firma sotto il testo (evitiamo sovrapposizioni) */
-.founder-text.expanded ~ .founder-signature{
+/* Firma: mantenerla nel flusso del documento così il card cresce correttamente */
+.founder-signature{
   position: static;
   display: block;
   margin-top: .6rem;
-  right: auto;
-  bottom: auto;
-  background: rgba(0,0,0,0.22);
-}
-
-/* la firma in stato normale resta assoluta come prima (manteniamo stile originale) */
-.founder-signature{
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
+  align-self: flex-end; /* la sposta a destra nella colonna senza assolutarla */
   z-index: 4;
   font-family: 'LemonMilkLight', sans-serif;
   font-size: 1rem;
@@ -741,11 +731,11 @@ requestAnimationFrame(draw);
       btn.setAttribute('aria-expanded', String(expanded));
       btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
     });
-    // se vuoi, portiamo in vista la sezione quando si espande (esperienza utente)
+    // scroll dolce per portare in vista la card quando si espande
     if(expanded){
       const firstCard = document.querySelector('.card.founder');
       if(firstCard){
-        firstCard.scrollIntoView({behavior:'smooth', block:'nearest'});
+        firstCard.scrollIntoView({behavior:'smooth', block:'start'});
       }
     }
   }
