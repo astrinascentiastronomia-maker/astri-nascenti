@@ -13,22 +13,21 @@
   font-display: swap;
 }
 
-/* VARIABILI */
 :root{
-  --bg-gradient: linear-gradient(rgba(0,0,0,1), rgba(0,0,0,1));
+  --bg-color: #000000;
   --content-bg: rgba(0,0,0,0.55);
   --accent: #c9d6df;
   --highlight: #e53935;
-  --base-font-size: 18px;
   --text-color: #ffffff;
+  --base-font-size: 18px;
 }
 
-/* RESET + BASE */
 * { box-sizing: border-box; margin:0; padding:0; }
 html { font-size: var(--base-font-size); }
+
 body {
   font-family: "Helvetica Neue", Arial, sans-serif;
-  background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
+  background: var(--bg-color);
   color: var(--text-color);
   line-height: 1.6;
   -webkit-font-smoothing:antialiased;
@@ -38,12 +37,10 @@ body {
   padding: 1rem;
 }
 
-/* TITOLI: lemon milk (decorativo) */
 h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
-/* visualizzazione testo minuscolo con prima lettera maiuscola */
 .content p,
 .content li,
 header p.subtitle,
@@ -57,7 +54,6 @@ footer::first-letter {
   text-transform: uppercase;
 }
 
-/* canvas stelle */
 #starfield {
   position: fixed;
   inset: 0;
@@ -66,7 +62,6 @@ footer::first-letter {
   mix-blend-mode: screen;
 }
 
-/* contenuto principale */
 .page {
   position: relative;
   z-index: 2;
@@ -74,7 +69,6 @@ footer::first-letter {
   margin: 1.5rem auto;
 }
 
-/* testi e titoli */
 h1, h2, p, a, li {
   font-size: 1rem;
   font-weight: 400;
@@ -104,29 +98,30 @@ header p.subtitle {
   font-style: italic;
 }
 
-/* immagine principale con dissolvenza verso il basso */
-.image-wrapper {
+.image-container {
   position: relative;
-  width: 100%;
-  margin-bottom: 1.5rem;
-  border-radius: 12px;
-  overflow: hidden;
-  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
-}
-.image-wrapper img {
-  display: block;
-  width: 100%;
-  height: auto;
-}
-.image-wrapper::after {
-  content: "";
-  position: absolute;
-  left:0; bottom:0; right:0;
-  height: 40%;
-  background: linear-gradient(transparent, rgba(0,0,0,1));
+  margin: 1.2rem 0;
 }
 
-/* box contenuto */
+.image-container img.main-image {
+  display:block;
+  width:100%;
+  height:auto;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+}
+
+.image-container::after {
+  content:"";
+  position:absolute;
+  bottom:0;
+  left:0;
+  width:100%;
+  height:50%;
+  background: linear-gradient(to bottom, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%);
+  border-radius: 0 0 12px 12px;
+}
+
 .content {
   background: var(--content-bg);
   backdrop-filter: blur(10px);
@@ -135,7 +130,6 @@ header p.subtitle {
   box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
 
-/* titoli sezione */
 .content h2 {
   margin-top: 1.5rem;
   margin-bottom: 0.7rem;
@@ -145,37 +139,29 @@ header p.subtitle {
   padding-bottom: 0.25rem;
 }
 
-/* liste e link */
 .content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
 .content li { margin-bottom: 0.5rem; }
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* link evidenziato Scopri la costellazione del mese */
-.discover-link {
-  text-align: center;
-  margin-top: 2rem;
+.scopri-costellazione {
+  display:block;
+  text-align:center;
+  margin-top:1.5rem;
+  padding:0.8rem 1rem;
+  background: var(--highlight);
+  color:#fff;
+  font-weight:600;
+  border-radius:12px;
+  text-decoration:none;
+  transition: background 0.3s ease;
 }
-.discover-link a {
-  font-size: 1.2rem;
-  font-weight: 600;
-  color: var(--highlight);
-  text-decoration: none;
-  padding: 0.5rem 1rem;
-  border: 2px solid var(--highlight);
-  border-radius: 12px;
-  transition: all 0.3s ease;
-}
-.discover-link a:hover {
-  background-color: var(--highlight);
-  color: var(--text-color);
-  transform: scale(1.05);
+.scopri-costellazione:hover {
+  background: #d33c3c;
 }
 
-/* footer */
 footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
 
-/* prefer-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
 }
@@ -191,28 +177,23 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
     <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
-  <div class="image-wrapper">
-    <img src="images/costellazione/costellazionemese.jpg" alt="Costellazione del mese">
+  <div class="image-container">
+    <img src="images/costellazione/costellazionemese.jpg" alt="Costellazione del mese" class="main-image">
   </div>
 
   <main class="content" role="main">
     <h2>Il mito di Orione, il cacciatore</h2>
-    <p>Orione è uno dei cacciatori più famosi del cielo e la sua storia unisce mito, stelle e un pizzico di ironia. Secondo la mitologia greca, Orione era un gigante figlio di Poseidone, noto per la sua forza e abilità. Colpito dalla bellezza delle Pleiadi, le sette figlie di Atlante e Pleione, le inseguì per anni attraverso la terra, tanto che Zeus intervenne trasformandole in stelle perché potessero sfuggirgli nei cieli notturni e segnare le stagioni.</p>
-    <p>In alcune versioni, fu proprio questo comportamento molesto nei confronti delle Pleiadi o la gelosia e la rabbia di Artemide a scatenare la punizione: uno scorpione inviato da Gaia o da Artemide stessa punse mortalmente Orione. Zeus poi pose sia Orione sia lo Scorpione tra le stelle, disponendoli in modo che quando una delle due costellazioni sorge, l’altra tramonta, così che non possano mai incontrarsi di nuovo nel cielo.</p>
+    <p>Orione è uno dei cacciatori più famosi del cielo e la sua storia unisce mito, stelle e un pizzico di ironia. Secondo la mitologia greca, Orione era un gigante figlio di Poseidone, noto per la sua forza e abilità. Colpito dalla bellezza delle Pleiadi, le sette figlie di Atlante e Pleione, le inseguì per anni attraverso la terra, tanto che Zeus intervenne trasformandole in stelle perché potessero sfuggirgli nei cieli notturni e segnare le stagioni. In alcune versioni, fu proprio questo comportamento molesto nei confronti delle Pleiadi o la gelosia e la rabbia di Artemide a scatenare la punizione: uno scorpione inviato da Gaia o da Artemide stessa punse mortalmente Orione. Zeus poi pose sia Orione sia lo Scorpione tra le stelle, disponendoli in modo che quando una delle due costellazioni sorge, l’altra tramonta, così che non possano mai incontrarsi di nuovo nel cielo.</p>
+
     <p>Al di là della Grecia, le stelle di Orione e delle Pleiadi ispirarono molte culture: i Babilonesi vedevano Orione come un eroe legato ai raccolti, gli Egizi lo associavano a Osiride e alla rinascita, e i popoli del Pacifico o gli aborigeni australiani trasformavano queste stelle in cacciatori o in grandi antenati nei loro racconti celesti. Anche oggi, osservando le stelle, possiamo immaginare questo cacciatore eterno all’opera, inseguendo le Sette Sorelle tra le costellazioni.</p>
 
-    <p class="discover-link">
-      <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/scopri.html">
-        Scopri la costellazione del mese
-      </a>
-    </p>
+    <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/scopri.html" class="scopri-costellazione">Scopri la costellazione del mese</a>
   </main>
 
   <footer>© Astri Nascenti</footer>
 </div>
 
 <script>
-/* Aggiorna il mese automaticamente nel titolo */
 (function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
@@ -220,7 +201,6 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   if (el) el.textContent = months[now.getMonth()];
 })();
 
-/* Starfield canvas animation */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
@@ -262,14 +242,12 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
     stars.forEach(s=>{
       const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
       const a = Math.max(0.08, s.alpha * pulse);
-
       const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
       grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
       grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.2*a) + ')');
       grad.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = grad;
       ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
-
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
       ctx.fillStyle = 'rgba(255,255,255,' + (0.9*a) + ')';
