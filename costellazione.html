@@ -24,39 +24,30 @@
 }
 
 /* RESET + BASE */
-* { box-sizing: border-box; margin:0; padding:0; }
-html { font-size: var(--base-font-size); }
+* {
+  box-sizing: border-box;
+  margin:0;
+  padding:0;
+}
+
+html {
+  font-size: var(--base-font-size);
+}
+
 body {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
   background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
   color: var(--text-color);
   line-height: 1.6;
-  -webkit-font-smoothing:antialiased;
-  -moz-osx-font-smoothing:grayscale;
   min-height:100vh;
   position:relative;
   padding: 1rem;
 }
 
-/* TESTO: mostrare tutto in minuscolo ma con iniziali maiuscole (visuale CSS-only)
-   non viene modificato il contenuto HTML, solo la resa visiva. */
-body, .page, .content, header, footer,
-h1, h2, p, li, span, a {
-  text-transform: lowercase;
+/* TESTO: minuscolo con iniziali maiuscole */
+p, li, span, a {
+  text-transform: capitalize;
 }
-
-/* capitalizza la prima lettera di ogni blocco di testo (paragrafo, lista, titoli) */
-h1::first-letter,
-h2::first-letter,
-.content p::first-letter,
-.content li::first-letter,
-header p::first-letter,
-footer::first-letter {
-  text-transform: uppercase;
-}
-
-/* se vuoi escludere abbreviazioni o sigle, aggiungi classi come .no-transform */
-.no-transform { text-transform: none !important; }
 
 /* canvas stelle */
 #starfield {
@@ -97,7 +88,6 @@ header h1 {
 
 header p.subtitle {
   margin-top: 0.4rem;
-  color: var(--text-color);
   opacity: 0.9;
   max-width: 880px;
   margin-left: auto;
@@ -115,6 +105,7 @@ img.main-image {
   box-shadow: 0 12px 40px rgba(0,0,0,0.65);
   transition: transform 0.3s ease;
 }
+
 img.main-image:hover {
   transform: scale(1.02);
 }
@@ -139,13 +130,31 @@ img.main-image:hover {
 }
 
 /* liste e link */
-.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.5rem; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+.content ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.content li {
+  margin-bottom: 0.5rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 
 /* footer */
-footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
+footer {
+  text-align:center;
+  margin-top:1.5rem;
+  color: rgba(255,255,255,0.75);
+  font-size:0.9rem;
+}
 
 /* prefer-reduced-motion */
 @media (prefers-reduced-motion: reduce) {
@@ -153,125 +162,102 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 }
 </style>
 </head>
+
 <body>
 
 <canvas id="starfield" aria-hidden="true"></canvas>
 
 <div class="page">
-  <header>
-    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
-    <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
-  </header>
+<header>
+  <h1>Il cielo di <span id="current-month">Gennaio</span> 2026</h1>
+  <p class="subtitle">Scopri le stelle, la luna e i pianeti più visibili nel cielo di questo mese</p>
+</header>
 
-  <img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
+<img src="images/costellazione/stellarium.jpg" alt="Cielo di gennaio" class="main-image">
 
-  <main class="content" role="main">
-    <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
+<main class="content" role="main">
 
-    <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
+<p>
+Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.
+</p>
 
-    <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere le quattro lune principali che giocano a rincorrersi attorno al pianeta gigante.</p>
+<h2>La luna</h2>
+<p>
+La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà luna piena alle 10:03 utc, detta wolf moon per le antiche leggende invernali.
+</p>
 
-    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
+<h2>I pianeti: chi brilla e chi si nasconde</h2>
+<p>
+Giove è senza dubbio il protagonista del cielo del mese. Saturno sarà visibile nel cielo serale, mentre mercurio, venere e marte risulteranno difficilmente osservabili.
+</p>
 
-    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
+<h2>Cielo profondo</h2>
+<p>
+Costellazioni invernali come orione permettono di osservare oggetti spettacolari come la nebulosa di orione e l’ammasso delle pleiadi.
+</p>
 
-    <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
+<h2>Consigli rapidi per osservare</h2>
+<ul>
+  <li>Trova un luogo buio lontano dalle luci della città</li>
+  <li>Lascia adattare gli occhi al buio</li>
+  <li>Usa un binocolo o un telescopio</li>
+</ul>
 
-    <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
-    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1).</p>
+</main>
 
-    <h2>Consigli rapidi per osservare</h2>
-    <ul>
-      <li>Trova un luogo buio lontano dalle luci della città.</li>
-      <li>Occhi adattati al buio: non esporli a luci dirette e dopo circa 15 minuti noterai più stelle.</li>
-      <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
-    </ul>
-
-    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre. Buon 2026 a tutti gli Astri Nascenti!</p>
-  </main>
-
-  <footer>© Astri Nascenti</footer>
+<footer>© Astri Nascenti</footer>
 </div>
 
 <script>
-/* Aggiorna il mese automaticamente nel titolo */
 (function(){
-  const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
-  const now = new Date();
-  const el = document.getElementById("current-month");
-  if (el) el.textContent = months[now.getMonth()];
+  const months=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+  const el=document.getElementById("current-month");
+  if(el) el.textContent=months[new Date().getMonth()];
 })();
 
-/* Starfield canvas animation (risolto il problema di scala cumulativa) */
+/* Starfield canvas animation */
 (function(){
-  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
-  const canvas = document.getElementById('starfield');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d');
-  const DPR = Math.max(1, window.devicePixelRatio || 1);
-  let w = 0;
-  let h = 0;
-  let stars = [];
+  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
 
-  function rand(a,b){ return Math.random()*(b-a)+a; }
+  const canvas=document.getElementById('starfield');
+  if(!canvas) return;
+  const ctx=canvas.getContext('2d');
 
-  function resizeCanvas(){
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width = Math.round(w * DPR);
-    canvas.height = Math.round(h * DPR);
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    // reset transform before scaling to avoid cumulative scaling
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.scale(DPR, DPR);
+  let w,h,dpr;
+  function resize(){
+    dpr=Math.max(1,window.devicePixelRatio||1);
+    w=canvas.width=innerWidth*dpr;
+    h=canvas.height=innerHeight*dpr;
+    canvas.style.width=innerWidth+'px';
+    canvas.style.height=innerHeight+'px';
+    ctx.setTransform(dpr,0,0,dpr,0,0);
+  }
+  resize();
+  window.addEventListener('resize',resize);
+
+  const stars=[];
+  const count=Math.round((innerWidth*innerHeight)/90000)*30;
+  for(let i=0;i<count;i++){
+    stars.push({
+      x:Math.random()*innerWidth,
+      y:Math.random()*innerHeight,
+      r:Math.random()*1.2+0.3,
+      a:Math.random()*0.8+0.2,
+      t:Math.random()*Math.PI*2
+    });
   }
 
-  function initStars(){
-    resizeCanvas();
-    const NUM = Math.min(1200, Math.round((w * h) / 90000) * 30);
-    stars = [];
-    for(let i=0;i<NUM;i++){
-      stars.push({
-        x: rand(0,w),
-        y: rand(0,h),
-        r: Math.random() < 0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
-        alpha: rand(0.15,0.95),
-        tw: rand(0,Math.PI*2)
-      });
-    }
-  }
-
-  function draw(now){
-    ctx.clearRect(0,0,w,h);
+  function draw(time){
+    ctx.clearRect(0,0,innerWidth,innerHeight);
     stars.forEach(s=>{
-      const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
-      const a = Math.max(0.08, s.alpha * pulse);
-
-      // gradient for glow
-      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
-      grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
-      grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.2*a) + ')');
-      grad.addColorStop(1, 'rgba(255,255,255,0)');
-      ctx.fillStyle = grad;
-      ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
-
-      // core
+      const pulse=0.6+0.4*Math.sin(time*0.002+s.t);
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,' + (0.9*a) + ')';
+      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.fillStyle=`rgba(255,255,255,${s.a*pulse})`;
       ctx.fill();
     });
     requestAnimationFrame(draw);
   }
-
-  window.addEventListener('resize', initStars);
-
-  initStars();
   requestAnimationFrame(draw);
 })();
 </script>
