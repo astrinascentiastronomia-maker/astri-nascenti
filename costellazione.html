@@ -38,10 +38,25 @@ body {
   padding: 1rem;
 }
 
-/* FORZA TESTO NORMALE IN MINUSCOLO */
-p, li, span, a {
-    text-transform: lowercase !important;
+/* TESTO: mostrare tutto in minuscolo ma con iniziali maiuscole (visuale CSS-only)
+   non viene modificato il contenuto HTML, solo la resa visiva. */
+body, .page, .content, header, footer,
+h1, h2, p, li, span, a {
+  text-transform: lowercase;
 }
+
+/* capitalizza la prima lettera di ogni blocco di testo (paragrafo, lista, titoli) */
+h1::first-letter,
+h2::first-letter,
+.content p::first-letter,
+.content li::first-letter,
+header p::first-letter,
+footer::first-letter {
+  text-transform: uppercase;
+}
+
+/* se vuoi escludere abbreviazioni o sigle, aggiungi classi come .no-transform */
+.no-transform { text-transform: none !important; }
 
 /* canvas stelle */
 #starfield {
@@ -191,60 +206,72 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   if (el) el.textContent = months[now.getMonth()];
 })();
 
-/* Starfield canvas animation */
+/* Starfield canvas animation (risolto il problema di scala cumulativa) */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
   if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let w = canvas.width = innerWidth;
-  let h = canvas.height = innerHeight;
   const DPR = Math.max(1, window.devicePixelRatio || 1);
-  canvas.width = w * DPR;
-  canvas.height = h * DPR;
-  canvas.style.width = w + 'px';
-  canvas.style.height = h + 'px';
-  ctx.scale(DPR, DPR);
+  let w = 0;
+  let h = 0;
+  let stars = [];
 
-  const NUM = Math.round((w * h) / 90000) * 30;
-  const stars = [];
   function rand(a,b){ return Math.random()*(b-a)+a; }
-  for(let i=0;i<NUM;i++){
-    stars.push({ x: rand(0,w), y: rand(0,h), r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0), alpha: rand(0.15,0.95), tw: rand(0,Math.PI*2) });
+
+  function resizeCanvas(){
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width = Math.round(w * DPR);
+    canvas.height = Math.round(h * DPR);
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+    // reset transform before scaling to avoid cumulative scaling
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(DPR, DPR);
   }
 
-  let last = performance.now();
+  function initStars(){
+    resizeCanvas();
+    const NUM = Math.min(1200, Math.round((w * h) / 90000) * 30);
+    stars = [];
+    for(let i=0;i<NUM;i++){
+      stars.push({
+        x: rand(0,w),
+        y: rand(0,h),
+        r: Math.random() < 0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
+        alpha: rand(0.15,0.95),
+        tw: rand(0,Math.PI*2)
+      });
+    }
+  }
+
   function draw(now){
-    last = now;
     ctx.clearRect(0,0,w,h);
     stars.forEach(s=>{
       const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
       const a = Math.max(0.08, s.alpha * pulse);
-      ctx.beginPath();
+
+      // gradient for glow
       const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
-      grad.addColorStop(0, `rgba(255,255,255,${0.9*a})`);
-      grad.addColorStop(0.4, `rgba(255,255,255,${0.2*a})`);
+      grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
+      grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.2*a) + ')');
       grad.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = grad;
       ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+
+      // core
       ctx.beginPath();
       ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = `rgba(255,255,255,${0.9*a})`;
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.9*a) + ')';
       ctx.fill();
     });
     requestAnimationFrame(draw);
   }
 
-  window.addEventListener('resize', ()=>{
-    w = canvas.width = innerWidth;
-    h = canvas.height = innerHeight;
-    canvas.width = w * DPR;
-    canvas.height = h * DPR;
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.scale(DPR, DPR);
-  });
+  window.addEventListener('resize', initStars);
 
+  initStars();
   requestAnimationFrame(draw);
 })();
 </script>
