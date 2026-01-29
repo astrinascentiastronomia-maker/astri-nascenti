@@ -152,7 +152,7 @@ button:hover{
 
   <div class="controls">
     <button id="prev">◀ Indietro</button>
-    <div class="status" id="status">1 / 36</div>
+    <div class="status" id="status">1 / 31</div>
     <button id="next">Avanti ▶</button>
   </div>
 
@@ -160,7 +160,8 @@ button:hover{
 
 <script>
 /* CONFIGURAZIONE */
-const TOTAL = 36;
+/* totale visibile dopo aver rimosso i file 2..6 */
+const TOTAL = 31;
 const PATH  = 'Pag/astri-nascenti-2025-';
 const EXT   = '.jpg';
 
@@ -175,7 +176,15 @@ let index = 1;           // pagina corrente (1-based)
 let busy  = false;       // blocco animazioni
 let flipping = false;    // stato flip in corso
 
-const src = i => `${PATH}${i}${EXT}`;
+/* MAPPATURA: la pagina visibile n (1-based) corrisponde al file:
+   - fileIndex = 1                    quando n === 1
+   - fileIndex = n + 5                quando n >= 2
+   (così si scartano i file 2..6)
+*/
+const src = i => {
+  const fileIndex = (i <= 1) ? 1 : (i + 5);
+  return `${PATH}${fileIndex}${EXT}`;
+};
 
 /* PRELOAD UTILE: assicura immagine pronta */
 function preload(n){
