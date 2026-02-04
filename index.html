@@ -1,10 +1,9 @@
-  <!DOCTYPE html> 
+<!DOCTYPE html> 
 <html lang="it"> 
 <head> 
 <meta charset="UTF-8" /> 
 <meta name="viewport" content="width=device-width, initial-scale=1.0" /> 
 <title>Astri Nascenti – Astronomia per le scuole</title> 
-<!-- FAVICON --> 
 <link rel="icon" href="favicon.ico" type="image/x-icon"> 
 <link rel="shortcut icon" href="favicon.ico" type="image/x-icon"> 
 <link rel="icon" type="image/png" sizes="32x32" href="favicon-32x32.png"> 
@@ -85,8 +84,19 @@ max-width:160px;
 margin-bottom:2rem; 
 animation: float 4s ease-in-out infinite; 
 } 
-header h1 { font-size:2.2rem; } 
-header p { 
+header h1 { font-size:2.2rem; margin-bottom: 0.5rem; } 
+/* Stile specifico per il nuovo sottotitolo */
+header .subtitle {
+    font-family: 'LemonMilkLight', sans-serif;
+    font-size: 0.95rem; /* leggermente più piccolo del titolo */
+    letter-spacing: 0.15em;
+    text-transform: uppercase;
+    color: var(--bianco);
+    margin: 0 auto;
+    max-width: 800px;
+    opacity: 0.9;
+}
+header p.description { 
 max-width:700px; 
 margin:1.8rem auto 0; 
 color:var(--accento); 
@@ -390,12 +400,12 @@ transform: none !important;
 </head> 
 <body> 
 <a class="skip-link" href="#main">Salta al contenuto</a> 
-<!-- Canvas starfield --> 
 <canvas id="starfield" aria-hidden="true"></canvas> 
 <header class="reveal" data-delay="0"> 
 <img src="logo-astri-nascenti.png" alt="Astri Nascenti"> 
 <h1>ASTRI NASCENTI</h1> 
-<p>Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie di Milano Municipio 2.</p> 
+<p class="subtitle">Il cielo in città come esperienza educativa e culturale</p>
+<p class="description">Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie di Milano Municipio 2.</p> 
 </header> 
 <main id="main" tabindex="-1"> 
 <section> 
@@ -435,7 +445,6 @@ transform: none !important;
 </div> 
 <div class="gallery" aria-label="Galleria fotografica"> 
 <a href="foto-astronomiche.html" class="reveal" data-delay="260" aria-label="Archivio Foto Astronomiche"> 
-<!-- COPERTINA CAMBIATA: immagine desiderata --> 
 <img src="images/ast/ast1.PNG" alt="Archivio Foto Astronomiche" loading="lazy" decoding="async"> 
 <span>Archivio Foto Astronomiche</span> 
 </a> 
@@ -458,9 +467,7 @@ transform: none !important;
 <h2 class="reveal" data-delay="420"> 
 IL CIELO DEL MESE
 </h2>
-<!-- Contenitore principale (visual left as background + text right) --> 
 <div class="reveal" data-delay="460" style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;"> 
-<!-- Visual (left) - ora punta all'immagine fornita --> 
 <div 
 class="reveal" 
 data-delay="480" 
@@ -480,7 +487,6 @@ position:relative;
 display:block; 
 " 
 > 
-<!-- Sfumatura nera sovrapposta verso destra --> 
 <div style=" 
 position:absolute; 
 inset:0; 
@@ -488,7 +494,6 @@ pointer-events:none;
 background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%); 
 " aria-hidden="true"></div> 
 </div> 
-<!-- Testo (right) --> 
 <div style=" 
 flex:1 1 380px; 
 min-width:260px; 
@@ -539,7 +544,6 @@ Altro...
 <section> 
 <h2 class="reveal" data-delay="740">Chi siamo</h2> 
 <div class="grid"> 
-<!-- Fondatore --> 
 <div class="card founder reveal" 
 data-delay="780"> 
 <img src="Ritratti/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async"> 
@@ -555,7 +559,6 @@ data-delay="780">
 </div> 
 <div class="founder-signature" aria-hidden="true">Roger</div> 
 </div> 
-<!-- Co-fondatore --> 
 <div class="card founder reveal" data-delay="820" role="img" aria-label="Ritratto del co-fondatore" tabindex="0"> 
 <img src="Ritratti/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async"> 
 <div class="founder-badge" aria-hidden="true">Co-fondatore</div> 
@@ -777,4 +780,3 @@ requestAnimationFrame(draw);
 </script>
 </body> 
 </html>
-
