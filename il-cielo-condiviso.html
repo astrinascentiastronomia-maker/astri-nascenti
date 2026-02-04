@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Osservazioni — Archivio Foto Astri Nascenti</title>
+<title>Il cielo condiviso — Archivio Foto Astri Nascenti</title>
 
 <style>
 @font-face {
@@ -36,7 +36,7 @@ p {
 
 .gallery {
   max-width:1200px;
-  margin:0 auto 4rem;
+  margin:0 auto 1.5rem; /* Ridotto il margine inferiore per avvicinare la didascalia */
   padding:0 1rem;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -48,6 +48,18 @@ p {
   border-radius:18px;
   box-shadow:0 20px 50px rgba(0,0,0,.6);
   display:block;
+}
+
+/* Stile per la didascalia a fine galleria */
+.gallery-footer {
+  max-width: 900px;
+  margin: 0 auto 3rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  font-size: 0.85rem;
+  color: #888;
+  line-height: 1.5;
+  font-style: italic;
 }
 
 /* LIGHTBOX */
@@ -100,7 +112,6 @@ p {
 <p>Galleria: immagini dalle serate di osservazione</p>
 
 <div class="gallery">
-  <!-- 1..6 -->
   <a href="#o1"><img src="images/astrinascentifoto1.jpg" alt="Osservazioni - foto 1" loading="lazy"></a>
   <a href="#o2"><img src="images/astrinascentifoto2.jpg" alt="Osservazioni - foto 2" loading="lazy"></a>
   <a href="#o3"><img src="images/astrinascentifoto3.jpg" alt="Osservazioni - foto 3" loading="lazy"></a>
@@ -108,7 +119,6 @@ p {
   <a href="#o5"><img src="images/astrinascentifoto5.jpg" alt="Osservazioni - foto 5" loading="lazy"></a>
   <a href="#o6"><img src="images/astrinascentifoto6.jpg" alt="Osservazioni - foto 6" loading="lazy"></a>
 
-  <!-- 16..36 -->
   <a href="#o16"><img src="images/astrinascentifoto16.jpg" alt="Osservazioni - foto 16" loading="lazy"></a>
   <a href="#o17"><img src="images/astrinascentifoto17.jpg" alt="Osservazioni - foto 17" loading="lazy"></a>
   <a href="#o18"><img src="images/astrinascentifoto18.jpg" alt="Osservazioni - foto 18" loading="lazy"></a>
@@ -132,7 +142,10 @@ p {
   <a href="#o36"><img src="images/astrinascentifoto36.jpg" alt="Osservazioni - foto 36" loading="lazy"></a>
 </div>
 
-<!-- Lightbox targets -->
+<div class="gallery-footer">
+  serate osservative, attività di divulgazione e incontri svolti negli anni recenti presso plessi scolastici, parchi, associazioni, circoli e spazi di aggregazione
+</div>
+
 <div id="o1" class="lightbox"><a href="#"><img src="images/astrinascentifoto1.jpg" alt="Osservazioni - foto 1"></a></div>
 <div id="o2" class="lightbox"><a href="#"><img src="images/astrinascentifoto2.jpg" alt="Osservazioni - foto 2"></a></div>
 <div id="o3" class="lightbox"><a href="#"><img src="images/astrinascentifoto3.jpg" alt="Osservazioni - foto 3"></a></div>
