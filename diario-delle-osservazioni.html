@@ -3,7 +3,7 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Archivio Foto Astrofili</title>
+<title>Diario delle osservazioni</title>
 
 <style>
 @font-face {
@@ -36,7 +36,7 @@ p {
 
 .gallery {
   max-width:1200px;
-  margin:0 auto 4rem;
+  margin:0 auto 1.5rem; /* Ridotto il margine inferiore per avvicinare la didascalia */
   padding:0 1rem;
   display:grid;
   grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
@@ -47,6 +47,18 @@ p {
   width:100%;
   border-radius:18px;
   box-shadow:0 20px 50px rgba(0,0,0,.6);
+}
+
+/* Stile per la didascalia finale */
+.gallery-footer-note {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  font-size: 0.75rem; /* Testo in piccolo */
+  color: #c9d6df;
+  line-height: 1.5;
+  opacity: 0.8;
 }
 
 /* LIGHTBOX */
@@ -83,7 +95,7 @@ p {
 
 <body>
 
-<h1>Archivio Foto Astrofili</h1>
+<h1>Diario delle osservazioni</h1>
 <p>Collezione fotografica Astri Nascenti</p>
 
 <div class="gallery">
@@ -103,6 +115,10 @@ p {
   <a href="#f14"><img src="images/ast/ast14.PNG" alt=""></a>
   <a href="#f15"><img src="images/ast/ast15.PNG" alt=""></a>
   <a href="#f16"><img src="images/ast/ast16.PNG" alt=""></a>
+</div>
+
+<div class="gallery-footer-note">
+  Le immagini presenti nella galleria sono state riprese durante le serate osservative. Alcune foto, realizzate con telescopi smart, sono state post-elaborate con strumenti di intelligenza artificiale per valorizzare i dettagli più suggestivi degli oggetti osservati.
 </div>
 
 <div id="f1" class="lightbox"><a href="#"><img src="images/ast/ast1.PNG"></a></div>
