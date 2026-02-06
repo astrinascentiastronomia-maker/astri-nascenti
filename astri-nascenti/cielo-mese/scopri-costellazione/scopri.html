@@ -1,74 +1,186 @@
-<!doctype html>
+<!DOCTYPE html>
 <html lang="it">
 <head>
-  <meta charset="utf-8">
-  <meta name="viewport" content="width=device-width, initial-scale=1">
-  <title>Il mito di Orione — Astri Nascenti</title>
-  <style>
-:root{ --bg:#000; --card:#000; --accent:#c9d6df; --white:#ffffff; }
-html,body{ height:100%; margin:0; font-family: 'Helvetica Neue', Arial, sans-serif; background: linear-gradient(rgba(0,0,0,.95), rgba(0,0,0,1)); color:var(--white); }
-.wrap{ max-width:1100px; margin:48px auto; padding:24px; box-sizing:border-box; }
-header{ text-align:center; margin-bottom:28px; }
-header h1{ font-family: 'LemonMilkLight', sans-serif; font-size:2rem; letter-spacing:.2em; text-transform:uppercase; margin:0 0 8px 0; }
-header p{ color:var(--accent); margin:0; }
-/* card: immagine sopra, testo sotto. sfondo nero come homepage */
-.card{ background:#000; border-radius:12px; padding:0; box-shadow: 0 20px 50px rgba(0,0,0,.6); border:1px solid rgba(255,255,255,0.04); overflow:hidden; }
+<meta charset="utf-8" />
+<meta name="viewport" content="width=device-width,initial-scale=1" />
+<title>Il cielo di gennaio 2026</title>
 
-/* VISUAL: immagine non tagliata orizzontalmente */
-.visual{ width:100%; background:#000; position:relative; display:block; }
-.visual img{ width:100%; height:auto; object-fit:contain; object-position:center top; display:block; }
-/* dissolvenza in basso sull'immagine */
-.visual::after{ content:""; position:absolute; left:0; right:0; bottom:0; height:22%; background: linear-gradient(180deg, rgba(0,0,0,0) 0%, rgba(0,0,0,1) 100%); pointer-events:none; }
+<style>
+@font-face {
+  font-family: 'LemonMilkLight';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
+}
 
-.text{ padding:22px; display:block; }
-h2{ font-family: 'LemonMilkLight', sans-serif; letter-spacing:.22em; text-transform:uppercase; margin:0 0 12px 0; color:var(--white); }
-p{ color:var(--accent); line-height:1.6; margin:0 0 12px 0; }
-.muted{ color:rgba(201,214,223,0.7); }
-footer{ text-align:center; margin-top:6px; color:rgba(201,214,223,0.6); font-size:.9rem; padding:12px 0 18px 0; }
-@media (max-width:820px){ .text{ padding:16px; } }
+:root{
+  --bg-gradient: linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95));
+  --content-bg: rgba(0,0,0,0.55);
+  --accent: #c9d6df;
+  --highlight: #e53935;
+  --base-font-size: 18px;
+  --text-color: #ffffff;
+}
+
+* { box-sizing: border-box; margin:0; padding:0; }
+html { font-size: var(--base-font-size); }
+
+body {
+  font-family: "Helvetica Neue", Arial, sans-serif;
+  background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
+  color: var(--text-color);
+  line-height: 1.6;
+  min-height:100vh;
+  padding: 1rem;
+}
+
+h1, h2 {
+  font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
+}
+
+.content p,
+.content li,
+header p.subtitle,
+footer {
+  text-transform: lowercase;
+}
+.content p::first-letter,
+.content li::first-letter,
+header p.subtitle::first-letter,
+footer::first-letter {
+  text-transform: uppercase;
+}
+
+#starfield {
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+}
+
+.page {
+  position: relative;
+  z-index: 2;
+  max-width: 980px;
+  margin: 1.5rem auto;
+}
+
+header {
+  text-align: center;
+  margin-bottom: 1.5rem;
+}
+
+header h1 {
+  font-size: 1.8rem;
+  margin-bottom: 0.3rem;
+}
+
+header p.subtitle {
+  margin-top: 0.4rem;
+  opacity: 0.9;
+  font-style: italic;
+}
+
+img.main-image {
+  display:block;
+  width:100%;
+  margin: 1.2rem 0;
+  border-radius: 12px;
+  box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+  transition: transform 0.3s ease;
+}
+img.main-image:hover {
+  transform: scale(1.02);
+}
+
+.content {
+  background: var(--content-bg);
+  backdrop-filter: blur(10px);
+  padding: 1.5rem;
+  border-radius: 16px;
+  box-shadow: 0 10px 35px rgba(0,0,0,0.6);
+}
+
+.content h2 {
+  margin-top: 1.5rem;
+  margin-bottom: 0.7rem;
+  color: var(--accent);
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+}
+
+.content ul { padding-left: 1.2rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+
+.discover {
+  margin-top: 1rem;
+  text-align: center;
+}
+.discover a {
+  display: inline-block;
+  padding: 0.65rem 1rem;
+  border-radius: 12px;
+  background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(201,214,223,0.02));
+  border: 1px solid rgba(255,255,255,0.06);
+  color: var(--highlight);
+  font-weight: 700;
+  text-transform: uppercase;
+  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+}
+.discover a:hover {
+  transform: translateY(-4px);
+}
+
+footer {
+  text-align:center;
+  margin-top:1.5rem;
+  font-size:0.9rem;
+  opacity: 0.75;
+}
 </style>
 </head>
+
 <body>
-  <div class="wrap">
-    <header>
-      <h1>Il mito di Orione</h1>
-      <p class="muted">Orione, il cacciatore eterno che attraversa il cielo</p>
-    </header>
 
-    <article class="card">
-      <div class="layout">
+<canvas id="starfield"></canvas>
 
-        <div class="visual" role="img" aria-label="Orione — costellazione">
-          <img src="images/costellazione/costellazionemese.jpg" alt="Costellazione di Orione">
-        </div>
+<div class="page">
+  <header>
+    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
+    <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
+  </header>
 
-        <div class="text">
-          <h2>Il mito di Orione, il cacciatore</h2>
+  <!-- IMMAGINE MODIFICATA -->
+  <img
+    src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg"
+    alt="Cielo di gennaio"
+    class="main-image"
+  >
 
-          <p>
-            Orione è uno dei cacciatori più famosi del cielo e la sua storia unisce mito, stelle e un pizzico di ironia. Secondo la mitologia greca, Orione era un gigante figlio di Poseidone, noto per la sua forza e abilità. Colpito dalla bellezza delle Pleiadi, le sette figlie di Atlante e Pleione, le inseguì per anni attraverso la terra, tanto che Zeus intervenne trasformandole in stelle perché potessero sfuggirgli nei cieli notturni e segnare le stagioni.
-          </p>
+  <main class="content">
+    <p>Gennaio non festeggia solo l’inizio dell’anno...</p>
+    <!-- testo invariato -->
+  </main>
 
-          <p>
-            In alcune versioni, fu proprio questo comportamento molesto nei confronti delle Pleiadi o la gelosia e la rabbia di Artemide a scatenare la punizione: uno scorpione inviato da Gaia o da Artemide stessa punse mortalmente Orione. Zeus poi pose sia Orione sia lo Scorpione tra le stelle, disponendoli in modo che quando una delle due costellazioni sorge, l’altra tramonta, così che non possano mai incontrarsi di nuovo nel cielo.
-          </p>
-
-          <p>
-            Al di là della Grecia, le stelle di Orione e delle Pleiadi ispirarono molte culture: i Babilonesi vedevano Orione come un eroe legato ai raccolti, gli Egizi lo associavano a Osiride e alla rinascita, e i popoli del Pacifico o gli aborigeni australiani trasformavano queste stelle in cacciatori o in grandi antenati nei loro racconti celesti.
-          </p>
-
-          <p>
-            Anche oggi, osservando le stelle, possiamo immaginare questo cacciatore eterno all’opera, inseguendo le Sette Sorelle tra le costellazioni.
-          </p>
-
-        </div>
-      </div>
-
-      <footer>
-        <small>Immagine: Archivio Astri Nascenti — <em>Costellazione del mese</em></small>
-      </footer>
-    </article>
-
+  <!-- LINK MODIFICATO -->
+  <div class="discover">
+    <a
+      href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/scopri.html"
+      target="_blank"
+      rel="noopener noreferrer">
+      Scopri la costellazione del mese
+    </a>
   </div>
+
+  <footer>© Astri Nascenti</footer>
+</div>
+
+<script>
+(function(){
+  const months=["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
+  document.getElementById("current-month").textContent = months[new Date().getMonth()];
+})();
+</script>
+
 </body>
 </html>
