@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Il cielo del mese</title>
+<title>Il cielo del mese - Dettaglio</title>
 
 <style>
 @font-face {
@@ -43,7 +43,7 @@ h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
-/* visualizzazione testo */
+/* Visualizzazione testo: mantiene lo stile lowercase ma rispetta i tag <strong> */
 .content p,
 .content li,
 header p.subtitle,
@@ -55,6 +55,12 @@ footer {
 header p.subtitle::first-letter,
 footer::first-letter {
   text-transform: uppercase;
+}
+
+/* Se una parola è <strong>, vogliamo che sia ben visibile anche se in minuscolo */
+.content strong {
+  font-weight: 700;
+  color: #fff;
 }
 
 /* canvas stelle */
@@ -91,6 +97,7 @@ header h1 {
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
+  text-transform: uppercase;
 }
 
 header p.subtitle {
@@ -121,28 +128,17 @@ img.main-image:hover {
 .content {
   background: var(--content-bg);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
+  padding: 2rem;
   border-radius: 16px;
   box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
 
-.content h2 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.7rem;
-  color: var(--accent);
-  font-weight: 600;
-  border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 0.25rem;
+.content p {
+    margin-bottom: 1.2rem;
 }
 
-.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.5rem; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
-
-/* link "Torna alla home" - Senza rosso */
 .back-home {
-  margin-top: 1rem;
+  margin-top: 2rem;
   text-align: center;
 }
 .back-home a {
@@ -162,10 +158,9 @@ a:hover { text-decoration: underline; }
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 16px 36px rgba(0,0,0,0.55);
-  text-decoration: none;
 }
 
-footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
+footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font-size:0.9rem; padding-bottom: 2rem;}
 
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
@@ -178,34 +173,14 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 
 <div class="page">
   <header>
-    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
+    <h1>Il cielo di <span id="current-month">...</span> 2026</h1>
     <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
-  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione1.jpg" alt="Cielo di gennaio" class="main-image">
+  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione1.jpg" alt="Costellazione" class="main-image">
 
-  <main class="content" role="main">
-    <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
-
-    <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno.</p>
-
-    <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte.</p>
-
-    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto.</p>
-
-    <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42) e l’ammasso delle Pleiadi.</p>
-
-    <h2>Consigli rapidi per osservare</h2>
-    <ul>
-      <li>Trova un luogo buio lontano dalle luci della città.</li>
-      <li>Occhi adattati al buio: dopo circa 15 minuti noterai più stelle.</li>
-      <li>Binocolo o telescopio: aprono un vero universo di dettagli.</li>
-    </ul>
-
-    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno e esplorare gli oggetti profondi. Buon 2026 a tutti gli Astri Nascenti!</p>
+  <main class="content" id="costellazione-content" role="main">
+    <p>Caricamento dei dati celesti...</p>
   </main>
 
   <div class="back-home">
@@ -218,7 +193,39 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 </div>
 
 <script>
-/* Script del mese e animazione stelle rimasti invariati per funzionalità */
+/* 1. SCRIPT CARICAMENTO E FORMATTAZIONE TESTO TXT */
+(function(){
+  const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/costellazione.txt";
+  const container = document.getElementById('costellazione-content');
+
+  fetch(url)
+    .then(response => {
+      if (!response.ok) throw new Error("File non trovato");
+      return response.text();
+    })
+    .then(text => {
+      // REGEX LOGIC:
+      // \b[A-ZÀ-Ž]{2,}\b
+      // \b = confini della parola
+      // [A-ZÀ-Ž] = Lettere maiuscole (incluse accentate italiane)
+      // {2,} = minimo 2 caratteri (esclude parole di una sola lettera come "A", "E", "O", "I")
+      let formattedText = text.replace(/\b[A-ZÀ-Ž]{2,}\b/g, function(match) {
+        return '<strong>' + match + '</strong>';
+      });
+
+      // Divide il testo in paragrafi basandosi sugli invii a capo
+      const paragraphs = formattedText.split(/\r?\n/).filter(p => p.trim() !== "");
+      
+      // Sostituisce il contenuto del main
+      container.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
+    })
+    .catch(err => {
+      console.error(err);
+      container.innerHTML = "<p>Si è verificato un errore nel caricamento del testo.</p>";
+    });
+})();
+
+/* 2. SCRIPT MESE CORRENTE */
 (function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
@@ -226,6 +233,7 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   if (el) el.textContent = months[now.getMonth()];
 })();
 
+/* 3. ANIMAZIONE STELLE */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
@@ -235,7 +243,6 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   let w = 0, h = 0, stars = [];
 
   function rand(a,b){ return Math.random()*(b-a)+a; }
-
   function resizeCanvas(){
     w = window.innerWidth; h = window.innerHeight;
     canvas.width = Math.round(w * DPR); canvas.height = Math.round(h * DPR);
@@ -263,7 +270,6 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
       const a = Math.max(0.08, s.alpha * pulse);
       const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
       grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
-      grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.2*a) + ')');
       grad.addColorStop(1, 'rgba(255,255,255,0)');
       ctx.fillStyle = grad;
       ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
