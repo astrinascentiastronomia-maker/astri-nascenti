@@ -18,7 +18,6 @@
   --bg-gradient: linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95));
   --content-bg: rgba(0,0,0,0.55);
   --accent: #c9d6df;
-  --highlight: #e53935;
   --base-font-size: 18px;
   --text-color: #ffffff;
 }
@@ -141,26 +140,27 @@ img.main-image:hover {
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
-/* link "Scopri la costellazione del mese" */
-.discover {
+/* link "Torna alla home" - Senza rosso */
+.back-home {
   margin-top: 1rem;
   text-align: center;
 }
-.discover a {
+.back-home a {
   display: inline-block;
   padding: 0.65rem 1rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(201,214,223,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
-  color: var(--highlight);
+  background: rgba(255, 255, 255, 0.05);
+  border: 1px solid rgba(255, 255, 255, 0.1);
+  color: var(--accent);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   box-shadow: 0 8px 22px rgba(0,0,0,0.45);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
 }
-.discover a:hover {
+.back-home a:hover {
   transform: translateY(-4px);
+  background: rgba(255, 255, 255, 0.1);
   box-shadow: 0 16px 36px rgba(0,0,0,0.55);
   text-decoration: none;
 }
@@ -182,40 +182,35 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
     <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
-  <img src="astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg" alt="Cielo di gennaio" class="main-image">
+  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione1.jpg" alt="Cielo di gennaio" class="main-image">
 
   <main class="content" role="main">
     <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
 
     <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
+    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno.</p>
 
     <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra. Con un semplice binocolo o un telescopio potrai vedere le quattro lune principali che giocano a rincorrersi attorno al pianeta gigante.</p>
+    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte.</p>
 
-    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto. Sebbene non sia altissimo (soprattutto verso fine mese), è abbastanza brillante da essere riconoscibile e con un telescopio potresti scorgere gli anelli.</p>
-
-    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole, risultando praticamente inosservabili lungo tutto l’arco del mese.</p>
+    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto.</p>
 
     <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Anche se i giganti del Sistema Solare rubano la scena, la vera magia arriva quando sposti lo sguardo verso gli spazi più profondi. Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42), un gigantesco “nido” di stelle appena nate. Sempre nella stessa zona c’è l’ammasso delle Pleiadi, un gruppo di stelle strette nell’abbraccio celeste che sembra brillare di più nelle notti fredde. Più in alto potresti tentare di scorgere galassie lontane come quella di Andromeda (M31).</p>
-
-    <h2>Evento speciale: lo sciame delle Quadrantidi</h2>
-    <p>All’inizio del mese, tra il 3 e il 4 gennaio, il cielo potrebbe regalarti piccole “stelle cadenti” del famoso sciame delle Quadrantidi provenienti dai detriti associati all’asteroide 196256 (2003 EH1).</p>
+    <p>Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42) e l’ammasso delle Pleiadi.</p>
 
     <h2>Consigli rapidi per osservare</h2>
     <ul>
       <li>Trova un luogo buio lontano dalle luci della città.</li>
-      <li>Occhi adattati al buio: non esporli a luci dirette e dopo circa 15 minuti noterai più stelle.</li>
-      <li>Binocolo o telescopio: anche quelli economici aprono un vero universo di dettagli.</li>
+      <li>Occhi adattati al buio: dopo circa 15 minuti noterai più stelle.</li>
+      <li>Binocolo o telescopio: aprono un vero universo di dettagli.</li>
     </ul>
 
-    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno, divertirsi con la Luna nelle sue varie forme e esplorare gli oggetti profondi attorno alla costellazione di Orione e oltre. Buon 2026 a tutti gli Astri Nascenti!</p>
+    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove, tenere d’occhio Saturno e esplorare gli oggetti profondi. Buon 2026 a tutti gli Astri Nascenti!</p>
   </main>
 
-  <div class="discover">
-    <a href="astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/scopri.html" target="_blank" rel="noopener noreferrer">
-      Scopri la costellazione del mese
+  <div class="back-home">
+    <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/">
+      Torna alla home
     </a>
   </div>
 
@@ -223,6 +218,7 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 </div>
 
 <script>
+/* Script del mese e animazione stelle rimasti invariati per funzionalità */
 (function(){
   const months = ["Gennaio","Febbraio","Marzo","Aprile","Maggio","Giugno","Luglio","Agosto","Settembre","Ottobre","Novembre","Dicembre"];
   const now = new Date();
@@ -241,14 +237,10 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   function rand(a,b){ return Math.random()*(b-a)+a; }
 
   function resizeCanvas(){
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width = Math.round(w * DPR);
-    canvas.height = Math.round(h * DPR);
-    canvas.style.width = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.setTransform(1,0,0,1,0,0);
-    ctx.scale(DPR, DPR);
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = Math.round(w * DPR); canvas.height = Math.round(h * DPR);
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
   }
 
   function initStars(){
@@ -257,11 +249,9 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
     stars = [];
     for(let i=0;i<NUM;i++){
       stars.push({
-        x: rand(0,w),
-        y: rand(0,h),
+        x: rand(0,w), y: rand(0,h),
         r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
-        alpha: rand(0.15,0.95),
-        tw: rand(0,Math.PI*2)
+        alpha: rand(0.15,0.95), tw: rand(0,Math.PI*2)
       });
     }
   }
