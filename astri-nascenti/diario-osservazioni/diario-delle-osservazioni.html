@@ -98,11 +98,6 @@ p {
   color:#c9d6df;
   text-decoration:none;
   font-size: 1.1rem;
-  transition: color 0.3s;
-}
-
-.back a:hover {
-  color: #fff;
 }
 </style>
 </head>
@@ -128,8 +123,8 @@ p {
   // --- CONFIGURAZIONE ---
   const numeroTotaleFoto = 22; 
   
-  // MODIFICA: Nuovo percorso immagini aggiornato
-  const cartella = 'astri-nascenti/astri-nascenti/diario-osservazioni/images/';
+  // MODIFICA: Inserito URL ASSOLUTO per evitare errori di percorso
+  const cartella = 'https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/diario-osservazioni/images/';
   const prefissoFile = 'ast';
   const estensione = '.PNG'; 
   // -----------------------
@@ -139,10 +134,11 @@ p {
 
   for (let i = 1; i <= numeroTotaleFoto; i++) {
     
+    // Il risultato sarà: https://.../images/ast1.PNG
     const imagePath = `${cartella}${prefissoFile}${i}${estensione}`;
     const targetId = `f${i}`;
 
-    // Genera l'HTML per la griglia
+    // Creazione griglia
     const link = document.createElement('a');
     link.href = `#${targetId}`;
     
@@ -154,11 +150,10 @@ p {
     link.appendChild(img);
     galleryContainer.appendChild(link);
 
-    // Genera l'HTML per la Lightbox
+    // Creazione Lightbox
     const lbDiv = document.createElement('div');
     lbDiv.id = targetId;
     lbDiv.className = 'lightbox';
-    
     lbDiv.innerHTML = `<a href="#_"><img src="${imagePath}" alt="Ingrandimento"></a>`;
     
     lightboxContainer.appendChild(lbDiv);
