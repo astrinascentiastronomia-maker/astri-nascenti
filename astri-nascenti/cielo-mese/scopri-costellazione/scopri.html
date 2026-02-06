@@ -43,7 +43,7 @@ h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Visualizzazione testo: mantiene lo stile lowercase ma rispetta i tag <strong> */
+/* Visualizzazione testo base */
 .content p,
 .content li,
 header p.subtitle,
@@ -57,10 +57,22 @@ footer::first-letter {
   text-transform: uppercase;
 }
 
-/* Se una parola è <strong>, vogliamo che sia ben visibile anche se in minuscolo */
+/* STILE SPECIFICO PER IL TITOLO ESTRATTO DAL TXT */
+.content h2.first-title {
+  font-size: 1.4rem; /* Più grande */
+  color: var(--accent);
+  margin-bottom: 1.5rem;
+  text-transform: uppercase; /* Il titolo lo teniamo in maiuscolo per risaltare */
+  border-bottom: 1px solid rgba(255,255,255,0.2);
+  padding-bottom: 0.5rem;
+  line-height: 1.2;
+}
+
+/* Grassetto per le parole in MAIUSCOLO nel testo */
 .content strong {
   font-weight: 700;
   color: #fff;
+  text-transform: none; /* Impedisce che il lowercase globale annulli l'enfasi */
 }
 
 /* canvas stelle */
@@ -72,7 +84,6 @@ footer::first-letter {
   mix-blend-mode: screen;
 }
 
-/* contenuto principale */
 .page {
   position: relative;
   z-index: 2;
@@ -110,7 +121,6 @@ header p.subtitle {
   font-style: italic;
 }
 
-/* immagine principale */
 img.main-image {
   display:block;
   width:100%;
@@ -118,13 +128,8 @@ img.main-image {
   margin: 1.2rem 0;
   border-radius: 12px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.65);
-  transition: transform 0.3s ease;
-}
-img.main-image:hover {
-  transform: scale(1.02);
 }
 
-/* box contenuto */
 .content {
   background: var(--content-bg);
   backdrop-filter: blur(10px);
@@ -149,15 +154,12 @@ img.main-image:hover {
   border: 1px solid rgba(255, 255, 255, 0.1);
   color: var(--accent);
   font-weight: 700;
-  letter-spacing: 0.04em;
   text-transform: uppercase;
-  box-shadow: 0 8px 22px rgba(0,0,0,0.45);
-  transition: transform 0.18s ease, box-shadow 0.18s ease, background 0.18s ease;
+  transition: all 0.2s ease;
 }
 .back-home a:hover {
   transform: translateY(-4px);
   background: rgba(255, 255, 255, 0.1);
-  box-shadow: 0 16px 36px rgba(0,0,0,0.55);
 }
 
 footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font-size:0.9rem; padding-bottom: 2rem;}
@@ -180,7 +182,7 @@ footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font
   <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione1.jpg" alt="Costellazione" class="main-image">
 
   <main class="content" id="costellazione-content" role="main">
-    <p>Caricamento dei dati celesti...</p>
+    <p>Sincronizzazione con le stelle in corso...</p>
   </main>
 
   <div class="back-home">
@@ -193,35 +195,41 @@ footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font
 </div>
 
 <script>
-/* 1. SCRIPT CARICAMENTO E FORMATTAZIONE TESTO TXT */
+/* 1. LOGICA CARICAMENTO TXT CON TITOLO E GRASSETTI */
 (function(){
   const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/costellazione.txt";
   const container = document.getElementById('costellazione-content');
 
   fetch(url)
     .then(response => {
-      if (!response.ok) throw new Error("File non trovato");
+      if (!response.ok) throw new Error("Dati non disponibili");
       return response.text();
     })
     .then(text => {
-      // REGEX LOGIC:
-      // \b[A-ZÀ-Ž]{2,}\b
-      // \b = confini della parola
-      // [A-ZÀ-Ž] = Lettere maiuscole (incluse accentate italiane)
-      // {2,} = minimo 2 caratteri (esclude parole di una sola lettera come "A", "E", "O", "I")
-      let formattedText = text.replace(/\b[A-ZÀ-Ž]{2,}\b/g, function(match) {
-        return '<strong>' + match + '</strong>';
+      // Divide il testo in righe (paragrafi)
+      const lines = text.split(/\r?\n/).filter(l => l.trim() !== "");
+      let htmlOutput = "";
+
+      lines.forEach((line, index) => {
+        // Applica il grassetto alle parole interamente maiuscole (minimo 2 lettere)
+        let processedLine = line.replace(/\b[A-ZÀ-Ž]{2,}\b/g, function(match) {
+          return '<strong>' + match + '</strong>';
+        });
+
+        if (index === 0) {
+          // Tratta la PRIMA RIGA come Titolo
+          htmlOutput += `<h2 class="first-title">${processedLine}</h2>`;
+        } else {
+          // Tratta le altre righe come Paragrafi normali
+          htmlOutput += `<p>${processedLine}</p>`;
+        }
       });
 
-      // Divide il testo in paragrafi basandosi sugli invii a capo
-      const paragraphs = formattedText.split(/\r?\n/).filter(p => p.trim() !== "");
-      
-      // Sostituisce il contenuto del main
-      container.innerHTML = paragraphs.map(p => `<p>${p}</p>`).join("");
+      container.innerHTML = htmlOutput;
     })
     .catch(err => {
       console.error(err);
-      container.innerHTML = "<p>Si è verificato un errore nel caricamento del testo.</p>";
+      container.innerHTML = "<p>Impossibile caricare il testo della costellazione.</p>";
     });
 })();
 
@@ -233,7 +241,7 @@ footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.75); font
   if (el) el.textContent = months[now.getMonth()];
 })();
 
-/* 3. ANIMAZIONE STELLE */
+/* 3. ANIMAZIONE STELLE (Canvas) */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
