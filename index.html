@@ -16,188 +16,188 @@
 FONT DEFINITIVO
 ========================= */
 @font-face {
-    font-family: 'LemonMilkLight';
-    src: url('images-home/fonts/LemonMilk-Light.woff2') format('woff2'),
-         url('images-home/fonts/LemonMilk-Light.woff') format('woff');
-    font-display: swap;
+  font-family: 'LemonMilkLight';
+  src: url('images-home/fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('images-home/fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
 }
 /* VARIABILI */
 :root{
-    --bianco: #ffffff;
-    --nero: #000000;
-    --accento: #c9d6df;
-    --card-bg: rgba(255,255,255,.55);
-    --card-text: #000;
-    --card-radius: 22px;
-    --card-shadow: 0 20px 55px rgba(0,0,0,.55);
-    --transition-ease: cubic-bezier(.2,.9,.2,1);
+  --bianco: #ffffff;
+  --nero: #000000;
+  --accento: #c9d6df;
+  --card-bg: rgba(255,255,255,.55);
+  --card-text: #000;
+  --card-radius: 22px;
+  --card-shadow: 0 20px 55px rgba(0,0,0,.55);
+  --transition-ease: cubic-bezier(.2,.9,.2,1);
 }
 /* RESET + BASE */
 * { box-sizing: border-box; margin:0; padding:0; }
 html,body { height:100%; }
 body {
-    font-family: 'Helvetica Neue', Arial, sans-serif;
-    background:
-        linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
-        url("images-home/luna-primo-quarto.jpg") center / cover fixed;
-    color:var(--bianco);
-    line-height:1.6;
-    overflow-x:hidden;
-    -webkit-font-smoothing:antialiased;
-    -moz-osx-font-smoothing:grayscale;
-    position:relative;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
+    url("images-home/luna-primo-quarto.jpg") center / cover fixed;
+  color:var(--bianco);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  position:relative;
 }
 /* canvas starfield (sopra il background, sotto il contenuto) */
 #starfield {
-    position: fixed;
-    inset: 0;
-    z-index: 0;
-    pointer-events: none;
-    mix-blend-mode: screen;
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
 /* content container deve stare sopra le stelle */
 main, header, footer, .card, .gallery { position: relative; z-index: 2; }
 /* skip link */
 .skip-link {
-    position: absolute;
-    left: -9999px; top: auto;
-    width:1px; height:1px; overflow:hidden;
+  position: absolute;
+  left: -9999px; top: auto;
+  width:1px; height:1px; overflow:hidden;
 }
 .skip-link:focus {
-    left: 1rem; top: 1rem; width:auto; height:auto;
-    padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
+  left: 1rem; top: 1rem; width:auto; height:auto;
+  padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
 }
 /* TITOLI */
 h1,h2,h3 {
-    font-family: 'LemonMilkLight', sans-serif !important;
-    text-transform: uppercase;
-    letter-spacing: 0.28em;
-    font-weight: normal;
+  font-family: 'LemonMilkLight', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: normal;
 }
 /* HEADER */
 header {
-    text-align:center;
-    padding:3.5rem 1.2rem 4.5rem;
+  text-align:center;
+  padding:3.5rem 1.2rem 4.5rem;
 }
 header img {
-    max-width:160px;
-    margin-bottom:2rem;
-    animation: float 4s ease-in-out infinite;
+  max-width:160px;
+  margin-bottom:2rem;
+  animation: float 4s ease-in-out infinite;
 }
 header h1 { font-size:2.2rem; margin-bottom: 0.5rem; }
 /* Stile specifico per il nuovo sottotitolo */
 header .subtitle {
-    font-family: 'LemonMilkLight', sans-serif;
-    font-size: 0.95rem; /* leggermente più piccolo del titolo */
-    letter-spacing: 0.15em;
-    text-transform: uppercase;
-    color: var(--bianco);
-    margin: 0 auto;
-    max-width: 800px;
-    opacity: 0.9;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 0.95rem; /* leggermente più piccolo del titolo */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bianco);
+  margin: 0 auto;
+  max-width: 800px;
+  opacity: 0.9;
 }
 header p.description {
-    max-width:700px;
-    margin:1.8rem auto 0;
-    color:var(--accento);
-    font-size:1rem;
+  max-width:700px;
+  margin:1.8rem auto 0;
+  color:var(--accento);
+  font-size:1rem;
 }
 /* SEZIONI */
 main { padding-bottom:4rem; }
 section {
-    max-width:1100px;
-    margin:0 auto 4rem;
-    padding:0 1.2rem;
+  max-width:1100px;
+  margin:0 auto 4rem;
+  padding:0 1.2rem;
 }
 section h2 {
-    font-size:1.5rem;
-    border-left:3px solid #fff;
-    padding-left:1rem;
-    margin-bottom:2rem;
+  font-size:1.5rem;
+  border-left:3px solid #fff;
+  padding-left:1rem;
+  margin-bottom:2rem;
 }
 /* CARD */
 .card {
-    background:var(--card-bg);
-    backdrop-filter: blur(10px);
-    border-radius:var(--card-radius);
-    padding:1.8rem;
-    color:var(--card-text);
-    box-shadow:var(--card-shadow);
-    margin-bottom:2rem;
-    transition: transform .5s var(--transition-ease), box-shadow .5s var(--transition-ease);
-    will-change: transform;
-    border: 1px solid rgba(255,255,255,.06);
+  background:var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius:var(--card-radius);
+  padding:1.8rem;
+  color:var(--card-text);
+  box-shadow:var(--card-shadow);
+  margin-bottom:2rem;
+  transition: transform .5s var(--transition-ease), box-shadow .5s var(--transition-ease);
+  will-change: transform;
+  border: 1px solid rgba(255,255,255,.06);
 }
 .card:hover {
-    transform: translateY(-6px) scale(1.03);
-    box-shadow: 0 30px 70px rgba(0,0,0,.75);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
 .card h3 { font-size:.85rem; margin-bottom:1rem; }
 /* GRID */
 .grid { display:grid; grid-template-columns:1fr; gap:2rem; }
 /* GALLERY */
 .gallery {
-    display:grid;
-    grid-template-columns:1fr 1fr;
-    gap:1rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
 }
 .gallery a,
 .gallery .placeholder {
-    position:relative;
-    aspect-ratio:1/1;
-    border-radius:18px;
-    overflow:hidden;
-    background:rgba(255,255,255,.6);
-    box-shadow:0 16px 40px rgba(0,0,0,.6);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    text-decoration:none;
-    color:#000;
-    transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
+  position:relative;
+  aspect-ratio:1/1;
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(255,255,255,.6);
+  box-shadow:0 16px 40px rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:#000;
+  transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
 .gallery a:hover,
 .gallery .placeholder:hover {
-    transform: scale(1.05);
-    box-shadow:0 30px 70px rgba(0,0,0,.8);
+  transform: scale(1.05);
+  box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
 .gallery img {
-    width:100%;
-    height:100%;
-    object-fit:cover;
-    transition: transform .6s var(--transition-ease);
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition: transform .6s var(--transition-ease);
 }
 .gallery a:hover img { transform: scale(1.12); }
 .gallery span {
-    position:absolute;
-    bottom:12px;
-    background:rgba(0,0,0,.65);
-    padding:.6rem 1.2rem;
-    border-radius:30px;
-    font-size:.65rem;
-    letter-spacing:.22em;
-    color:#fff;
-    font-family:'LemonMilkLight', sans-serif;
-    z-index:2;
+  position:absolute;
+  bottom:12px;
+  background:rgba(0,0,0,.65);
+  padding:.6rem 1.2rem;
+  border-radius:30px;
+  font-size:.65rem;
+  letter-spacing:.22em;
+  color:#fff;
+  font-family:'LemonMilkLight', sans-serif;
+  z-index:2;
 }
 /* DOWNLOAD BUTTONS (software consigliati) */
 .download-buttons {
-    display:flex;
-    flex-direction:column;
-    gap:.8rem;
-    margin-top:1.4rem;
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-top:1.4rem;
 }
 .download-buttons a {
-    text-align:center;
-    padding:1rem 1.4rem;
-    border-radius:50px;
-    font-family:'LemonMilkLight', sans-serif;
-    font-size:.7rem;
-    letter-spacing:.22em;
-    color:#fff;
-    text-decoration:none;
-    min-height:48px;
-    transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
+  text-align:center;
+  padding:1rem 1.4rem;
+  border-radius:50px;
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  color:#fff;
+  text-decoration:none;
+  min-height:48px;
+  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
 .download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
 .apple { background: linear-gradient(135deg,#000,#555); }
@@ -205,139 +205,139 @@ section h2 {
 .web { background:linear-gradient(135deg,#007ACC,#005A99); }
 /* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO (mobile) */
 .card.founder {
-    display: flex;
-    flex-direction: column;
-    min-height: auto;
-    border-radius: 18px;
-    overflow: hidden;
-    background-color: #111;
-    position: relative;
-    box-shadow: 0 20px 55px rgba(0,0,0,.6);
-    border: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #111;
+  position: relative;
+  box-shadow: 0 20px 55px rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.06);
 }
 .card.founder img {
-    width: 100%;
-    height: auto;
-    object-fit: cover;
-    flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .founder-text {
-    padding: 2rem;
-    font-size: 1rem;
-    line-height: 1.6;
-    color: #fff;
-    /* IMPORTANT: non limitare verticalmente il testo: lasciamo che cresca naturalmente */
-    overflow: visible;
+  padding: 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #fff;
+  /* IMPORTANT: non limitare verticalmente il testo: lasciamo che cresca naturalmente */
+  overflow: visible;
 }
 .founder-badge{
-    position:absolute;
-    left:16px;
-    top:16px;
-    z-index:4;
-    background: rgba(0,0,0,0.35);
-    color:#fff;
-    padding:6px 10px;
-    border-radius:10px;
-    font-size:.72rem;
-    letter-spacing:.12em;
-    text-transform:uppercase;
-    font-family:'LemonMilkLight', sans-serif;
+  position:absolute;
+  left:16px;
+  top:16px;
+  z-index:4;
+  background: rgba(0,0,0,0.35);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-family:'LemonMilkLight', sans-serif;
 }
 .founder-signature{
-    position: absolute;
-    right: 18px;
-    bottom: 14px;
-    z-index: 4;
-    font-family: 'LemonMilkLight', sans-serif;
-    font-size: 1rem;
-    color: #fff;
-    background: rgba(0,0,0,0.22);
-    padding: 6px 10px;
-    border-radius: 8px;
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
 }
 /* CONTATTI ICONE */
 .contact-icon {
-    width:20px;
-    height:20px;
-    vertical-align:middle;
-    margin-right:6px;
-    transition: transform .3s ease;
+  width:20px;
+  height:20px;
+  vertical-align:middle;
+  margin-right:6px;
+  transition: transform .3s ease;
 }
 .contact-icon:hover {
-    transform: scale(1.2) rotate(-10deg);
+  transform: scale(1.2) rotate(-10deg);
 }
 /* FOOTER */
 footer {
-    text-align:center;
-    padding:3rem 1rem 4rem;
-    font-size:.8rem;
-    color:var(--accento);
+  text-align:center;
+  padding:3rem 1rem 4rem;
+  font-size:.8rem;
+  color:var(--accento);
 }
 footer a { color:var(--accento); text-decoration:none; }
 /* ANIMAZIONI */
 @keyframes float {
-    0%,100% { transform:translateY(0); }
-    50% { transform:translateY(-10px); }
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-10px); }
 }
 /* REVEAL */
 .reveal {
-    opacity: 0;
-    transform: translateY(40px);
-    transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
-    will-change: opacity, transform;
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
+  will-change: opacity, transform;
 }
 .reveal.in-view {
-    opacity: 1;
-    transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
 /* RESPONSIVE: desktop layout */
 @media (min-width:768px) {
-    .grid { grid-template-columns: repeat(2,1fr); }
-    .gallery { grid-template-columns: repeat(4,1fr); }
-    .download-buttons { flex-direction:row; }
-    .download-buttons a { flex:1; }
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .gallery { grid-template-columns: repeat(4,1fr); }
+  .download-buttons { flex-direction:row; }
+  .download-buttons a { flex:1; }
 }
 @media (min-width:1024px) {
-    header h1 { font-size:3.1rem; }
-    section h2 { font-size:2rem; }
-    .card { padding:2.6rem; }
-    /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
-    e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
-    .card.founder {
-        flex-direction: column;
-        align-items: stretch;
-    }
-    .card.founder img {
-        width: 100%;
-        max-width: 100%;
-        height: auto;
-        object-fit: cover;
-    }
-    .founder-text {
-        width: 100%;
-        max-width: none;
-    }
+  header h1 { font-size:3.1rem; }
+  section h2 { font-size:2rem; }
+  .card { padding:2.6rem; }
+  /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
+  e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
+  .card.founder {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .card.founder img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .founder-text {
+    width: 100%;
+    max-width: none;
+  }
 }
 /* FIX: Chi siamo a una colonna anche su desktop */
 @media (min-width:768px) {
-    .chi-siamo .grid {
-        grid-template-columns: 1fr;
-    }
+  .chi-siamo .grid {
+    grid-template-columns: 1fr;
+  }
 }
 /* ARIA: riduci movimento se richiesto dal sistema */
 @media (prefers-reduced-motion: reduce) {
-    #starfield { display: none !important; }
-    .card, .gallery a, .gallery .placeholder, .download-buttons a {
-        transition: none !important;
-        animation: none !important;
-        transform: none !important;
-    }
-    .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
+  #starfield { display: none !important; }
+  .card, .gallery a, .gallery .placeholder, .download-buttons a {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
 }
 /* small responsive tweak */
 @media (max-width:767px){
-    .founder-text{ padding:1.2rem; font-size:.95rem; }
-    .card.founder{ min-height: 300px; border-radius:14px; }
+  .founder-text{ padding:1.2rem; font-size:.95rem; }
+  .card.founder{ min-height: 300px; border-radius:14px; }
 }
 /* --- biografie: il contenitore cresce con il contenuto, no overflow --- */
 .card.founder{
@@ -499,8 +499,8 @@ color:var(--bianco);
 background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
 ">
 <div>
-<p style="margin:0 0 0.8rem 0; font-size:1.05rem; line-height:1.5;">
-Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.
+<p id="testo-cielo-mese" style="margin:0 0 0.8rem 0; font-size:1.05rem; line-height:1.5;">
+Caricamento in corso...
 </p>
 <a href="astri-nascenti/cielo-mese/costellazione.html" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
 Altro...
@@ -773,5 +773,35 @@ requestAnimationFrame(draw);
   });
 })();
 </script>
+
+<script>
+(function(){
+  // URL assoluto del file txt
+  const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
+  
+  // Elemento HTML dove inserire il testo
+  const target = document.getElementById('testo-cielo-mese');
+
+  if(!target) return;
+
+  // Fetch del file
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Errore nel caricamento del file testo: " + response.status);
+      }
+      return response.text();
+    })
+    .then(text => {
+      // Inserisce il testo letto nel paragrafo
+      target.textContent = text;
+    })
+    .catch(err => {
+      console.error("Impossibile caricare il testo del cielo:", err);
+      target.textContent = "Impossibile caricare le previsioni al momento.";
+    });
+})();
+</script>
+
 </body>
 </html>
