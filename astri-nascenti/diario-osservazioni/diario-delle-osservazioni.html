@@ -54,7 +54,6 @@ p {
   transform: scale(1.02);
 }
 
-/* Stile per la didascalia finale */
 .gallery-footer-note {
   max-width: 900px;
   margin: 0 auto 4rem;
@@ -71,7 +70,7 @@ p {
   position:fixed;
   inset:0;
   background:rgba(0,0,0,.95);
-  display:none; /* Nascosto di default */
+  display:none; 
   align-items:center;
   justify-content:center;
   z-index:999;
@@ -85,7 +84,6 @@ p {
   border-radius: 8px;
 }
 
-/* Quando il target è attivo, mostralo */
 .lightbox:target {
   display:flex;
   opacity: 1;
@@ -100,6 +98,11 @@ p {
   color:#c9d6df;
   text-decoration:none;
   font-size: 1.1rem;
+  transition: color 0.3s;
+}
+
+.back a:hover {
+  color: #fff;
 }
 </style>
 </head>
@@ -118,48 +121,44 @@ p {
 <div id="lightbox-container"></div>
 
 <div class="back">
-  <a href="index.html">← Torna alla home</a>
+  <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/">← Torna alla home</a>
 </div>
 
 <script>
   // --- CONFIGURAZIONE ---
-  // Aggiorna SOLO questo numero quando aggiungi nuove foto!
   const numeroTotaleFoto = 22; 
   
-  // Nome della cartella e prefisso file
-  const cartella = 'images/ast/';
+  // MODIFICA: Nuovo percorso immagini aggiornato
+  const cartella = 'astri-nascenti/astri-nascenti/diario-osservazioni/images/';
   const prefissoFile = 'ast';
-  const estensione = '.PNG'; // Attenzione: controlla se è .PNG o .png o .jpg
+  const estensione = '.PNG'; 
   // -----------------------
 
   const galleryContainer = document.getElementById('gallery-container');
   const lightboxContainer = document.getElementById('lightbox-container');
 
-  // Ciclo che crea automaticamente le foto dalla 1 alla 22
   for (let i = 1; i <= numeroTotaleFoto; i++) {
     
-    // 1. Crea il percorso immagine (es: images/ast/ast1.PNG)
     const imagePath = `${cartella}${prefissoFile}${i}${estensione}`;
     const targetId = `f${i}`;
 
-    // 2. Genera l'HTML per la griglia
+    // Genera l'HTML per la griglia
     const link = document.createElement('a');
     link.href = `#${targetId}`;
     
     const img = document.createElement('img');
     img.src = imagePath;
     img.alt = `Foto astrofotografia ${i}`;
-    img.loading = "lazy"; // Ottimizza il caricamento per foto nuove
+    img.loading = "lazy"; 
 
     link.appendChild(img);
     galleryContainer.appendChild(link);
 
-    // 3. Genera l'HTML per la Lightbox (schermo intero)
+    // Genera l'HTML per la Lightbox
     const lbDiv = document.createElement('div');
     lbDiv.id = targetId;
     lbDiv.className = 'lightbox';
     
-    // Link per chiudere cliccando sull'immagine o fuori (torna a #)
     lbDiv.innerHTML = `<a href="#_"><img src="${imagePath}" alt="Ingrandimento"></a>`;
     
     lightboxContainer.appendChild(lbDiv);
