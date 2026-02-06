@@ -1,10 +1,21 @@
+<!DOCTYPE html>
 <!doctype html>
 <html lang="it">
 <head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Diario delle osservazioni</title>
+
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width, initial-scale=1" />
 <title>ASTRI NASCENTI — Book (mobile-ready) — Debug</title>
 <style>
+@font-face {
+  font-family: 'LemonMilkLight';
+  src: url('fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
+}
   html,body{margin:0;height:100%;background:#0b0b0b;color:#fff;font-family:system-ui,Arial}
   .wrap{min-height:100vh;display:flex;flex-direction:column;align-items:center;justify-content:center;padding:16px;box-sizing:border-box}
   .book{width:min(92vw,520px);aspect-ratio:13/18;position:relative;perspective:1800px}
@@ -38,6 +49,12 @@
     </div>
   </div>
 
+body {
+  margin:0;
+  font-family:Arial,sans-serif;
+  background:#000;
+  color:#fff;
+}
   <div class="controls">
     <button id="prev">◀ Indietro</button>
     <div class="status" id="status">1 / 36</div>
@@ -45,18 +62,38 @@
     <button id="recheck">🔁 Riprova PATH</button>
   </div>
 
+h1 {
+  font-family:'LemonMilkLight', sans-serif !important;
+  letter-spacing:.28em;
+  text-transform:uppercase;
+  text-align:center;
+  margin:3rem 1rem 1rem;
+}
   <div class="debug" id="debug">
     <h4>Debug: verifica accesso immagini</h4>
     <div id="debugLines"></div>
   </div>
 </div>
 
+p {
+  text-align:center;
+  color:#c9d6df;
+  margin-bottom:3rem;
+}
 <script>
 /* CONFIG */
 const TOTAL = 36; // numero di file attesi (1..36)
 let PATH = 'astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-'; // valore iniziale suggerito
 const EXT = '.jpg';
 
+.gallery {
+  max-width:1200px;
+  margin:0 auto 1.5rem;
+  padding:0 1rem;
+  display:grid;
+  grid-template-columns:repeat(auto-fit,minmax(260px,1fr));
+  gap:1.5rem;
+}
 /* Candidate path variations da provare automaticamente */
 const CANDIDATE_PREFIXES = [
   'astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-',
@@ -68,6 +105,12 @@ const CANDIDATE_PREFIXES = [
   './astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-' // ripetuto per sicurezza
 ];
 
+.gallery a img {
+  width:100%;
+  border-radius:18px;
+  box-shadow:0 20px 50px rgba(0,0,0,.6);
+  transition: transform 0.3s ease;
+}
 /* elementi DOM */
 const currentImg = document.getElementById('currentImg');
 const nextImg = document.getElementById('nextImg');
@@ -77,6 +120,9 @@ const status = document.getElementById('status');
 const viewport = document.getElementById('viewport');
 const debugLines = document.getElementById('debugLines');
 
+.gallery a img:hover {
+  transform: scale(1.02);
+}
 let index = 1;
 let busy = false;
 let flipping = false;
@@ -94,6 +140,16 @@ const PLACEHOLDER = 'data:image/svg+xml;utf8,' + encodeURIComponent(
    </svg>`
 );
 
+/* Stile per la didascalia finale */
+.gallery-footer-note {
+  max-width: 900px;
+  margin: 0 auto 4rem;
+  padding: 0 1.5rem;
+  text-align: center;
+  font-size: 0.75rem;
+  color: #c9d6df;
+  line-height: 1.5;
+  opacity: 0.8;
 /* helper per scrivere debug */
 function debug(msg){
   const div = document.createElement('div');
@@ -103,6 +159,17 @@ function debug(msg){
   console.log(msg);
 }
 
+/* LIGHTBOX */
+.lightbox {
+  position:fixed;
+  inset:0;
+  background:rgba(0,0,0,.95);
+  display:none; /* Nascosto di default */
+  align-items:center;
+  justify-content:center;
+  z-index:999;
+  opacity: 0;
+  transition: opacity 0.3s ease;
 /* costruisce URL per pagina n con prefisso p */
 const urlFor = (p, n) => `${p}${n}${EXT}`;
 
@@ -128,6 +195,10 @@ async function checkUrl(url){
   }
 }
 
+.lightbox img {
+  max-width:95%;
+  max-height:95%;
+  border-radius: 8px;
 /* tenta di trovare un prefix funzionante tra i candidati */
 async function autodetectPath(){
   debug('Avvio autodetect PATH — provo varie alternative...');
@@ -152,6 +223,10 @@ async function autodetectPath(){
   return null;
 }
 
+/* Quando il target è attivo, mostralo */
+.lightbox:target {
+  display:flex;
+  opacity: 1;
 /* src wrapper basato su PATH globale */
 const src = i => {
   const n = Math.max(1, Math.min(TOTAL, i));
@@ -168,6 +243,9 @@ function preload(n){
   });
 }
 
+.back {
+  text-align:center;
+  margin-bottom:3rem;
 function renderImmediate(){
   currentImg.classList.remove('missing');
   nextImg.classList.remove('missing');
@@ -180,6 +258,10 @@ function renderImmediate(){
   status.textContent = `${index} / ${TOTAL}`;
 }
 
+.back a {
+  color:#c9d6df;
+  text-decoration:none;
+  font-size: 1.1rem;
 /* gestione errore immagine: mostra placeholder e marca come missing */
 function onImgError(e){
   const img = e.currentTarget;
@@ -187,12 +269,17 @@ function onImgError(e){
   img.classList.add('missing');
   debug(`Immagine mancante: ${img.getAttribute('data-debug-url') || img.src}`);
 }
+</style>
+</head>
 
+<body>
 /* imposta attributo debug-url per track */
 function setDebugAttr(imgEl, url){
   try{ imgEl.setAttribute('data-debug-url', url); }catch(e){}
 }
 
+<h1>Diario delle osservazioni</h1>
+<p>Collezione fotografica Astri Nascenti</p>
 /* funzione flip next/prev (uguali a prima) */
 function next(){
   if(busy || index >= TOTAL) return;
@@ -216,6 +303,7 @@ function next(){
   });
 }
 
+<div class="gallery" id="gallery-container"></div>
 function onTransitionEnd(e){
   if(!flipping) return;
   if(e.propertyName !== 'transform') return;
@@ -236,6 +324,9 @@ function onTransitionEnd(e){
   });
 }
 
+<div class="gallery-footer-note">
+  Le immagini presenti nella galleria sono state riprese durante le serate osservative. Alcune foto, realizzate con telescopi smart, sono state post-elaborate con strumenti di intelligenza artificiale per valorizzare i dettagli più suggestivi degli oggetti osservati.
+</div>
 function prev(){
   if(busy || index <= 1) return;
   busy = true;
@@ -248,6 +339,7 @@ function prev(){
   setTimeout(()=> busy = false, 150);
 }
 
+<div id="lightbox-container"></div>
 /* attach events */
 document.getElementById('next').onclick = next;
 document.getElementById('prev').onclick = prev;
@@ -263,6 +355,9 @@ flipper.addEventListener('transitionend', onTransitionEnd);
   img.addEventListener('error', onImgError);
 });
 
+<div class="back">
+  <a href="index.html">← Torna alla home</a>
+</div>
 /* touch & click (sintetico, come prima) */
 (function enableTouch(){
   let touchStartX=0, touchStartY=0, touchLastX=0, touchLastY=0, touchStartTime=0, isDragging=false;
@@ -273,6 +368,49 @@ flipper.addEventListener('transitionend', onTransitionEnd);
   viewport.addEventListener('click', (ev)=>{ const rect = viewport.getBoundingClientRect(); const x = ev.clientX - rect.left; if(x > rect.width/2) next(); else prev(); });
 })();
 
+<script>
+  // --- CONFIGURAZIONE ---
+  // Aggiorna SOLO questo numero quando aggiungi nuove foto!
+  const numeroTotaleFoto = 22; 
+  
+  // Nome della cartella e prefisso file
+  const cartella = 'images/ast/';
+  const prefissoFile = 'ast';
+  const estensione = '.PNG'; // Attenzione: controlla se è .PNG o .png o .jpg
+  // -----------------------
+
+  const galleryContainer = document.getElementById('gallery-container');
+  const lightboxContainer = document.getElementById('lightbox-container');
+
+  // Ciclo che crea automaticamente le foto dalla 1 alla 22
+  for (let i = 1; i <= numeroTotaleFoto; i++) {
+    
+    // 1. Crea il percorso immagine (es: images/ast/ast1.PNG)
+    const imagePath = `${cartella}${prefissoFile}${i}${estensione}`;
+    const targetId = `f${i}`;
+
+    // 2. Genera l'HTML per la griglia
+    const link = document.createElement('a');
+    link.href = `#${targetId}`;
+    
+    const img = document.createElement('img');
+    img.src = imagePath;
+    img.alt = `Foto astrofotografia ${i}`;
+    img.loading = "lazy"; // Ottimizza il caricamento per foto nuove
+
+    link.appendChild(img);
+    galleryContainer.appendChild(link);
+
+    // 3. Genera l'HTML per la Lightbox (schermo intero)
+    const lbDiv = document.createElement('div');
+    lbDiv.id = targetId;
+    lbDiv.className = 'lightbox';
+    
+    // Link per chiudere cliccando sull'immagine o fuori (torna a #)
+    lbDiv.innerHTML = `<a href="#_"><img src="${imagePath}" alt="Ingrandimento"></a>`;
+    
+    lightboxContainer.appendChild(lbDiv);
+  }
 /* INIT: autodetect PATH, poi render */
 (async function init(){
   debug('Inizializzazione: provo a rilevare il PATH corretto e a caricare le prime immagini...');
@@ -288,5 +426,6 @@ flipper.addEventListener('transitionend', onTransitionEnd);
   renderImmediate();
 })();
 </script>
+
 </body>
 </html>
