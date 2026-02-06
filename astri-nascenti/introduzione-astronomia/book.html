@@ -29,7 +29,7 @@ html,body{
 .book{
   /* width constrained to viewport on mobile but never larger than original */
   width: min(92vw, 520px);
-  /* preserve original aspect ratio 13:18 */
+  /* preserve original aspect ratio 520:720 -> 13:18 */
   aspect-ratio: 13 / 18;
   height: auto;
   position:relative;
@@ -45,7 +45,7 @@ html,body{
   background:#111;
   box-shadow:0 30px 80px rgba(0,0,0,.8);
   border-radius:8px;
-  touch-action: pan-y; 
+  touch-action: pan-y; /* permette lo scrolling verticale ma ci dà il controllo sugli swipe orizzontali */
 }
 
 /* STRATI */
@@ -66,7 +66,7 @@ html,body{
   display:block;
 }
 
-/* PAGINA SOTTO */
+/* PAGINA SOTTO (GIÀ ATTACCATA) */
 .next{
   z-index:1;
 }
@@ -120,6 +120,7 @@ button:hover{
   opacity:.85;
 }
 
+/* piccoli ritocchi touch-friendly */
 @media (hover:none) and (pointer:coarse){
   button{ padding:14px 20px; font-size:17px; }
 }
@@ -129,17 +130,21 @@ button:hover{
 <body>
 
 <div class="wrap">
+
   <div class="book">
     <div class="viewport" id="viewport">
+
       <div class="layer next">
         <img id="nextImg" alt="pagina sotto">
       </div>
+
       <div class="layer flipper" id="flipper">
         <img id="currentImg" alt="pagina corrente">
         <div class="back">
           <img id="backImg" alt="retro pagina">
         </div>
       </div>
+
     </div>
   </div>
 
@@ -148,12 +153,14 @@ button:hover{
     <div class="status" id="status">1 / 31</div>
     <button id="next">Avanti ▶</button>
   </div>
+
 </div>
 
 <script>
-/* CONFIGURAZIONE AGGIORNATA */
+/* CONFIGURAZIONE */
+/* totale visibile dopo aver rimosso i file 2..6 */
 const TOTAL = 31;
-// Percorso aggiornato come richiesto
+/* PERCORSO AGGIORNATO */
 const PATH  = 'astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-';
 const EXT   = '.jpg';
 
@@ -164,15 +171,21 @@ const flipper    = document.getElementById('flipper');
 const status     = document.getElementById('status');
 const viewport   = document.getElementById('viewport');
 
-let index = 1;
-let busy  = false;
-let flipping = false;
+let index = 1;            // pagina corrente (1-based)
+let busy  = false;        // blocco animazioni
+let flipping = false;     // stato flip in corso
 
+/* MAPPATURA: la pagina visibile n (1-based) corrisponde al file:
+   - fileIndex = 1                    quando n === 1
+   - fileIndex = n + 5                quando n >= 2
+   (così si scartano i file 2..6)
+*/
 const src = i => {
   const fileIndex = (i <= 1) ? 1 : (i + 5);
   return `${PATH}${fileIndex}${EXT}`;
 };
 
+/* PRELOAD UTILE: assicura immagine pronta */
 function preload(n){
   return new Promise(r=>{
     const img = new Image();
@@ -181,27 +194,39 @@ function preload(n){
   });
 }
 
+/* CARICA VISUALIZZAZIONE ATTUALE (senza animazione) */
 function renderImmediate(){
   currentImg.src = src(index);
+  // backImg e nextImg mostrano la pagina successiva (duplicata per continuità visiva)
   const nextIndex = Math.min(index + 1, TOTAL);
   backImg.src    = src(nextIndex);
   nextImg.src    = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 }
 
+/* PROCEDURA DI FLIP AVANTI (senza rimbalzo)
+   - aggiunge classe 'turn' per avviare la rotazione
+   - attende 'transitionend' per aggiornare gli src senza animazione visibile
+*/
 function next(){
   if(busy || index >= TOTAL) return;
   busy = true;
   flipping = true;
 
+  // assicurati che le immagini da mostrare siano caricate (preload)
   const target = index + 1;
   Promise.all([preload(index), preload(target)]).then(()=>{
+    // metti il retro (backImg) con la pagina di destinazione - già fatto dal preload
     backImg.src = src(target);
     nextImg.src = src(target);
+
+    // start animation
     flipper.classList.add('turn');
+    // il resto è gestito dall'evento transitionend
   });
 }
 
+/* Gestione fine transizione: aggiorna stato senza mostrare flip-back */
 function onTransitionEnd(e){
   if(!flipping) return;
   if(e.propertyName !== 'transform') return;
@@ -209,24 +234,30 @@ function onTransitionEnd(e){
   flipping = false;
   index = Math.min(index + 1, TOTAL);
 
+  // disabilita transizione del flipper per il reset visivo
   const prevTransition = flipper.style.transition;
   flipper.style.transition = 'none';
+
   flipper.classList.remove('turn');
 
+  // aggiorna le immagini immediate alla nuova pagina corrente
   currentImg.src = src(index);
   const nextIndex = Math.min(index + 1, TOTAL);
   backImg.src    = src(nextIndex);
   nextImg.src    = src(nextIndex);
   status.textContent = `${index} / ${TOTAL}`;
 
+  // forziamo reflow per essere sicuri
   void flipper.offsetWidth;
 
+  // ripristiniamo la transizione al valore originale dopo un frame
   requestAnimationFrame(()=> {
     flipper.style.transition = prevTransition || 'transform 0.85s cubic-bezier(.2,.9,.2,1)';
     busy = false;
   });
 }
 
+/* INDIETRO: semplice decremento senza animazione di ritorno */
 function prev(){
   if(busy || index <= 1) return;
   busy = true;
@@ -241,11 +272,16 @@ function prev(){
   setTimeout(()=> busy = false, 150);
 }
 
+/* EVENTI BOTTONI */
 document.getElementById('next').onclick = next;
 document.getElementById('prev').onclick = prev;
 flipper.addEventListener('transitionend', onTransitionEnd);
 
-/* TOUCH / SWIPE SUPPORT */
+/* TOUCH / SWIPE SUPPORT (mobile)
+   - swipe left => next
+   - swipe right => prev
+   - tap right half => next, left half => prev (short tap)
+*/
 (function enableTouch(){
   let touchStartX = 0;
   let touchStartY = 0;
@@ -253,10 +289,11 @@ flipper.addEventListener('transitionend', onTransitionEnd);
   let touchLastY = 0;
   let touchStartTime = 0;
   let isDragging = false;
-  const THRESHOLD = 40;
+
+  const THRESHOLD = 40; // px minimo per considerare swipe
 
   viewport.addEventListener('touchstart', (ev)=>{
-    if(ev.touches.length > 1) return;
+    if(ev.touches.length > 1) return; // ignora pinch
     touchStartX = touchLastX = ev.touches[0].clientX;
     touchStartY = touchLastY = ev.touches[0].clientY;
     touchStartTime = Date.now();
@@ -269,8 +306,11 @@ flipper.addEventListener('transitionend', onTransitionEnd);
     const dy = ev.touches[0].clientY - touchStartY;
     touchLastX = ev.touches[0].clientX;
     touchLastY = ev.touches[0].clientY;
+
+    // se il movimento è principalmente orizzontale, impediamo lo scroll verticale predefinito
     if(Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){
       isDragging = true;
+      // impediamo lo scorrimento orizzontale nativo (se possibile)
       ev.preventDefault();
     }
   }, {passive:false});
@@ -281,27 +321,40 @@ flipper.addEventListener('transitionend', onTransitionEnd);
     const dt = Date.now() - touchStartTime;
 
     if(isDragging && Math.abs(dx) > THRESHOLD && Math.abs(dx) > Math.abs(dy)){
-      if(dx < 0) next(); else prev();
+      if(dx < 0) {
+        next();
+      } else {
+        prev();
+      }
     } else {
+      // breve tap (pochi ms e poco spostamento) -> consideriamo tap su metà viewport
       if(dt < 300 && Math.abs(dx) < 12 && Math.abs(dy) < 12){
         const rect = viewport.getBoundingClientRect();
         const tapX = touchLastX || touchStartX;
         const relativeX = tapX - rect.left;
-        if(relativeX > rect.width / 2) next(); else prev();
+        if(relativeX > rect.width / 2){
+          next();
+        } else {
+          prev();
+        }
       }
     }
+
     isDragging = false;
   }, {passive:true});
 
+  // per comodità: supporto anche per mouse (drag o click sulle metà)
   viewport.addEventListener('click', (ev)=>{
     const rect = viewport.getBoundingClientRect();
     const x = ev.clientX - rect.left;
     if(x > rect.width / 2) next(); else prev();
   });
+
 })();
 
 /* INIZIALIZZAZIONE */
 (function init(){
+  // preload primo e secondo per evitare flicker
   Promise.all([preload(1), preload(2)]).then(()=>{
     renderImmediate();
   });
