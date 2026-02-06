@@ -159,7 +159,16 @@ p.subtitle {
 
   <div class="instrument-card">
     <div class="instrument-title"><strong>Supporti didattici per esplorare il cielo notturno</strong></div>
-    <a href="#t41"><img src="images/astrinascentifoto41.jpg" alt="Supporti didattici"></a>
+
+    <!-- qui abbiamo sostituito l'immagine mancante con il file che hai caricato:
+         percorso assoluto sul GitHub Pages per essere sicuri che sia raggiungibile -->
+    <a href="#t41">
+      <img 
+        src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/strumenti/images/laser-verde.png"
+        alt="Supporti didattici - Laser verde"
+      >
+    </a>
+
     <div class="instrument-desc">Laser verdi per puntare il cielo ed osservarlo ad occhio nudo, globi celesti, mappamondi ed orologi astronomici.</div>
   </div>
 
@@ -169,13 +178,26 @@ p.subtitle {
   Telescopi tradizionali e smart, laser verdi e supporti didattici per esplorare il cielo notturno
 </div>
 
+<!-- lightbox: usa la stessa immagine assoluta per il laser verde -->
 <div id="t38" class="lightbox"><a href="#"><img src="images/astrinascentifoto38.jpg" alt="Telescopio 38"></a></div>
 <div id="t39" class="lightbox"><a href="#"><img src="images/astrinascentifoto39.jpg" alt="Telescopio 39"></a></div>
 <div id="t40" class="lightbox"><a href="#"><img src="images/astrinascentifoto40.jpg" alt="Telescopio 40"></a></div>
-<div id="t41" class="lightbox"><a href="#"><img src="images/astrinascentifoto41.jpg" alt="Supporti didattici"></a></div>
+<div id="t41" class="lightbox">
+  <a href="#">
+    <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/strumenti/images/laser-verde.png" alt="Supporti didattici - Laser verde">
+  </a>
+</div>
 
 <div class="back">
-  <a href="index.html">← Torna alla home</a>
+  <!-- Link assoluto forzato alla home del progetto GitHub Pages -->
+  <a
+    id="homeLink"
+    href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/index.html"
+    onclick="window.location.href='https://astrinascentiastronomia-maker.github.io/astri-nascenti/index.html'; return false;"
+    rel="noopener noreferrer"
+  >
+    ← Torna alla home
+  </a>
 </div>
 
 </body>
