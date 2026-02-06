@@ -266,6 +266,24 @@ section h2 {
 .contact-icon:hover {
   transform: scale(1.2) rotate(-10deg);
 }
+
+/* ===========================================================
+   NOVITÀ: CLAMPING PER IL TESTO "CIELO DEL MESE" CARICATO
+   =========================================================== */
+#testo-cielo-mese {
+  margin:0 0 0.8rem 0;
+  font-size:1.05rem;
+  line-height:1.5;
+  
+  /* Logica per tagliare il testo dopo 4 righe e mettere i ... */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Numero di righe visibili */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
+}
+
+
 /* FOOTER */
 footer {
   text-align:center;
@@ -499,7 +517,7 @@ color:var(--bianco);
 background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
 ">
 <div>
-<p id="testo-cielo-mese" style="margin:0 0 0.8rem 0; font-size:1.05rem; line-height:1.5;">
+<p id="testo-cielo-mese">
 Caricamento in corso...
 </p>
 <a href="astri-nascenti/cielo-mese/costellazione.html" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
@@ -776,15 +794,10 @@ requestAnimationFrame(draw);
 
 <script>
 (function(){
-  // URL assoluto del file txt
   const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
-  
-  // Elemento HTML dove inserire il testo
   const target = document.getElementById('testo-cielo-mese');
-
   if(!target) return;
 
-  // Fetch del file
   fetch(url)
     .then(response => {
       if (!response.ok) {
@@ -793,7 +806,6 @@ requestAnimationFrame(draw);
       return response.text();
     })
     .then(text => {
-      // Inserisce il testo letto nel paragrafo
       target.textContent = text;
     })
     .catch(err => {
