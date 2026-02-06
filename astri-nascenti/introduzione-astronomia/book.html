@@ -134,10 +134,12 @@ button:hover{
   <div class="book">
     <div class="viewport" id="viewport">
 
+      <!-- PAGINA SUCCESSIVA (GIÀ ATTACCATA SOTTO) -->
       <div class="layer next">
         <img id="nextImg" alt="pagina sotto">
       </div>
 
+      <!-- PAGINA CHE GIRA -->
       <div class="layer flipper" id="flipper">
         <img id="currentImg" alt="pagina corrente">
         <div class="back">
@@ -150,7 +152,7 @@ button:hover{
 
   <div class="controls">
     <button id="prev">◀ Indietro</button>
-    <div class="status" id="status">1 / 31</div>
+    <div class="status" id="status">1 / 36</div>
     <button id="next">Avanti ▶</button>
   </div>
 
@@ -158,10 +160,8 @@ button:hover{
 
 <script>
 /* CONFIGURAZIONE */
-/* totale visibile dopo aver rimosso i file 2..6 */
-const TOTAL = 31;
-/* PERCORSO AGGIORNATO */
-const PATH  = 'astri-nascenti/introduzione-astronomia/pag';
+const TOTAL = 36;
+const PATH  = 'astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-';
 const EXT   = '.jpg';
 
 const currentImg = document.getElementById('currentImg');
@@ -171,18 +171,15 @@ const flipper    = document.getElementById('flipper');
 const status     = document.getElementById('status');
 const viewport   = document.getElementById('viewport');
 
-let index = 1;            // pagina corrente (1-based)
-let busy  = false;        // blocco animazioni
-let flipping = false;     // stato flip in corso
+let index = 1;           // pagina corrente (1-based)
+let busy  = false;       // blocco animazioni
+let flipping = false;    // stato flip in corso
 
-/* MAPPATURA: la pagina visibile n (1-based) corrisponde al file:
-   - fileIndex = 1                    quando n === 1
-   - fileIndex = n + 5                quando n >= 2
-   (così si scartano i file 2..6)
-*/
+/* SRC: mappa l'indice pagina direttamente al file corrispondente */
 const src = i => {
-  const fileIndex = (i <= 1) ? 1 : (i + 5);
-  return `${PATH}${fileIndex}${EXT}`;
+  // protezione: limita l'indice tra 1 e TOTAL
+  const n = Math.max(1, Math.min(TOTAL, i));
+  return `${PATH}${n}${EXT}`;
 };
 
 /* PRELOAD UTILE: assicura immagine pronta */
@@ -204,25 +201,25 @@ function renderImmediate(){
   status.textContent = `${index} / ${TOTAL}`;
 }
 
-/* PROCEDURA DI FLIP AVANTI (senza rimbalzo)
-   - aggiunge classe 'turn' per avviare la rotazione
-   - attende 'transitionend' per aggiornare gli src senza animazione visibile
-*/
+/* PROCEDURA DI FLIP AVANTI */
 function next(){
   if(busy || index >= TOTAL) return;
   busy = true;
   flipping = true;
 
-  // assicurati che le immagini da mostrare siano caricate (preload)
   const target = index + 1;
   Promise.all([preload(index), preload(target)]).then(()=>{
-    // metti il retro (backImg) con la pagina di destinazione - già fatto dal preload
     backImg.src = src(target);
     nextImg.src = src(target);
 
-    // start animation
+    // avvia animazione di flip
     flipper.classList.add('turn');
-    // il resto è gestito dall'evento transitionend
+    // update avverrà su transitionend
+  }).catch(()=>{
+    // in caso di errore di preload, comunque proviamo ad animare e aggiornare
+    backImg.src = src(target);
+    nextImg.src = src(target);
+    flipper.classList.add('turn');
   });
 }
 
@@ -307,10 +304,8 @@ flipper.addEventListener('transitionend', onTransitionEnd);
     touchLastX = ev.touches[0].clientX;
     touchLastY = ev.touches[0].clientY;
 
-    // se il movimento è principalmente orizzontale, impediamo lo scroll verticale predefinito
     if(Math.abs(dx) > 10 && Math.abs(dx) > Math.abs(dy)){
       isDragging = true;
-      // impediamo lo scorrimento orizzontale nativo (se possibile)
       ev.preventDefault();
     }
   }, {passive:false});
@@ -327,7 +322,6 @@ flipper.addEventListener('transitionend', onTransitionEnd);
         prev();
       }
     } else {
-      // breve tap (pochi ms e poco spostamento) -> consideriamo tap su metà viewport
       if(dt < 300 && Math.abs(dx) < 12 && Math.abs(dy) < 12){
         const rect = viewport.getBoundingClientRect();
         const tapX = touchLastX || touchStartX;
@@ -343,7 +337,7 @@ flipper.addEventListener('transitionend', onTransitionEnd);
     isDragging = false;
   }, {passive:true});
 
-  // per comodità: supporto anche per mouse (drag o click sulle metà)
+  // supporto click mouse sulle metà
   viewport.addEventListener('click', (ev)=>{
     const rect = viewport.getBoundingClientRect();
     const x = ev.clientX - rect.left;
