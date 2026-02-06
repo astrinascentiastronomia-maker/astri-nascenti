@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>Il cielo del mese</title>
+<title>Il cielo del mese - Astri Nascenti</title>
 
 <style>
 @font-face {
@@ -44,11 +44,9 @@ h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Rimosso text-transform: lowercase per permettere al parsing di gestire le maiuscole correttamente */
 .content p, .content li, header p.subtitle, footer {
-  text-transform: lowercase;
-}
-.content p::first-letter, .content li::first-letter, header p.subtitle::first-letter, footer::first-letter {
-  text-transform: uppercase;
+  /* text-transform: lowercase; <- rimosso per non interferire con i nomi propri dei pianeti */
 }
 
 #starfield {
@@ -111,49 +109,55 @@ img.main-image:hover {
 .content {
   background: var(--content-bg);
   backdrop-filter: blur(10px);
-  padding: 1.5rem;
+  padding: 2.5rem; /* Aumentato padding per leggibilità */
   border-radius: 16px;
   box-shadow: 0 10px 35px rgba(0,0,0,0.6);
 }
 
+/* Stile per i titoli generati dinamicamente */
 .content h2 {
-  margin-top: 1.5rem;
-  margin-bottom: 0.7rem;
+  margin-top: 2.2rem;
+  margin-bottom: 1rem;
   color: var(--accent);
+  font-size: 1.2rem;
   font-weight: 600;
   border-bottom: 1px solid rgba(255,255,255,0.2);
-  padding-bottom: 0.25rem;
+  padding-bottom: 0.4rem;
+  text-transform: uppercase;
+  letter-spacing: 0.1em;
 }
 
-.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.5rem; }
+.content p { margin-bottom: 1.2rem; }
+.content ul { padding-left: 1.5rem; margin-bottom: 1.5rem; list-style-type: square; }
+.content li { margin-bottom: 0.8rem; }
+
 a { color: var(--accent); text-decoration: none; }
 a:hover { text-decoration: underline; }
 
 .discover {
-  margin-top: 1rem;
+  margin-top: 1.5rem;
   text-align: center;
 }
 .discover a {
   display: inline-block;
-  padding: 0.65rem 1rem;
+  padding: 0.65rem 1.2rem;
   border-radius: 12px;
-  background: linear-gradient(135deg, rgba(229,57,53,0.08), rgba(201,214,223,0.02));
-  border: 1px solid rgba(255,255,255,0.06);
+  background: linear-gradient(135deg, rgba(229,57,53,0.15), rgba(201,214,223,0.05));
+  border: 1px solid rgba(255,255,255,0.1);
   color: var(--highlight);
   font-weight: 700;
   letter-spacing: 0.04em;
   text-transform: uppercase;
   box-shadow: 0 8px 22px rgba(0,0,0,0.45);
-  transition: transform 0.18s ease, box-shadow 0.18s ease;
+  transition: all 0.25s ease;
 }
 .discover a:hover {
   transform: translateY(-4px);
+  background: linear-gradient(135deg, rgba(229,57,53,0.25), rgba(201,214,223,0.1));
   box-shadow: 0 16px 36px rgba(0,0,0,0.55);
-  text-decoration: none;
 }
 
-footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; }
+footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); font-size:0.9rem; padding-bottom: 2rem; }
 
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
@@ -166,36 +170,14 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
 
 <div class="page">
   <header>
-    <h1>Il cielo di <span id="current-month">gennaio</span> 2026</h1>
+    <h1>Il cielo di <span id="current-month">...</span> 2026</h1>
     <p class="subtitle">Scopri le stelle, la Luna e i pianeti più visibili nel cielo di questo mese</p>
   </header>
 
-  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg" alt="Cielo di gennaio" class="main-image">
+  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg" alt="Cielo del mese" class="main-image">
 
-  <main class="content" role="main">
-    <p>Gennaio non festeggia solo l’inizio dell’anno: mentre noi ci stringiamo nei cappotti, sopra le nostre teste il cielo approfitta delle notti lunghe per mettersi in mostra e lanciare la sfida perfetta — iniziare il nuovo anno guardando un po’ più spesso verso l’alto.</p>
-
-    <h2>La Luna</h2>
-    <p>La nostra vicina di casa non smette mai di stupire e a gennaio 2026 cambia volto più volte: il 3 gennaio sarà Luna piena alle 10:03 UTC, detta Wolf Moon per le antiche leggende invernali. Brillerà potente e piena, illuminando il paesaggio notturno. Il 10 gennaio raggiungerà invece l’ultimo quarto e sarà visibile subito dopo il tramonto. Il 18 gennaio sarà Luna nuova, momento perfetto per cercare oggetti deboli del cielo profondo senza il suo bagliore mentre il 26 gennaio ci abbaglierà di nuovo con il Primo quarto, alta nel cielo.</p>
-
-    <h2>I pianeti: chi brilla e chi si nasconde</h2>
-    <p>Giove è senza dubbio il protagonista del cielo del mese. Intorno al 10 gennaio sarà in opposizione: ciò significa che si troverà dalla parte opposta del cielo rispetto al Sole e potrà essere osservato per tutta la notte, risultando anche più brillante perché negli stessi giorni si troverà anche nel punto più vicino alla Terra.</p>
-
-    <p>Saturno: elegante ma basso sull’orizzonte sarà visibile nel cielo serale, poco dopo il tramonto.</p>
-
-    <p>Mercurio, Venere e Marte faranno i timidi nascondendosi dietro o in prossimità del Sole.</p>
-
-    <h2>Cielo profondo: nebulose, ammassi e galassie</h2>
-    <p>Costellazioni invernali come Orione diventano le tue migliori amiche: qui puoi trovare la spettacolare Nebulosa di Orione (M42) e l’ammasso delle Pleiadi.</p>
-
-    <h2>Consigli rapidi per osservare</h2>
-    <ul>
-      <li>Trova un luogo buio lontano dalle luci della città.</li>
-      <li>Occhi adattati al buio: circa 15 minuti senza luci dirette.</li>
-      <li>Binocolo o telescopio: aprono un vero universo di dettagli.</li>
-    </ul>
-
-    <p>In sintesi: gennaio 2026 è un mese perfetto per osservare soprattutto Giove e esplorare gli oggetti profondi attorno alla costellazione di Orione. Buon 2026 a tutti gli Astri Nascenti!</p>
+  <main class="content" id="main-content" role="main">
+    <p style="text-align:center; opacity:0.6;">Sintonizzando i telescopi...</p>
   </main>
 
   <div class="discover">
@@ -214,7 +196,66 @@ footer { text-align:center; margin-top:1.5rem; color: rgba(255,255,255,0.75); fo
   const el = document.getElementById("current-month");
   if (el) el.textContent = months[now.getMonth()];
 })();
+</script>
 
+<script>
+(function(){
+  const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
+  const container = document.getElementById('main-content');
+  if(!container) return;
+
+  fetch(url)
+    .then(res => {
+      if(!res.ok) throw new Error();
+      return res.text();
+    })
+    .then(rawText => {
+      // Pulizia testo (rimozione spazi bianchi eccessivi)
+      let text = rawText.trim();
+
+      // 1. Identifichiamo i titoli delle categorie e trasformiamoli in <h2>
+      const categories = [
+        "La Luna",
+        "I pianeti: chi brilla e chi si nasconde",
+        "Cielo profondo: nebulose, ammassi e galassie",
+        "Consigli rapidi per osservare"
+      ];
+
+      // Sostituzione categorie con tag H2
+      categories.forEach(cat => {
+        const regex = new RegExp(cat, 'gi');
+        text = text.replace(regex, `</p><h2>${cat}</h2><p>`);
+      });
+
+      // 2. Gestione lista puntata per i "Consigli rapidi"
+      // Cerchiamo le righe che iniziano con un numero (1., 2., 3.)
+      text = text.replace(/(\d\.\s)(.*?)(\.|\?|!)(?=\s|$)/g, '<li>$2$3</li>');
+      
+      // Se abbiamo creato dei <li>, dobbiamo avvolgerli in un <ul>
+      if (text.includes('<li>')) {
+        // Cerchiamo dove iniziano i LI dopo il titolo dei consigli e chiudiamo la lista alla fine
+        text = text.replace(/<h2>Consigli rapidi per osservare<\/h2><p>/i, '<h2>Consigli rapidi per osservare</h2><ul>');
+        text = text.replace(/<\/li><p>/g, '</li>'); // pulizia paragrafi vuoti
+        // Chiudiamo l'ultimo UL se necessario
+        text += '</ul>';
+      }
+
+      // 3. Avvolgiamo il tutto in un paragrafo iniziale e puliamo tag vuoti
+      let finalHtml = '<p>' + text + '</p>';
+      
+      // Pulizia: rimuove paragrafi vuoti <p></p> creati dalle sostituzioni
+      finalHtml = finalHtml.replace(/<p>\s*<\/p>/g, '');
+      finalHtml = finalHtml.replace(/<p><ul>/g, '<ul>').replace(/<\/ul><\/p>/g, '</ul>');
+
+      container.innerHTML = finalHtml;
+    })
+    .catch(err => {
+      container.innerHTML = "<p>Impossibile caricare il testo del mese. Controlla la connessione.</p>";
+    });
+})();
+</script>
+
+<script>
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
