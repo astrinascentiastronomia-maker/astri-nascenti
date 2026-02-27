@@ -13,6 +13,7 @@
   font-display: swap;
 }
 
+/* VARIABILI */
 :root{
   --bg-gradient: linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95));
   --content-bg: rgba(0,0,0,0.55);
@@ -22,6 +23,7 @@
   --text-color: #ffffff;
 }
 
+/* RESET + BASE */
 * { box-sizing: border-box; margin:0; padding:0; }
 html { font-size: var(--base-font-size); }
 
@@ -30,23 +32,23 @@ body {
   background: var(--bg-gradient), url("images/costellazione/cosmo-bg.jpg") center / cover fixed;
   color: var(--text-color);
   line-height: 1.6;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
-  min-height: 100vh;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  min-height:100vh;
+  position:relative;
   padding: 1rem;
 }
 
+/* TITOLI */
 h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
+/* Logica trasformazione testo come richiesto */
 .content p, .content li, header p.subtitle, footer {
   text-transform: lowercase;
 }
-.content p::first-letter,
-.content li::first-letter,
-header p.subtitle::first-letter,
-footer::first-letter {
+.content p::first-letter, .content li::first-letter, header p.subtitle::first-letter, footer::first-letter {
   text-transform: uppercase;
 }
 
@@ -68,6 +70,7 @@ footer::first-letter {
 h1, h2, p, a, li {
   font-size: 1rem;
   font-weight: 400;
+  letter-spacing: normal;
   line-height: 1.7;
   color: var(--text-color);
 }
@@ -81,11 +84,12 @@ header h1 {
   font-size: 1.8rem;
   font-weight: 600;
   margin-bottom: 0.3rem;
-  text-transform: uppercase;
+  text-transform: uppercase; /* Manteniamo i titoli leggibili */
 }
 
 header p.subtitle {
   margin-top: 0.4rem;
+  color: var(--text-color);
   opacity: 0.9;
   max-width: 880px;
   margin-left: auto;
@@ -100,6 +104,10 @@ img.main-image {
   margin: 1.2rem 0;
   border-radius: 12px;
   box-shadow: 0 12px 40px rgba(0,0,0,0.65);
+  transition: transform 0.3s ease;
+}
+img.main-image:hover {
+  transform: scale(1.02);
 }
 
 .content {
@@ -124,6 +132,8 @@ img.main-image {
 
 .content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
 .content li { margin-bottom: 0.8rem; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
 
 .discover {
   margin-top: 2rem;
@@ -140,23 +150,21 @@ img.main-image {
   letter-spacing: 0.04em;
   text-transform: uppercase;
   box-shadow: 0 8px 22px rgba(0,0,0,0.45);
+  transition: transform 0.18s ease, box-shadow 0.18s ease;
+}
+.discover a:hover {
+  transform: translateY(-4px);
+  box-shadow: 0 16px 36px rgba(0,0,0,0.55);
   text-decoration: none;
 }
 
-footer {
-  text-align:center;
-  margin-top:2rem;
-  color: rgba(255,255,255,0.6);
-  font-size:0.85rem;
-  padding-bottom: 2rem;
-}
+footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.6); font-size:0.85rem; padding-bottom: 2rem;}
 
 @media (prefers-reduced-motion: reduce) {
   #starfield { display: none !important; }
 }
 </style>
 </head>
-
 <body>
 
 <canvas id="starfield" aria-hidden="true"></canvas>
@@ -170,75 +178,91 @@ footer {
   <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg" alt="Cielo di marzo" class="main-image">
 
   <main class="content" role="main">
+    <p>Marzo è il mese di confine: l’inverno prova a resistere, ma la primavera comincia a spingere piano. Le serate non sono più lunghissime, eppure il cielo continua a cambiare scena sopra le nostre teste, ricordandoci che le stagioni non si vedono solo dagli alberi… ma anche dalle stelle. La nostra amica Luna scandisce il mese con la sua solita puntualità cosmica.</p>
 
-<p>Marzo è il mese di confine: l’inverno prova a resistere, ma la primavera comincia a spingere piano. Le serate non sono più lunghissime, eppure il cielo continua a cambiare scena sopra le nostre teste, ricordandoci che le stagioni non si vedono solo dagli alberi… ma anche dalle stelle. La nostra amica Luna scandisce il mese con la sua solita puntualità cosmica.</p>
+    <h2>La Luna</h2>
+    <ul>
+      <li><strong>3 marzo:</strong> Ultimo quarto, metà disco illuminato e ombre perfette per osservare crateri e rilievi.</li>
+      <li><strong>10 marzo:</strong> Luna nuova, il momento ideale per cercare galassie e oggetti deboli nel cielo profondo.</li>
+      <li><strong>17 marzo:</strong> Primo quarto, protagonista delle prime ore serali.</li>
+      <li><strong>25 marzo:</strong> Luna piena, luminosa e dominante per tutta la notte.</li>
+    </ul>
+    <p>Le fasi lunari non sono semplici date: ti dicono quando il cielo è più adatto a certe osservazioni. Una Luna piena è spettacolare per esplorare mari e dettagli lunari; un cielo senza Luna è invece il buio perfetto per andare a caccia di galassie. Il 20 marzo cade l’equinozio di primavera, esattamente alle 15:45 (UTC+1). Il Sole attraversa l’equatore celeste e giorno e notte hanno quasi la stessa durata in tutto il mondo. Da questo momento, nell’emisfero nord, le giornate iniziano ad allungarsi sempre di più. È uno di quei rari istanti in cui un concetto astronomico si traduce direttamente nella nostra vita quotidiana: più luce, più tepore… e un po’ meno tempo per osservare prima di andare a dormire.</p>
 
-<h2>La Luna</h2>
-<ul>
-  <li><strong>3 marzo:</strong> Ultimo quarto, metà disco illuminato e ombre perfette per osservare crateri e rilievi.</li>
-  <li><strong>10 marzo:</strong> Luna nuova, il momento ideale per cercare galassie e oggetti deboli nel cielo profondo.</li>
-  <li><strong>17 marzo:</strong> Primo quarto, protagonista delle prime ore serali.</li>
-  <li><strong>25 marzo:</strong> Luna piena, luminosa e dominante per tutta la notte.</li>
-</ul>
+    <h2>I pianeti</h2>
+    <p>Nel cielo dei pianeti, marzo regala ancora qualche bella presenza. Giove rimane il grande protagonista della sera, ben visibile verso sud-ovest dopo il tramonto. È il punto luminoso più evidente del cielo serale (dopo la Luna e Venere) e con un binocolo puoi scorgere le sue lune maggiori; con un telescopio si distinguono le bande nuvolose e, nelle notti fortunate, la Grande Macchia Rossa. Venere brilla bassa sull’orizzonte occidentale al crepuscolo, intensa ma non sempre facile da isolare tra le luci residue del tramonto. Marte ricompare nel cielo del mattino, poco prima dell’alba verso est, ancora discreto ma riconoscibile per la sua tonalità rossastra. Saturno è ormai troppo vicino al Sole per essere osservato comodamente, mentre Mercurio diventa più difficile rispetto al mese precedente. Con un piccolo telescopio si può ancora tentare Urano, mentre Nettuno è praticamente inosservabile.</p>
 
-<p>Le fasi lunari non sono semplici date: ti dicono quando il cielo è più adatto a certe osservazioni. Una Luna piena è spettacolare per esplorare mari e dettagli lunari; un cielo senza Luna è invece il buio perfetto per andare a caccia di galassie.</p>
+    <h2>Cielo profondo</h2>
+    <p>Marzo è anche un mese di transizione per il cielo profondo. Le costellazioni invernali dominano ancora le prime ore della sera, ma iniziano lentamente a inclinarsi verso ovest. La Nebulosa di Orione (M42) resta un gioiello imperdibile: una vera fabbrica di stelle visibile come una nube luminosa nella spada di Orione. Le Pleiadi (M45) nel Toro brillano come un piccolo grappolo compatto, bellissime anche a occhio nudo sotto un cielo buio. La Galassia di Andromeda (M31) è ancora osservabile nelle prime ore serali come una tenue chiazza allungata: stai guardando una galassia distante oltre due milioni e mezzo di anni luce.</p>
 
-<p>Il <strong>20 marzo</strong> cade l’equinozio di primavera, esattamente alle <strong>15:45 (UTC+1)</strong>. Il Sole attraversa l’equatore celeste e giorno e notte hanno quasi la stessa durata in tutto il mondo. Da questo momento, nell’emisfero nord, le giornate iniziano ad allungarsi sempre di più.</p>
-
-<h2>I pianeti</h2>
-<p><strong>Giove</strong> rimane il grande protagonista della sera, ben visibile verso sud-ovest dopo il tramonto. <strong>Venere</strong> brilla bassa sull’orizzonte occidentale al crepuscolo. <strong>Marte</strong> ricompare nel cielo del mattino verso est. <strong>Saturno</strong> è ormai troppo vicino al Sole, mentre <strong>Mercurio</strong> diventa più difficile. <strong>Urano</strong> è ancora tentabile con piccoli strumenti; <strong>Nettuno</strong> è praticamente inosservabile.</p>
-
-<h2>Cielo profondo</h2>
-<p>La <strong>Nebulosa di Orione (M42)</strong> resta un gioiello imperdibile. Le <strong>Pleiadi (M45)</strong> brillano nel Toro, mentre la <strong>Galassia di Andromeda (M31)</strong> è ancora visibile nelle prime ore serali.</p>
-
-<h2>Consigli rapidi per osservare</h2>
-<ul>
-  <li>Cerca un luogo lontano dalle luci della città.</li>
-  <li>Lascia adattare gli occhi al buio per almeno 15 minuti.</li>
-  <li>Anche un semplice binocolo può rivelare dettagli sorprendenti.</li>
-</ul>
-
-<p>Marzo è il mese dell’equilibrio tra luce e buio. Sta a noi scegliere cosa fare di quelle ore di notte che ancora restano: swippare uno schermo… o esplorare l’universo.</p>
-
+    <h2>Consigli rapidi per osservare</h2>
+    <ul>
+      <li>Trova un luogo buio lontano dalle luci della città.</li>
+      <li>Lascia che i tuoi occhi si adattino al buio per almeno 15 minuti: noterai molte più stelle.</li>
+      <li>Usa un binocolo o un telescopio: anche strumenti semplici aprono un universo di dettagli incredibili.</li>
+    </ul>
   </main>
+
+  <div class="discover">
+    <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/scopri.html" target="_blank" rel="noopener noreferrer">
+      Scopri la costellazione del mese
+    </a>
+  </div>
 
   <footer>© Astri Nascenti</footer>
 </div>
 
 <script>
+/* Starfield Animation (adattata con DPR e pulse) */
 (function(){
-  if (window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+  if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
   const canvas = document.getElementById('starfield');
+  if (!canvas) return;
   const ctx = canvas.getContext('2d');
-  let w, h, stars=[];
+  const DPR = Math.max(1, window.devicePixelRatio || 1);
+  let w = 0, h = 0, stars = [];
 
-  function resize(){
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width = w;
-    canvas.height = h;
-    stars = Array.from({length: 600}, () => ({
-      x: Math.random()*w,
-      y: Math.random()*h,
-      r: Math.random()*1.2,
-      a: Math.random()
-    }));
+  function rand(a,b){ return Math.random()*(b-a)+a; }
+  function resizeCanvas(){
+    w = window.innerWidth; h = window.innerHeight;
+    canvas.width = Math.round(w * DPR); canvas.height = Math.round(h * DPR);
+    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
+    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
   }
 
-  function draw(){
+  function initStars(){
+    resizeCanvas();
+    const NUM = Math.min(1200, Math.round((w * h) / 90000) * 30);
+    stars = [];
+    for(let i=0;i<NUM;i++){
+      stars.push({
+        x: rand(0,w), y: rand(0,h),
+        r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
+        alpha: rand(0.15,0.95), tw: rand(0,Math.PI*2)
+      });
+    }
+  }
+
+  function draw(now){
     ctx.clearRect(0,0,w,h);
     stars.forEach(s=>{
-      ctx.fillStyle = `rgba(255,255,255,${s.a})`;
+      const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
+      const a = Math.max(0.08, s.alpha * pulse);
+      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
+      grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
+      grad.addColorStop(1, 'rgba(255,255,255,0)');
+      ctx.fillStyle = grad;
+      ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
       ctx.beginPath();
-      ctx.arc(s.x,s.y,s.r,0,Math.PI*2);
+      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+      ctx.fillStyle = 'rgba(255,255,255,' + (0.9*a) + ')';
       ctx.fill();
     });
     requestAnimationFrame(draw);
   }
-
-  window.addEventListener('resize', resize);
-  resize();
-  draw();
+  window.addEventListener('resize', initStars);
+  initStars();
+  requestAnimationFrame(draw);
 })();
 </script>
 
