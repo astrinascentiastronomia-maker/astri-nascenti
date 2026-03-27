@@ -37,9 +37,14 @@ FONT DEFINITIVO
 html,body { height:100%; }
 body {
   font-family: 'Helvetica Neue', Arial, sans-serif;
+  /*
+   * OTTIMIZZAZIONE 1: background-attachment:fixed è molto costoso su mobile
+   * (causa re-paint ad ogni scroll su iOS/Android). Usiamo scroll di default
+   * e lo reintroduciamo solo su desktop via media query.
+   */
   background:
     linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
-    url("images-home/luna-primo-quarto.jpg") center / cover fixed;
+    url("images-home/luna-primo-quarto.jpg") center / cover no-repeat scroll;
   color:var(--bianco);
   line-height:1.6;
   overflow-x:hidden;
@@ -47,14 +52,31 @@ body {
   -moz-osx-font-smoothing:grayscale;
   position:relative;
 }
+/* background:fixed solo su desktop dove non causa problemi */
+@media (min-width: 1024px) {
+  body {
+    background-attachment: fixed;
+  }
+}
+
 /* canvas starfield (sopra il background, sotto il contenuto) */
 #starfield {
   position: fixed;
   inset: 0;
   z-index: 0;
   pointer-events: none;
-  mix-blend-mode: screen;
+  /*
+   * OTTIMIZZAZIONE 2: mix-blend-mode:screen forza il browser a creare uno
+   * stacking context e a compositing layer aggiuntivo ad ogni frame.
+   * Rimosso su mobile, mantenuto solo su desktop.
+   */
 }
+@media (min-width: 1024px) {
+  #starfield {
+    mix-blend-mode: screen;
+  }
+}
+
 /* content container deve stare sopra le stelle */
 main, header, footer, .card, .gallery { position: relative; z-index: 2; }
 /* skip link */
@@ -85,10 +107,9 @@ header img {
   animation: float 4s ease-in-out infinite;
 }
 header h1 { font-size:2.2rem; margin-bottom: 0.5rem; }
-/* Stile specifico per il nuovo sottotitolo */
 header .subtitle {
   font-family: 'LemonMilkLight', sans-serif;
-  font-size: 0.95rem; /* leggermente più piccolo del titolo */
+  font-size: 0.95rem;
   letter-spacing: 0.15em;
   text-transform: uppercase;
   color: var(--bianco);
@@ -118,17 +139,32 @@ section h2 {
 /* CARD */
 .card {
   background:var(--card-bg);
-  backdrop-filter: blur(10px);
+  /*
+   * OTTIMIZZAZIONE 3: backdrop-filter:blur() è l'operazione CSS più costosa
+   * su mobile — richiede la composizione di tutti i layer sottostanti.
+   * Lo attiviamo solo su desktop dove la GPU lo gestisce bene.
+   */
   border-radius:var(--card-radius);
   padding:1.8rem;
   color:var(--card-text);
   box-shadow:var(--card-shadow);
   margin-bottom:2rem;
   transition: transform .5s var(--transition-ease), box-shadow .5s var(--transition-ease);
-  will-change: transform;
+  /*
+   * OTTIMIZZAZIONE 4: will-change:transform applicato permanentemente a TUTTI
+   * gli elementi forza il browser a promuovere ogni card in un layer GPU
+   * separato, consumando molta memoria. Lo spostiamo solo su :hover.
+   */
   border: 1px solid rgba(255,255,255,.06);
 }
+@media (min-width: 1024px) {
+  .card {
+    backdrop-filter: blur(10px);
+    -webkit-backdrop-filter: blur(10px);
+  }
+}
 .card:hover {
+  will-change: transform;
   transform: translateY(-6px) scale(1.03);
   box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
@@ -203,7 +239,7 @@ section h2 {
 .apple { background: linear-gradient(135deg,#000,#555); }
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
 .web { background:linear-gradient(135deg,#007ACC,#005A99); }
-/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO (mobile) */
+/* FONDATORE E CO-FONDATORE */
 .card.founder {
   display: flex;
   flex-direction: column;
@@ -226,7 +262,6 @@ section h2 {
   font-size: 1rem;
   line-height: 1.6;
   color: #fff;
-  /* IMPORTANT: non limitare verticalmente il testo: lasciamo che cresca naturalmente */
   overflow: visible;
 }
 .founder-badge{
@@ -243,18 +278,6 @@ section h2 {
   text-transform:uppercase;
   font-family:'LemonMilkLight', sans-serif;
 }
-.founder-signature{
-  position: absolute;
-  right: 18px;
-  bottom: 14px;
-  z-index: 4;
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(0,0,0,0.22);
-  padding: 6px 10px;
-  border-radius: 8px;
-}
 /* CONTATTI ICONE */
 .contact-icon {
   width:20px;
@@ -266,24 +289,17 @@ section h2 {
 .contact-icon:hover {
   transform: scale(1.2) rotate(-10deg);
 }
-
-/* ===========================================================
-   NOVITÀ: CLAMPING PER IL TESTO "CIELO DEL MESE" CARICATO
-   =========================================================== */
+/* CLAMPING CIELO DEL MESE */
 #testo-cielo-mese {
   margin:0 0 0.8rem 0;
   font-size:1.05rem;
   line-height:1.5;
-  
-  /* Logica per tagliare il testo dopo 4 righe e mettere i ... */
   display: -webkit-box;
-  -webkit-line-clamp: 4; /* Numero di righe visibili */
+  -webkit-line-clamp: 4;
   -webkit-box-orient: vertical;
   overflow: hidden;
   text-overflow: ellipsis;
 }
-
-
 /* FOOTER */
 footer {
   text-align:center;
@@ -297,12 +313,15 @@ footer a { color:var(--accento); text-decoration:none; }
   0%,100% { transform:translateY(0); }
   50% { transform:translateY(-10px); }
 }
-/* REVEAL */
+/* REVEAL
+ * OTTIMIZZAZIONE 5: will-change rimosso da qui — era applicato in modo
+ * permanente a decine di elementi. L'observer lo aggiunge solo mentre
+ * serve (durante la transizione) e lo rimuove subito dopo.
+ */
 .reveal {
   opacity: 0;
   transform: translateY(40px);
   transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
-  will-change: opacity, transform;
 }
 .reveal.in-view {
   opacity: 1;
@@ -319,8 +338,6 @@ footer a { color:var(--accento); text-decoration:none; }
   header h1 { font-size:3.1rem; }
   section h2 { font-size:2rem; }
   .card { padding:2.6rem; }
-  /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
-  e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
   .card.founder {
     flex-direction: column;
     align-items: stretch;
@@ -351,42 +368,37 @@ footer a { color:var(--accento); text-decoration:none; }
     transform: none !important;
   }
   .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
+  header img { animation: none !important; }
 }
 /* small responsive tweak */
 @media (max-width:767px){
   .founder-text{ padding:1.2rem; font-size:.95rem; }
   .card.founder{ min-height: 300px; border-radius:14px; }
 }
-/* --- biografie: il contenitore cresce con il contenuto, no overflow --- */
+/* --- biografie --- */
 .card.founder{
-  /* il contenitore deve adattarsi all'altezza del contenuto */
   overflow: hidden;
   display: flex;
   flex-direction: column;
 }
-
-/* testo */
 .founder-text{
   line-height:1.6;
   transition: max-height .45s var(--transition-ease), opacity .35s var(--transition-ease);
-  overflow: hidden; /* IMPORTANT: il testo viene tagliato dal suo max-height, non dal parent */
+  overflow: hidden;
 }
 .founder-text p{ margin:0 0 .6rem 0; }
-
-/* clamp affidabile a ~3 righe (includiamo un piccolo extra per margini tra <p>) */
 .founder-text.clamp{
   max-height: calc(1.6em * 3 + 0.8rem);
 }
 .founder-text.expanded{
-  max-height: 2000px; /* valore alto che permette espansione completa */
+  max-height: 2000px;
 }
-
-/* Firma: mantenerla nel flusso del documento così il card cresce correttamente */
+/* Firma nel flusso del documento */
 .founder-signature{
   position: static;
   display: block;
   margin-top: .6rem;
-  align-self: flex-end; /* la sposta a destra nella colonna senza assolutarla */
+  align-self: flex-end;
   z-index: 4;
   font-family: 'LemonMilkLight', sans-serif;
   font-size: 1rem;
@@ -395,8 +407,7 @@ footer a { color:var(--accento); text-decoration:none; }
   padding: 6px 10px;
   border-radius: 8px;
 }
-
-/* bottone */
+/* bottone bio */
 .bio-toggle{
   background: transparent;
   border: none;
@@ -428,33 +439,29 @@ footer a { color:var(--accento); text-decoration:none; }
 <main id="main" tabindex="-1">
 <section>
 <h2 class="reveal" data-delay="60">Il progetto</h2>
-
 <div class="card reveal" data-delay="120">
   <p>
-    <strong>Astri Nascenti</strong> è un percorso educativo di astronomia osservativa e divulgativa dedicato a bambini e ragazzi dai 6 ai 14 anni. Attraverso l’osservazione diretta e attività guidate, il progetto favorisce la comprensione del cielo e dei suoi oggetti e stimola lo sviluppo delle capacità cognitive, collegando i concetti scientifici all’esperienza quotidiana degli studenti.
+    <strong>Astri Nascenti</strong> è un percorso educativo di astronomia osservativa e divulgativa dedicato a bambini e ragazzi dai 6 ai 14 anni. Attraverso l'osservazione diretta e attività guidate, il progetto favorisce la comprensione del cielo e dei suoi oggetti e stimola lo sviluppo delle capacità cognitive, collegando i concetti scientifici all'esperienza quotidiana degli studenti.
   </p>
 </div>
-
 <h2 class="reveal" data-delay="160" style="margin-top: 3rem;">Per chi è Astri Nascenti</h2>
-
 <div class="card reveal" data-delay="180">
   <p>
     <strong>Astri Nascenti</strong> si rivolge alle <strong>scuole primarie e secondarie di primo grado</strong>. Le serate di osservazione si svolgono negli <strong>spazi aperti scolastici</strong> in <strong>collaborazione con gli insegnanti</strong> ed il <strong>coinvolgimento dei genitori</strong>. Gli studenti vengono guidati da astrofili appassionati ed esperti che mettono a disposizione <strong>telescopi e strumenti di osservazione</strong> per esplorare insieme il cielo notturno.
   </p>
   <p style="margin-top: 1rem;">
-    Il progetto è inoltre pensato per essere proposto anche a <strong>enti, associazioni, circoli e centri di aggregazione</strong>, adattandosi a diversi contesti educativi e culturali. L’obiettivo è quello di accendere la curiosità e scoprire il cielo dalla città come parte della propria esperienza quotidiana perché il cosmo è la nostra casa comune.
+    Il progetto è inoltre pensato per essere proposto anche a <strong>enti, associazioni, circoli e centri di aggregazione</strong>, adattandosi a diversi contesti educativi e culturali. L'obiettivo è quello di accendere la curiosità e scoprire il cielo dalla città come parte della propria esperienza quotidiana perché il cosmo è la nostra casa comune.
   </p>
   <p style="margin-top:1.2rem;">
-    <em>“Siamo polvere di stelle.” — <strong>Carl Sagan</strong></em>
+    <em>"Siamo polvere di stelle." — <strong>Carl Sagan</strong></em>
   </p>
 </div>
-
 </section>
 <section>
 <h2 class="reveal" data-delay="180">Serate osservative</h2>
 <div class="grid">
 <div class="card reveal" data-delay="220">
-<p>Impareremo ad orientarci nel cielo notturno riconoscendo le principali costellazioni e osserveremo Luna, pianeti, nebulose e galassie grazie all’uso di telescopi e strumenti dedicati.</p>
+<p>Impareremo ad orientarci nel cielo notturno riconoscendo le principali costellazioni e osserveremo Luna, pianeti, nebulose e galassie grazie all'uso di telescopi e strumenti dedicati.</p>
 </div>
 <div class="gallery" aria-label="Galleria fotografica">
 <a href="astri-nascenti/diario-osservazioni/diario-delle-osservazioni.html" class="reveal" data-delay="260" aria-label="Diario delle osservazioni">
@@ -477,49 +484,45 @@ footer a { color:var(--accento); text-decoration:none; }
 </div>
 </section>
 <section>
-<h2 class="reveal" data-delay="420">
-IL CIELO DEL MESE
-</h2>
+<h2 class="reveal" data-delay="420">IL CIELO DEL MESE</h2>
 <div class="reveal" data-delay="460" style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
 <div
-class="reveal"
-data-delay="480"
-role="img"
-aria-label="Immagine Costellazione"
-tabindex="0"
-style="
-flex:1 1 420px;
-min-width:260px;
-max-width:720px;
-min-height:380px;
-background-image: url('astri-nascenti/cielo-mese/images/costellazione1.jpg');
-background-size: cover;
-background-position: left center;
-background-repeat: no-repeat;
-position:relative;
-display:block;
-"
+  class="reveal"
+  data-delay="480"
+  role="img"
+  aria-label="Immagine Costellazione"
+  tabindex="0"
+  style="
+    flex:1 1 420px;
+    min-width:260px;
+    max-width:720px;
+    min-height:380px;
+    background-image: url('astri-nascenti/cielo-mese/images/costellazione1.jpg');
+    background-size: cover;
+    background-position: left center;
+    background-repeat: no-repeat;
+    position:relative;
+    display:block;
+  "
 >
 <div style="
-position:absolute;
-inset:0;
-pointer-events:none;
-background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%);
+  position:absolute;
+  inset:0;
+  pointer-events:none;
+  background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%);
 " aria-hidden="true"></div>
 </div>
 <div style="
-flex:1 1 380px;
-min-width:260px;
-display:flex;
-align-items:center;
-padding:2rem;
-color:var(--bianco);
-background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
+  flex:1 1 380px;
+  min-width:260px;
+  display:flex;
+  align-items:center;
+  padding:2rem;
+  color:var(--bianco);
+  background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
 ">
 <div>
-<p id="testo-cielo-mese">
-Caricamento in corso...
-</p>
+<p id="testo-cielo-mese">Caricamento in corso...</p>
 <a href="astri-nascenti/cielo-mese/costellazione.html" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
 Altro...
 </a>
@@ -557,30 +560,29 @@ Altro...
 <section>
 <h2 class="reveal" data-delay="740">Chi siamo</h2>
 <div class="grid">
-<div class="card founder reveal"
-data-delay="780">
+<div class="card founder reveal" data-delay="780">
 <img src="images-home/fondatori/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
 <div class="founder-badge" aria-hidden="true">Fondatore</div>
 <div class="founder-text">
 <p>Mi chiamo Matteo e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non si fanno oroscopi, qua si osserva il cielo. Per tutti, da sempre, sono Roger.</p>
-<p>La passione per l’Astronomia nasce molto presto, da bambino, attraverso una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
-<p>Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano, ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
+<p>La passione per l'Astronomia nasce molto presto, da bambino, attraverso una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
+<p>Dopo il liceo artistico e la laurea all'Accademia di Comunicazione Ateneo Creativo di Milano, ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
 <p>Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.</p>
-<p>Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.</p>
-<p>Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.</p>
-<p>A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.</p>
+<p>Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l'Universo con stupore e un po' di spirito.</p>
+<p>Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d'oro; l'attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l'oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.</p>
+<p>A completare il quadro c'è la musica: sono cantante in un gruppo con un album e diversi singoli all'attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.</p>
 </div>
 <div class="founder-signature" aria-hidden="true">Roger</div>
 </div>
-<div class="card founder reveal" data-delay="820" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
+<div class="card founder reveal" data-delay="820">
 <img src="images-home/fondatori/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
 <div class="founder-badge" aria-hidden="true">Co-fondatore</div>
 <div class="founder-text">
-  <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani insegnanti di lettere, che mi hanno trasmesso la passione per la lettura e il valore fondamentale dell’istruzione. Nonostante una forte impronta umanistica familiare, fin da piccolo ho nutrito una profonda curiosità verso le scienze e in particolare verso l’astronomia.</p>
+  <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani insegnanti di lettere, che mi hanno trasmesso la passione per la lettura e il valore fondamentale dell'istruzione. Nonostante una forte impronta umanistica familiare, fin da piccolo ho nutrito una profonda curiosità verso le scienze e in particolare verso l'astronomia.</p>
   <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti del cielo con un binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche presso un piccolo osservatorio di provincia: quelle notti hanno acceso una passione destinata a crescere nel tempo.</p>
-  <p>Dopo il diploma al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia e a frequentare il Planetario. Nel 2005 ho incontrato i primi circoli di appassionati, iniziando a osservare il cielo in modo condiviso ed entrando a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community e all’organizzazione di Star Party.</p>
+  <p>Dopo il diploma al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia e a frequentare il Planetario. Nel 2005 ho incontrato i primi circoli di appassionati, iniziando a osservare il cielo in modo condiviso ed entrando a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community e all'organizzazione di Star Party.</p>
   <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando nello staff di AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto e Responsabile Acquisti.</p>
-  <p>Accanto all’astronomia pratica coltivo l’amore per la mitologia e la storia delle costellazioni. Continuo le osservazioni notturne dal balcone di Milano con la paziente complicità della mia compagna Daniela e l’entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della Corona Boreale.</p>
+  <p>Accanto all'astronomia pratica coltivo l'amore per la mitologia e la storia delle costellazioni. Continuo le osservazioni notturne dal balcone di Milano con la paziente complicità della mia compagna Daniela e l'entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della Corona Boreale.</p>
   <p>Sul finire del 2024 incontro Roger durante una serata di divulgazione astronomica e mi appassiono al progetto Astri Nascenti. Da qui nasce un sodalizio che ci porta a raccontare il cielo ai più piccoli, sperando che qualcuno di loro inizi ad avere la testa sempre più oltre le nuvole.</p>
 </div>
 <div class="founder-signature" aria-hidden="true">Matteo Di Bella</div>
@@ -640,145 +642,220 @@ data-delay="780">
 © Astri Nascenti – Astronomia per le scuole<br>
 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
 </footer>
+
 <script>
 /* =========================
 IntersectionObserver reveal
+OTTIMIZZAZIONE: dopo la transizione rimuoviamo will-change per liberare
+la memoria GPU. Lo aggiungiamo solo durante l'animazione stessa.
 ========================= */
 (function(){
-const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (reduce) {
-document.querySelectorAll('.reveal').forEach(el => {
-el.classList.add('in-view');
-el.style.transition = 'none';
-el.style.opacity = 1;
-el.style.transform = 'none';
-});
-return;
-}
-const reveals = Array.from(document.querySelectorAll('.reveal'));
-if (!('IntersectionObserver' in window) || reveals.length === 0) {
-reveals.forEach(el => el.classList.add('in-view'));
-return;
-}
-const observer = new IntersectionObserver((entries, obs) => {
-entries.forEach(entry => {
-if (entry.isIntersecting) {
-const el = entry.target;
-const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
-if (delay) el.style.transitionDelay = (delay/1000)+'s';
-el.classList.add('in-view');
-obs.unobserve(el);
-}
-});
-}, {root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08});
-reveals.forEach(el => observer.observe(el));
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) {
+    document.querySelectorAll('.reveal').forEach(el => {
+      el.classList.add('in-view');
+      el.style.transition = 'none';
+      el.style.opacity = 1;
+      el.style.transform = 'none';
+    });
+    return;
+  }
+  const reveals = Array.from(document.querySelectorAll('.reveal'));
+  if (!('IntersectionObserver' in window) || reveals.length === 0) {
+    reveals.forEach(el => el.classList.add('in-view'));
+    return;
+  }
+  const observer = new IntersectionObserver((entries, obs) => {
+    entries.forEach(entry => {
+      if (entry.isIntersecting) {
+        const el = entry.target;
+        const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
+        if (delay) el.style.transitionDelay = (delay / 1000) + 's';
+        /* aggiungi will-change solo mentre la transizione è attiva */
+        el.style.willChange = 'opacity, transform';
+        el.classList.add('in-view');
+        /* rimuovi will-change dopo la transizione per liberare memoria GPU */
+        el.addEventListener('transitionend', () => {
+          el.style.willChange = 'auto';
+          el.style.transitionDelay = '';
+        }, { once: true });
+        obs.unobserve(el);
+      }
+    });
+  }, { root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08 });
+  reveals.forEach(el => observer.observe(el));
 })();
+
 /* =========================
-Starfield canvas animation
-respects prefers-reduced-motion
+Starfield canvas animation — versione ottimizzata per mobile
+Modifiche:
+  1. Rileva se siamo su mobile (matchMedia o touch) e usa un renderer
+     semplificato: niente gradienti radiali, solo arc() + opacità.
+     I gradienti radiali con createRadialGradient() per ogni stella
+     ad ogni frame sono la causa principale del jank su mobile.
+  2. Riduce il numero di stelle su schermi piccoli.
+  3. Sfrutta document.visibilitychange per sospendere il loop quando
+     la tab è in background (risparmio batteria).
+  4. Throttle a ~30fps su mobile (saltando ogni secondo frame).
 ========================= */
 (function(){
-const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-if (reduce) return; // niente animazione se ridotto movimento
-const canvas = document.getElementById('starfield');
-if (!canvas) return;
-const ctx = canvas.getContext('2d');
-let w = canvas.width = innerWidth;
-let h = canvas.height = innerHeight;
-const DPR = Math.max(1, window.devicePixelRatio || 1);
-canvas.width = w * DPR;
-canvas.height = h * DPR;
-canvas.style.width = w + 'px';
-canvas.style.height = h + 'px';
-ctx.scale(DPR, DPR);
-const NUM_STARS = Math.round((w * h) / 6000);
-const stars = [];
-function rand(min, max){ return Math.random() * (max - min) + min; }
-for (let i=0;i<NUM_STARS;i++){
-stars.push({
-x: rand(0, w),
-y: rand(0, h),
-r: Math.random() < 0.02 ? rand(1.2,2.6) : rand(0.4,1.1),
-tw: rand(0.01, 0.9),
-alpha: rand(0.2, 0.95),
-vx: rand(-0.02, 0.02),
-vy: rand(-0.02, 0.02)
-});
-}
-let t0 = performance.now();
-function draw(now){
-const dt = (now - t0) / 1000;
-t0 = now;
-ctx.clearRect(0,0,w,h);
-stars.forEach(s => {
-const pulse = 0.5 + 0.5 * Math.sin(now * 0.0025 + s.tw * Math.PI * 2);
-const a = Math.min(1, Math.max(0.12, s.alpha * pulse));
-s.x += s.vx * (dt * 60);
-s.y += s.vy * (dt * 60);
-if (s.x < -10) s.x = w + 10;
-if (s.x > w + 10) s.x = -10;
-if (s.y < -10) s.y = h + 10;
-if (s.y > h + 10) s.y = -10;
-ctx.beginPath();
-const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
-grad.addColorStop(0, 'rgba(255,255,255,' + (0.8 * a) + ')');
-grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.18 * a) + ')');
-grad.addColorStop(1, 'rgba(255,255,255,0)');
-ctx.fillStyle = grad;
-ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
-ctx.beginPath();
-ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-ctx.fillStyle = 'rgba(255,255,255,' + (0.9 * a) + ')';
-ctx.fill();
-});
-requestAnimationFrame(draw);
-}
-window.addEventListener('resize', () => {
-w = canvas.width = innerWidth;
-h = canvas.height = innerHeight;
-canvas.width = w * DPR;
-canvas.height = h * DPR;
-canvas.style.width = w + 'px';
-canvas.style.height = h + 'px';
-ctx.scale(DPR, DPR);
-});
-requestAnimationFrame(draw);
+  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+  if (reduce) return;
+
+  const canvas = document.getElementById('starfield');
+  if (!canvas) return;
+  const ctx = canvas.getContext('2d');
+
+  /* Rileva mobile: schermo piccolo o dispositivo touch */
+  const isMobile = window.innerWidth < 1024 || ('ontouchstart' in window);
+
+  let w = window.innerWidth;
+  let h = window.innerHeight;
+  const DPR = isMobile ? 1 : Math.max(1, window.devicePixelRatio || 1);
+  /* su mobile non scala per DPR: dimezza i pixel da disegnare */
+
+  canvas.width  = w * DPR;
+  canvas.height = h * DPR;
+  canvas.style.width  = w + 'px';
+  canvas.style.height = h + 'px';
+  ctx.scale(DPR, DPR);
+
+  /*
+   * OTTIMIZZAZIONE: su mobile usiamo meno stelle e nessun gradiente.
+   * Il divisore originale era 6000; su mobile usiamo 18000 (3×).
+   */
+  const DENSITY = isMobile ? 18000 : 6000;
+  const NUM_STARS = Math.round((w * h) / DENSITY);
+
+  const stars = [];
+  function rand(min, max){ return Math.random() * (max - min) + min; }
+  for (let i = 0; i < NUM_STARS; i++){
+    stars.push({
+      x:     rand(0, w),
+      y:     rand(0, h),
+      r:     isMobile
+               ? rand(0.5, 1.2)
+               : (Math.random() < 0.02 ? rand(1.2, 2.6) : rand(0.4, 1.1)),
+      tw:    rand(0.01, 0.9),
+      alpha: rand(0.2, 0.95),
+      vx:    rand(-0.02, 0.02),
+      vy:    rand(-0.02, 0.02)
+    });
+  }
+
+  let t0 = performance.now();
+  let rafId = null;
+  let paused = false;
+  let frameCount = 0; /* per throttle a 30fps su mobile */
+
+  function draw(now){
+    if (paused) return;
+    rafId = requestAnimationFrame(draw);
+
+    /* Throttle: su mobile salta ogni secondo frame (~30fps invece di ~60fps) */
+    frameCount++;
+    if (isMobile && (frameCount & 1)) return;
+
+    const dt = (now - t0) / 1000;
+    t0 = now;
+    ctx.clearRect(0, 0, w, h);
+
+    if (isMobile) {
+      /*
+       * RENDERER SEMPLIFICATO per mobile:
+       * solo arc() con fillStyle rgba — nessun createRadialGradient().
+       * Il gradiente radiale è ~10× più costoso dell'arc semplice.
+       */
+      stars.forEach(s => {
+        const pulse = 0.5 + 0.5 * Math.sin(now * 0.0025 + s.tw * Math.PI * 2);
+        const a = Math.min(1, Math.max(0.12, s.alpha * pulse));
+        s.x += s.vx * (dt * 60);
+        s.y += s.vy * (dt * 60);
+        if (s.x < -10) s.x = w + 10;
+        if (s.x > w + 10) s.x = -10;
+        if (s.y < -10) s.y = h + 10;
+        if (s.y > h + 10) s.y = -10;
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.9 * a) + ')';
+        ctx.fill();
+      });
+    } else {
+      /* Renderer completo con gradienti radiali — solo su desktop */
+      stars.forEach(s => {
+        const pulse = 0.5 + 0.5 * Math.sin(now * 0.0025 + s.tw * Math.PI * 2);
+        const a = Math.min(1, Math.max(0.12, s.alpha * pulse));
+        s.x += s.vx * (dt * 60);
+        s.y += s.vy * (dt * 60);
+        if (s.x < -10) s.x = w + 10;
+        if (s.x > w + 10) s.x = -10;
+        if (s.y < -10) s.y = h + 10;
+        if (s.y > h + 10) s.y = -10;
+        ctx.beginPath();
+        const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
+        grad.addColorStop(0,   'rgba(255,255,255,' + (0.8 * a) + ')');
+        grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.18 * a) + ')');
+        grad.addColorStop(1,   'rgba(255,255,255,0)');
+        ctx.fillStyle = grad;
+        ctx.fillRect(s.x - s.r * 6, s.y - s.r * 6, s.r * 12, s.r * 12);
+        ctx.beginPath();
+        ctx.arc(s.x, s.y, s.r, 0, Math.PI * 2);
+        ctx.fillStyle = 'rgba(255,255,255,' + (0.9 * a) + ')';
+        ctx.fill();
+      });
+    }
+  }
+
+  /* Pausa quando la tab è nascosta, riprende quando torna visibile */
+  document.addEventListener('visibilitychange', () => {
+    if (document.hidden) {
+      paused = true;
+      if (rafId) { cancelAnimationFrame(rafId); rafId = null; }
+    } else {
+      paused = false;
+      t0 = performance.now();
+      rafId = requestAnimationFrame(draw);
+    }
+  });
+
+  window.addEventListener('resize', () => {
+    w = window.innerWidth;
+    h = window.innerHeight;
+    canvas.width  = w * DPR;
+    canvas.height = h * DPR;
+    canvas.style.width  = w + 'px';
+    canvas.style.height = h + 'px';
+    ctx.scale(DPR, DPR);
+  });
+
+  rafId = requestAnimationFrame(draw);
 })();
 </script>
+
 <script>
+/* Bio toggle — invariato */
 (function(){
   const txts = Array.from(document.querySelectorAll('.founder-text'));
   if(!txts.length) return;
-  // rimuovo eventuali bottoni precedenti (evita duplicati)
-  document.querySelectorAll('.bio-toggle').forEach(b=>b.remove());
-  // stato iniziale: clamp su tutti
-  txts.forEach(t=> t.classList.add('clamp'));
+  document.querySelectorAll('.bio-toggle').forEach(b => b.remove());
+  txts.forEach(t => t.classList.add('clamp'));
   let expanded = false;
   function setState(exp){
     expanded = !!exp;
-    txts.forEach(t=>{
-      if(expanded){
-        t.classList.remove('clamp');
-        t.classList.add('expanded');
-      } else {
-        t.classList.add('clamp');
-        t.classList.remove('expanded');
-      }
+    txts.forEach(t => {
+      if(expanded){ t.classList.remove('clamp'); t.classList.add('expanded'); }
+      else        { t.classList.add('clamp');    t.classList.remove('expanded'); }
     });
-    document.querySelectorAll('.bio-toggle').forEach(btn=>{
+    document.querySelectorAll('.bio-toggle').forEach(btn => {
       btn.setAttribute('aria-expanded', String(expanded));
       btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
     });
-    // scroll dolce per portare in vista la card quando si espande
     if(expanded){
       const firstCard = document.querySelector('.card.founder');
-      if(firstCard){
-        firstCard.scrollIntoView({behavior:'smooth', block:'start'});
-      }
+      if(firstCard) firstCard.scrollIntoView({behavior:'smooth', block:'start'});
     }
   }
-  // creo un pulsante per ogni colonna, comportamento sincronizzato
-  document.querySelectorAll('.card.founder').forEach(card=>{
+  document.querySelectorAll('.card.founder').forEach(card => {
     const txt = card.querySelector('.founder-text');
     if(!txt) return;
     const btn = document.createElement('button');
@@ -787,27 +864,20 @@ requestAnimationFrame(draw);
     btn.setAttribute('aria-expanded','false');
     btn.textContent = 'Continua...';
     txt.after(btn);
-    btn.addEventListener('click', ()=> setState(!expanded));
+    btn.addEventListener('click', () => setState(!expanded));
   });
 })();
 </script>
 
 <script>
+/* Caricamento testo cielo del mese — invariato */
 (function(){
   const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
   const target = document.getElementById('testo-cielo-mese');
   if(!target) return;
-
   fetch(url)
-    .then(response => {
-      if (!response.ok) {
-        throw new Error("Errore nel caricamento del file testo: " + response.status);
-      }
-      return response.text();
-    })
-    .then(text => {
-      target.textContent = text;
-    })
+    .then(r => { if(!r.ok) throw new Error(r.status); return r.text(); })
+    .then(text => { target.textContent = text; })
     .catch(err => {
       console.error("Impossibile caricare il testo del cielo:", err);
       target.textContent = "Impossibile caricare le previsioni al momento.";
