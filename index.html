@@ -12,774 +12,806 @@
 <link rel="manifest" href="images-home/favicon/site.webmanifest">
 <meta name="theme-color" content="#000000">
 <style>
+/* =========================
+FONT DEFINITIVO
+========================= */
 @font-face {
-  font-family: 'LemonMilkLight';
-  src: url('images-home/fonts/LemonMilk-Light.woff2') format('woff2'),
-       url('images-home/fonts/LemonMilk-Light.woff') format('woff');
-  font-display: swap;
+  font-family: 'LemonMilkLight';
+  src: url('images-home/fonts/LemonMilk-Light.woff2') format('woff2'),
+       url('images-home/fonts/LemonMilk-Light.woff') format('woff');
+  font-display: swap;
 }
-
-:root {
-  --bianco: #ffffff;
-  --nero: #000000;
-  --accento: #c9d6df;
-  --card-bg: rgba(255,255,255,.52);
-  --card-text: #000;
-  --card-radius: 22px;
-  --card-shadow: 0 16px 40px rgba(0,0,0,.5);
-  --transition-ease: cubic-bezier(.2,.9,.2,1);
+/* VARIABILI */
+:root{
+  --bianco: #ffffff;
+  --nero: #000000;
+  --accento: #c9d6df;
+  --card-bg: rgba(255,255,255,.55);
+  --card-text: #000;
+  --card-radius: 22px;
+  --card-shadow: 0 20px 55px rgba(0,0,0,.55);
+  --transition-ease: cubic-bezier(.2,.9,.2,1);
 }
-
-* { box-sizing: border-box; margin: 0; padding: 0; }
-html, body { height: 100%; }
-
+/* RESET + BASE */
+* { box-sizing: border-box; margin:0; padding:0; }
+html,body { height:100%; }
 body {
-  font-family: 'Helvetica Neue', Arial, sans-serif;
-  /* FIX 1: rimosso background-attachment:fixed — causa jank su tutti i browser mobile
-     Usiamo uno pseudo-element fisso per replicare l'effetto senza il costo */
-  background: #050a0f;
-  color: var(--bianco);
-  line-height: 1.6;
-  overflow-x: hidden;
-  -webkit-font-smoothing: antialiased;
-  -moz-osx-font-smoothing: grayscale;
+  font-family: 'Helvetica Neue', Arial, sans-serif;
+  background:
+    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
+    url("images-home/luna-primo-quarto.jpg") center / cover fixed;
+  color:var(--bianco);
+  line-height:1.6;
+  overflow-x:hidden;
+  -webkit-font-smoothing:antialiased;
+  -moz-osx-font-smoothing:grayscale;
+  position:relative;
 }
-
-/* FIX 2: background fixed su pseudo-element isolato nel suo stacking context,
-   così non forza repaints durante lo scroll */
-body::before {
-  content: '';
-  position: fixed;
-  inset: 0;
-  z-index: -2;
-  background:
-    linear-gradient(rgba(0,0,0,.85), rgba(0,0,0,.95)),
-    url("images-home/luna-primo-quarto.jpg") center / cover;
-  will-change: auto; /* non metterlo su questo, lasciamo che il compositor lo gestisca */
-  pointer-events: none;
-}
-
-/* FIX 3: canvas starfield — posizione fixed, compositing layer separato */
+/* canvas starfield (sopra il background, sotto il contenuto) */
 #starfield {
-  position: fixed;
-  inset: 0;
-  z-index: -1;
-  pointer-events: none;
-  /* mix-blend-mode: screen causa un recomposite ad ogni frame — rimosso */
+  position: fixed;
+  inset: 0;
+  z-index: 0;
+  pointer-events: none;
+  mix-blend-mode: screen;
 }
-
-main, header, footer, .card, .gallery { position: relative; z-index: 1; }
-
+/* content container deve stare sopra le stelle */
+main, header, footer, .card, .gallery { position: relative; z-index: 2; }
+/* skip link */
 .skip-link {
-  position: absolute;
-  left: -9999px; top: auto;
-  width: 1px; height: 1px; overflow: hidden;
+  position: absolute;
+  left: -9999px; top: auto;
+  width:1px; height:1px; overflow:hidden;
 }
 .skip-link:focus {
-  left: 1rem; top: 1rem; width: auto; height: auto;
-  padding: .4rem .6rem; background: #000; color: #fff; border-radius: 6px; z-index: 9999;
+  left: 1rem; top: 1rem; width:auto; height:auto;
+  padding:.4rem .6rem; background:#000; color:#fff; border-radius:6px; z-index:9999;
 }
-
-h1, h2, h3 {
-  font-family: 'LemonMilkLight', sans-serif !important;
-  text-transform: uppercase;
-  letter-spacing: 0.28em;
-  font-weight: normal;
+/* TITOLI */
+h1,h2,h3 {
+  font-family: 'LemonMilkLight', sans-serif !important;
+  text-transform: uppercase;
+  letter-spacing: 0.28em;
+  font-weight: normal;
 }
-
+/* HEADER */
 header {
-  text-align: center;
-  padding: 3.5rem 1.2rem 4.5rem;
+  text-align:center;
+  padding:3.5rem 1.2rem 4.5rem;
 }
 header img {
-  max-width: 160px;
-  margin-bottom: 2rem;
-  animation: float 4s ease-in-out infinite;
+  max-width:160px;
+  margin-bottom:2rem;
+  animation: float 4s ease-in-out infinite;
 }
-header h1 { font-size: 2.2rem; margin-bottom: 0.5rem; }
+header h1 { font-size:2.2rem; margin-bottom: 0.5rem; }
+/* Stile specifico per il nuovo sottotitolo */
 header .subtitle {
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: 0.95rem;
-  letter-spacing: 0.15em;
-  text-transform: uppercase;
-  color: var(--bianco);
-  margin: 0 auto;
-  max-width: 800px;
-  opacity: 0.9;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 0.95rem; /* leggermente più piccolo del titolo */
+  letter-spacing: 0.15em;
+  text-transform: uppercase;
+  color: var(--bianco);
+  margin: 0 auto;
+  max-width: 800px;
+  opacity: 0.9;
 }
 header p.description {
-  max-width: 700px;
-  margin: 1.8rem auto 0;
-  color: var(--accento);
-  font-size: 1rem;
+  max-width:700px;
+  margin:1.8rem auto 0;
+  color:var(--accento);
+  font-size:1rem;
 }
-
-main { padding-bottom: 4rem; }
+/* SEZIONI */
+main { padding-bottom:4rem; }
 section {
-  max-width: 1100px;
-  margin: 0 auto 4rem;
-  padding: 0 1.2rem;
+  max-width:1100px;
+  margin:0 auto 4rem;
+  padding:0 1.2rem;
 }
 section h2 {
-  font-size: 1.5rem;
-  border-left: 3px solid #fff;
-  padding-left: 1rem;
-  margin-bottom: 2rem;
+  font-size:1.5rem;
+  border-left:3px solid #fff;
+  padding-left:1rem;
+  margin-bottom:2rem;
 }
-
-/* Card: stile originale frosted glass, con contain per limitare repaints del blur */
+/* CARD */
 .card {
-  background: rgba(255,255,255,.55);
-  backdrop-filter: blur(10px);
-  -webkit-backdrop-filter: blur(10px);
-  border-radius: var(--card-radius);
-  padding: 1.8rem;
-  color: var(--card-text);
-  box-shadow: var(--card-shadow);
-  margin-bottom: 2rem;
-  border: 1px solid rgba(255,255,255,.06);
-  transition: box-shadow .4s var(--transition-ease), transform .4s var(--transition-ease);
-  /* contain:layout+style limita il reflow del blur ai soli figli della card */
-  contain: layout style;
+  background:var(--card-bg);
+  backdrop-filter: blur(10px);
+  border-radius:var(--card-radius);
+  padding:1.8rem;
+  color:var(--card-text);
+  box-shadow:var(--card-shadow);
+  margin-bottom:2rem;
+  transition: transform .5s var(--transition-ease), box-shadow .5s var(--transition-ease);
+  will-change: transform;
+  border: 1px solid rgba(255,255,255,.06);
 }
 .card:hover {
-  transform: translateY(-5px);
-  box-shadow: 0 26px 60px rgba(0,0,0,.7);
+  transform: translateY(-6px) scale(1.03);
+  box-shadow: 0 30px 70px rgba(0,0,0,.75);
 }
-
-.grid { display: grid; grid-template-columns: 1fr; gap: 2rem; }
-
+.card h3 { font-size:.85rem; margin-bottom:1rem; }
+/* GRID */
+.grid { display:grid; grid-template-columns:1fr; gap:2rem; }
+/* GALLERY */
 .gallery {
-  display: grid;
-  grid-template-columns: 1fr 1fr;
-  gap: 1rem;
+  display:grid;
+  grid-template-columns:1fr 1fr;
+  gap:1rem;
 }
 .gallery a,
 .gallery .placeholder {
-  position: relative;
-  aspect-ratio: 1/1;
-  border-radius: 18px;
-  overflow: hidden;
-  background: rgba(255,255,255,.6);
-  box-shadow: 0 12px 30px rgba(0,0,0,.55);
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  text-decoration: none;
-  color: #000;
-  /* FIX 7: solo transform per hover — compositor layer separato */
-  transition: transform .4s var(--transition-ease), box-shadow .4s var(--transition-ease);
+  position:relative;
+  aspect-ratio:1/1;
+  border-radius:18px;
+  overflow:hidden;
+  background:rgba(255,255,255,.6);
+  box-shadow:0 16px 40px rgba(0,0,0,.6);
+  display:flex;
+  align-items:center;
+  justify-content:center;
+  text-decoration:none;
+  color:#000;
+  transition: transform .45s var(--transition-ease), box-shadow .45s var(--transition-ease);
 }
 .gallery a:hover,
 .gallery .placeholder:hover {
-  transform: scale(1.04);
-  box-shadow: 0 24px 55px rgba(0,0,0,.75);
+  transform: scale(1.05);
+  box-shadow:0 30px 70px rgba(0,0,0,.8);
 }
 .gallery img {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-  transition: transform .5s var(--transition-ease);
+  width:100%;
+  height:100%;
+  object-fit:cover;
+  transition: transform .6s var(--transition-ease);
 }
-.gallery a:hover img { transform: scale(1.1); }
+.gallery a:hover img { transform: scale(1.12); }
 .gallery span {
-  position: absolute;
-  bottom: 12px;
-  background: rgba(0,0,0,.65);
-  padding: .6rem 1.2rem;
-  border-radius: 30px;
-  font-size: .65rem;
-  letter-spacing: .22em;
-  color: #fff;
-  font-family: 'LemonMilkLight', sans-serif;
-  z-index: 2;
+  position:absolute;
+  bottom:12px;
+  background:rgba(0,0,0,.65);
+  padding:.6rem 1.2rem;
+  border-radius:30px;
+  font-size:.65rem;
+  letter-spacing:.22em;
+  color:#fff;
+  font-family:'LemonMilkLight', sans-serif;
+  z-index:2;
 }
-
+/* DOWNLOAD BUTTONS (software consigliati) */
 .download-buttons {
-  display: flex;
-  flex-direction: column;
-  gap: .8rem;
-  margin-top: 1.4rem;
+  display:flex;
+  flex-direction:column;
+  gap:.8rem;
+  margin-top:1.4rem;
 }
 .download-buttons a {
-  text-align: center;
-  padding: 1rem 1.4rem;
-  border-radius: 50px;
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: .7rem;
-  letter-spacing: .22em;
-  color: #fff;
-  text-decoration: none;
-  min-height: 48px;
-  transition: transform .3s var(--transition-ease), box-shadow .3s var(--transition-ease);
+  text-align:center;
+  padding:1rem 1.4rem;
+  border-radius:50px;
+  font-family:'LemonMilkLight', sans-serif;
+  font-size:.7rem;
+  letter-spacing:.22em;
+  color:#fff;
+  text-decoration:none;
+  min-height:48px;
+  transition: transform .35s var(--transition-ease), box-shadow .35s var(--transition-ease);
 }
-.download-buttons a:hover {
-  transform: scale(1.04);
-  box-shadow: 0 8px 24px rgba(0,0,0,.55);
-}
-.apple  { background: linear-gradient(135deg,#000,#555); }
+.download-buttons a:hover { transform: scale(1.05); box-shadow: 0 10px 30px rgba(0,0,0,.6); }
+.apple { background: linear-gradient(135deg,#000,#555); }
 .google { background: linear-gradient(135deg,#3DDC84,#1B9C52); }
-.web    { background: linear-gradient(135deg,#007ACC,#005A99); }
-
-/* Fondatori */
+.web { background:linear-gradient(135deg,#007ACC,#005A99); }
+/* FONDATORE E CO-FONDATORE: FOTO SOPRA, TESTO SOTTO (mobile) */
 .card.founder {
-  display: flex;
-  flex-direction: column;
-  border-radius: 18px;
-  overflow: hidden;
-  background-color: #111;
-  position: relative;
-  box-shadow: 0 16px 40px rgba(0,0,0,.6);
-  border: 1px solid rgba(255,255,255,.06);
+  display: flex;
+  flex-direction: column;
+  min-height: auto;
+  border-radius: 18px;
+  overflow: hidden;
+  background-color: #111;
+  position: relative;
+  box-shadow: 0 20px 55px rgba(0,0,0,.6);
+  border: 1px solid rgba(255,255,255,.06);
 }
 .card.founder img {
-  width: 100%;
-  height: auto;
-  object-fit: cover;
-  flex-shrink: 0;
+  width: 100%;
+  height: auto;
+  object-fit: cover;
+  flex-shrink: 0;
 }
 .founder-text {
-  padding: 2rem;
-  font-size: 1rem;
-  line-height: 1.6;
-  color: #fff;
-  overflow: hidden;
-  transition: max-height .45s var(--transition-ease);
+  padding: 2rem;
+  font-size: 1rem;
+  line-height: 1.6;
+  color: #fff;
+  /* IMPORTANT: non limitare verticalmente il testo: lasciamo che cresca naturalmente */
+  overflow: visible;
 }
-.founder-text p { margin: 0 0 .6rem 0; }
-.founder-text.clamp { max-height: calc(1.6em * 3 + 0.8rem); }
-.founder-text.expanded { max-height: 2000px; }
-
-.founder-badge {
-  position: absolute;
-  left: 16px;
-  top: 16px;
-  z-index: 4;
-  background: rgba(0,0,0,0.35);
-  color: #fff;
-  padding: 6px 10px;
-  border-radius: 10px;
-  font-size: .72rem;
-  letter-spacing: .12em;
-  text-transform: uppercase;
-  font-family: 'LemonMilkLight', sans-serif;
+.founder-badge{
+  position:absolute;
+  left:16px;
+  top:16px;
+  z-index:4;
+  background: rgba(0,0,0,0.35);
+  color:#fff;
+  padding:6px 10px;
+  border-radius:10px;
+  font-size:.72rem;
+  letter-spacing:.12em;
+  text-transform:uppercase;
+  font-family:'LemonMilkLight', sans-serif;
 }
-.founder-signature {
-  position: static;
-  display: block;
-  margin-top: .6rem;
-  align-self: flex-end;
-  font-family: 'LemonMilkLight', sans-serif;
-  font-size: 1rem;
-  color: #fff;
-  background: rgba(0,0,0,0.22);
-  padding: 6px 10px;
-  border-radius: 8px;
+.founder-signature{
+  position: absolute;
+  right: 18px;
+  bottom: 14px;
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
 }
-
+/* CONTATTI ICONE */
 .contact-icon {
-  width: 20px;
-  height: 20px;
-  vertical-align: middle;
-  margin-right: 6px;
-  transition: transform .3s ease;
+  width:20px;
+  height:20px;
+  vertical-align:middle;
+  margin-right:6px;
+  transition: transform .3s ease;
 }
-.contact-icon:hover { transform: scale(1.2) rotate(-10deg); }
+.contact-icon:hover {
+  transform: scale(1.2) rotate(-10deg);
+}
 
+/* ===========================================================
+   NOVITÀ: CLAMPING PER IL TESTO "CIELO DEL MESE" CARICATO
+   =========================================================== */
 #testo-cielo-mese {
-  margin: 0 0 0.8rem 0;
-  font-size: 1.05rem;
-  line-height: 1.5;
-  display: -webkit-box;
-  -webkit-line-clamp: 4;
-  -webkit-box-orient: vertical;
-  overflow: hidden;
-  text-overflow: ellipsis;
+  margin:0 0 0.8rem 0;
+  font-size:1.05rem;
+  line-height:1.5;
+  
+  /* Logica per tagliare il testo dopo 4 righe e mettere i ... */
+  display: -webkit-box;
+  -webkit-line-clamp: 4; /* Numero di righe visibili */
+  -webkit-box-orient: vertical;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
+
+/* FOOTER */
 footer {
-  text-align: center;
-  padding: 3rem 1rem 4rem;
-  font-size: .8rem;
-  color: var(--accento);
+  text-align:center;
+  padding:3rem 1rem 4rem;
+  font-size:.8rem;
+  color:var(--accento);
 }
-footer a { color: var(--accento); text-decoration: none; }
-
+footer a { color:var(--accento); text-decoration:none; }
+/* ANIMAZIONI */
 @keyframes float {
-  0%, 100% { transform: translateY(0); }
-  50%       { transform: translateY(-10px); }
+  0%,100% { transform:translateY(0); }
+  50% { transform:translateY(-10px); }
 }
-
-/* FIX 8: reveal — usiamo solo opacity + translateY (compositor-only, no layout reflow) */
+/* REVEAL */
 .reveal {
-  opacity: 0;
-  transform: translateY(30px);
-  transition: opacity .7s var(--transition-ease), transform .7s var(--transition-ease);
+  opacity: 0;
+  transform: translateY(40px);
+  transition: opacity .8s var(--transition-ease), transform .8s var(--transition-ease);
+  will-change: opacity, transform;
 }
 .reveal.in-view {
-  opacity: 1;
-  transform: translateY(0);
+  opacity: 1;
+  transform: translateY(0);
 }
-
-.bio-toggle {
-  background: transparent;
-  border: none;
-  color: var(--accento);
-  font-family: 'LemonMilkLight', sans-serif;
-  letter-spacing: .12em;
-  cursor: pointer;
-  font-size: .95rem;
-  padding: .35rem .5rem;
-  margin-top: .6rem;
-  display: inline-block;
+/* RESPONSIVE: desktop layout */
+@media (min-width:768px) {
+  .grid { grid-template-columns: repeat(2,1fr); }
+  .gallery { grid-template-columns: repeat(4,1fr); }
+  .download-buttons { flex-direction:row; }
+  .download-buttons a { flex:1; }
 }
-.bio-toggle:focus {
-  outline: 2px solid rgba(201,214,223,0.45);
-  outline-offset: 3px;
-  border-radius: 6px;
+@media (min-width:1024px) {
+  header h1 { font-size:3.1rem; }
+  section h2 { font-size:2rem; }
+  .card { padding:2.6rem; }
+  /* su desktop: manteniamo immagine del fondatore a sinistra ma la limitiamo solo in larghezza
+  e NON imponiamo alcun massimo di altezza sul contenuto testuale: il testo può espandersi in basso liberamente */
+  .card.founder {
+    flex-direction: column;
+    align-items: stretch;
+  }
+  .card.founder img {
+    width: 100%;
+    max-width: 100%;
+    height: auto;
+    object-fit: cover;
+  }
+  .founder-text {
+    width: 100%;
+    max-width: none;
+  }
 }
-
-/* Responsive */
-@media (min-width: 768px) {
-  .grid { grid-template-columns: repeat(2, 1fr); }
-  .gallery { grid-template-columns: repeat(4, 1fr); }
-  .download-buttons { flex-direction: row; }
-  .download-buttons a { flex: 1; }
-  .chi-siamo .grid { grid-template-columns: 1fr; }
+/* FIX: Chi siamo a una colonna anche su desktop */
+@media (min-width:768px) {
+  .chi-siamo .grid {
+    grid-template-columns: 1fr;
+  }
 }
-@media (min-width: 1024px) {
-  header h1 { font-size: 3.1rem; }
-  section h2 { font-size: 2rem; }
-  .card { padding: 2.6rem; }
-  .card.founder { flex-direction: column; align-items: stretch; }
-  .card.founder img { width: 100%; max-width: 100%; height: auto; }
-  .founder-text { width: 100%; max-width: none; }
-}
-@media (max-width: 767px) {
-  .founder-text { padding: 1.2rem; font-size: .95rem; }
-  .card.founder { border-radius: 14px; }
-}
-
-/* Accessibilità: riduzione movimento */
+/* ARIA: riduci movimento se richiesto dal sistema */
 @media (prefers-reduced-motion: reduce) {
-  #starfield { display: none !important; }
-  .card, .gallery a, .gallery .placeholder, .download-buttons a {
-    transition: none !important;
-    animation: none !important;
-    transform: none !important;
-  }
-  .reveal, .reveal.in-view {
-    transition: none !important;
-    opacity: 1 !important;
-    transform: none !important;
-  }
-  header img { animation: none !important; }
+  #starfield { display: none !important; }
+  .card, .gallery a, .gallery .placeholder, .download-buttons a {
+    transition: none !important;
+    animation: none !important;
+    transform: none !important;
+  }
+  .reveal, .reveal.in-view { transition: none !important; opacity: 1 !important; transform: none !important; }
+}
+/* small responsive tweak */
+@media (max-width:767px){
+  .founder-text{ padding:1.2rem; font-size:.95rem; }
+  .card.founder{ min-height: 300px; border-radius:14px; }
+}
+/* --- biografie: il contenitore cresce con il contenuto, no overflow --- */
+.card.founder{
+  /* il contenitore deve adattarsi all'altezza del contenuto */
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+}
+
+/* testo */
+.founder-text{
+  line-height:1.6;
+  transition: max-height .45s var(--transition-ease), opacity .35s var(--transition-ease);
+  overflow: hidden; /* IMPORTANT: il testo viene tagliato dal suo max-height, non dal parent */
+}
+.founder-text p{ margin:0 0 .6rem 0; }
+
+/* clamp affidabile a ~3 righe (includiamo un piccolo extra per margini tra <p>) */
+.founder-text.clamp{
+  max-height: calc(1.6em * 3 + 0.8rem);
+}
+.founder-text.expanded{
+  max-height: 2000px; /* valore alto che permette espansione completa */
+}
+
+/* Firma: mantenerla nel flusso del documento così il card cresce correttamente */
+.founder-signature{
+  position: static;
+  display: block;
+  margin-top: .6rem;
+  align-self: flex-end; /* la sposta a destra nella colonna senza assolutarla */
+  z-index: 4;
+  font-family: 'LemonMilkLight', sans-serif;
+  font-size: 1rem;
+  color: #fff;
+  background: rgba(0,0,0,0.22);
+  padding: 6px 10px;
+  border-radius: 8px;
+}
+
+/* bottone */
+.bio-toggle{
+  background: transparent;
+  border: none;
+  color: var(--accento);
+  font-family: 'LemonMilkLight', sans-serif;
+  letter-spacing: .12em;
+  cursor: pointer;
+  font-size: .95rem;
+  padding: .35rem .5rem;
+  margin-top: .6rem;
+  display: inline-block;
+}
+.bio-toggle:focus{
+  outline: 2px solid rgba(201,214,223,0.45);
+  outline-offset: 3px;
+  border-radius: 6px;
 }
 </style>
 </head>
 <body>
 <a class="skip-link" href="#main">Salta al contenuto</a>
 <canvas id="starfield" aria-hidden="true"></canvas>
-
 <header class="reveal" data-delay="0">
-  <img src="images-home/logo/logo-astri-nascenti.png" alt="Astri Nascenti">
-  <h1>ASTRI NASCENTI</h1>
-  <p class="subtitle">Il cielo in città come esperienza educativa e culturale</p>
-  <p class="description">Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie di Milano Municipio 2.</p>
+<img src="images-home/logo/logo-astri-nascenti.png" alt="Astri Nascenti">
+<h1>ASTRI NASCENTI</h1>
+<p class="subtitle">Il cielo in città come esperienza educativa e culturale</p>
+<p class="description">Progetto di astronomia osservativa e divulgativa per scuole primarie e secondarie di Milano Municipio 2.</p>
 </header>
-
 <main id="main" tabindex="-1">
-  <section>
-    <h2 class="reveal" data-delay="60">Il progetto</h2>
-    <div class="card reveal" data-delay="120">
-      <p><strong>Astri Nascenti</strong> è un percorso educativo di astronomia osservativa e divulgativa dedicato a bambini e ragazzi dai 6 ai 14 anni. Attraverso l'osservazione diretta e attività guidate, il progetto favorisce la comprensione del cielo e dei suoi oggetti e stimola lo sviluppo delle capacità cognitive, collegando i concetti scientifici all'esperienza quotidiana degli studenti.</p>
-    </div>
+<section>
+<h2 class="reveal" data-delay="60">Il progetto</h2>
 
-    <h2 class="reveal" data-delay="160" style="margin-top: 3rem;">Per chi è Astri Nascenti</h2>
-    <div class="card reveal" data-delay="180">
-      <p><strong>Astri Nascenti</strong> si rivolge alle <strong>scuole primarie e secondarie di primo grado</strong>. Le serate di osservazione si svolgono negli <strong>spazi aperti scolastici</strong> in <strong>collaborazione con gli insegnanti</strong> ed il <strong>coinvolgimento dei genitori</strong>. Gli studenti vengono guidati da astrofili appassionati ed esperti che mettono a disposizione <strong>telescopi e strumenti di osservazione</strong> per esplorare insieme il cielo notturno.</p>
-      <p style="margin-top: 1rem;">Il progetto è inoltre pensato per essere proposto anche a <strong>enti, associazioni, circoli e centri di aggregazione</strong>, adattandosi a diversi contesti educativi e culturali. L'obiettivo è quello di accendere la curiosità e scoprire il cielo dalla città come parte della propria esperienza quotidiana perché il cosmo è la nostra casa comune.</p>
-      <p style="margin-top:1.2rem;"><em>"Siamo polvere di stelle." — <strong>Carl Sagan</strong></em></p>
-    </div>
-  </section>
+<div class="card reveal" data-delay="120">
+  <p>
+    <strong>Astri Nascenti</strong> è un percorso educativo di astronomia osservativa e divulgativa dedicato a bambini e ragazzi dai 6 ai 14 anni. Attraverso l’osservazione diretta e attività guidate, il progetto favorisce la comprensione del cielo e dei suoi oggetti e stimola lo sviluppo delle capacità cognitive, collegando i concetti scientifici all’esperienza quotidiana degli studenti.
+  </p>
+</div>
 
-  <section>
-    <h2 class="reveal" data-delay="180">Serate osservative</h2>
-    <div class="grid">
-      <div class="card reveal" data-delay="220">
-        <p>Impareremo ad orientarci nel cielo notturno riconoscendo le principali costellazioni e osserveremo Luna, pianeti, nebulose e galassie grazie all'uso di telescopi e strumenti dedicati.</p>
-      </div>
-      <div class="gallery" aria-label="Galleria fotografica">
-        <a href="astri-nascenti/diario-osservazioni/diario-delle-osservazioni.html" class="reveal" data-delay="260" aria-label="Diario delle osservazioni">
-          <img src="astri-nascenti/diario-osservazioni/images/ast1.PNG" alt="Diario delle osservazioni" loading="lazy" decoding="async">
-          <span>Diario delle osservazioni</span>
-        </a>
-        <a href="astri-nascenti/strumenti/telescopi.html" class="reveal" data-delay="300" aria-label="Strumenti">
-          <img src="astri-nascenti/strumenti/images/astrinascentifoto38.jpg" alt="Strumenti" loading="lazy" decoding="async">
-          <span>Strumenti</span>
-        </a>
-        <a href="astri-nascenti/il-cielo-condiviso/il-cielo-condiviso.html" class="reveal" data-delay="340" aria-label="Il cielo condiviso">
-          <img src="astri-nascenti/il-cielo-condiviso/images/astrinascentifoto1.jpg" alt="Il cielo condiviso" loading="lazy" decoding="async">
-          <span>Il cielo condiviso</span>
-        </a>
-        <a href="astri-nascenti/introduzione-astronomia/book.html" class="reveal" data-delay="380" aria-label="Il Progetto Astri Nascenti - Sfoglia il book" target="_blank" rel="noopener noreferrer">
-          <img src="astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-1.jpg" alt="Il Progetto Astri Nascenti" loading="lazy" decoding="async">
-          <span>Introduzione all'astronomia</span>
-        </a>
-      </div>
-    </div>
-  </section>
+<h2 class="reveal" data-delay="160" style="margin-top: 3rem;">Per chi è Astri Nascenti</h2>
 
-  <section>
-    <h2 class="reveal" data-delay="420">IL CIELO DEL MESE</h2>
-    <div class="reveal" data-delay="460" style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
-      <div
-        class="reveal"
-        data-delay="480"
-        role="img"
-        aria-label="Immagine Costellazione"
-        tabindex="0"
-        style="
-          flex:1 1 420px;
-          min-width:260px;
-          max-width:720px;
-          min-height:380px;
-          background-image: url('astri-nascenti/cielo-mese/images/costellazione1.jpg');
-          background-size: cover;
-          background-position: left center;
-          background-repeat: no-repeat;
-          position:relative;
-          display:block;
-        "
-      >
-        <div style="
-          position:absolute;
-          inset:0;
-          pointer-events:none;
-          background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%);
-        " aria-hidden="true"></div>
-      </div>
-      <div style="
-        flex:1 1 380px;
-        min-width:260px;
-        display:flex;
-        align-items:center;
-        padding:2rem;
-        color:var(--bianco);
-      ">
-        <div>
-          <p id="testo-cielo-mese">Caricamento in corso...</p>
-          <a href="astri-nascenti/cielo-mese/costellazione.html" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
-            Altro...
-          </a>
-        </div>
-      </div>
-    </div>
-  </section>
+<div class="card reveal" data-delay="180">
+  <p>
+    <strong>Astri Nascenti</strong> si rivolge alle <strong>scuole primarie e secondarie di primo grado</strong>. Le serate di osservazione si svolgono negli <strong>spazi aperti scolastici</strong> in <strong>collaborazione con gli insegnanti</strong> ed il <strong>coinvolgimento dei genitori</strong>. Gli studenti vengono guidati da astrofili appassionati ed esperti che mettono a disposizione <strong>telescopi e strumenti di osservazione</strong> per esplorare insieme il cielo notturno.
+  </p>
+  <p style="margin-top: 1rem;">
+    Il progetto è inoltre pensato per essere proposto anche a <strong>enti, associazioni, circoli e centri di aggregazione</strong>, adattandosi a diversi contesti educativi e culturali. L’obiettivo è quello di accendere la curiosità e scoprire il cielo dalla città come parte della propria esperienza quotidiana perché il cosmo è la nostra casa comune.
+  </p>
+  <p style="margin-top:1.2rem;">
+    <em>“Siamo polvere di stelle.” — <strong>Carl Sagan</strong></em>
+  </p>
+</div>
 
-  <section>
-    <h2 class="reveal" data-delay="580">Software consigliati</h2>
-    <div class="grid">
-      <div class="card reveal" data-delay="620">
-        <h3>Moon Globe</h3>
-        <div class="download-buttons">
-          <a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
-        </div>
-        <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Ottimo per esplorare la superficie lunare con mappe dettagliate e informazioni storiche sulle missioni.</p>
-      </div>
-      <div class="card reveal" data-delay="660">
-        <h3>Star Walk / Sky Tonight</h3>
-        <div class="download-buttons">
-          <a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight (Android)</a>
-          <a class="google" href="https://play.google.com/store/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2 (Android)</a>
-        </div>
-        <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Applicazioni ideali per le uscite serali: puntano il cielo in tempo reale e forniscono dati immediati su stelle e pianeti.</p>
-      </div>
-      <div class="card reveal" data-delay="700">
-        <h3>Stellarium</h3>
-        <div class="download-buttons">
-          <a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
-        </div>
-        <p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Software desktop e mobile: planetario virtuale professionale, ottimo per simulazioni e lezioni in aula.</p>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="reveal" data-delay="740">Chi siamo</h2>
-    <div class="grid">
-      <div class="card founder reveal" data-delay="780">
-        <img src="images-home/fondatori/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
-        <div class="founder-badge" aria-hidden="true">Fondatore</div>
-        <div class="founder-text">
-          <p>Mi chiamo Matteo e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non si fanno oroscopi, qua si osserva il cielo. Per tutti, da sempre, sono Roger.</p>
-          <p>La passione per l'Astronomia nasce molto presto, da bambino, attraverso una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
-          <p>Dopo il liceo artistico e la laurea all'Accademia di Comunicazione Ateneo Creativo di Milano, ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
-          <p>Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.</p>
-          <p>Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l'Universo con stupore e un po' di spirito.</p>
-          <p>Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d'oro; l'attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l'oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.</p>
-          <p>A completare il quadro c'è la musica: sono cantante in un gruppo con un album e diversi singoli all'attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.</p>
-        </div>
-        <div class="founder-signature" aria-hidden="true">Roger</div>
-      </div>
-
-      <div class="card founder reveal" data-delay="820">
-        <img src="images-home/fondatori/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
-        <div class="founder-badge" aria-hidden="true">Co-fondatore</div>
-        <div class="founder-text">
-          <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani insegnanti di lettere, che mi hanno trasmesso la passione per la lettura e il valore fondamentale dell'istruzione. Nonostante una forte impronta umanistica familiare, fin da piccolo ho nutrito una profonda curiosità verso le scienze e in particolare verso l'astronomia.</p>
-          <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti del cielo con un binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche presso un piccolo osservatorio di provincia: quelle notti hanno acceso una passione destinata a crescere nel tempo.</p>
-          <p>Dopo il diploma al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia e a frequentare il Planetario. Nel 2005 ho incontrato i primi circoli di appassionati, iniziando a osservare il cielo in modo condiviso ed entrando a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community e all'organizzazione di Star Party.</p>
-          <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando nello staff di AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto e Responsabile Acquisti.</p>
-          <p>Accanto all'astronomia pratica coltivo l'amore per la mitologia e la storia delle costellazioni. Continuo le osservazioni notturne dal balcone di Milano con la paziente complicità della mia compagna Daniela e l'entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della Corona Boreale.</p>
-          <p>Sul finire del 2024 incontro Roger durante una serata di divulgazione astronomica e mi appassiono al progetto Astri Nascenti. Da qui nasce un sodalizio che ci porta a raccontare il cielo ai più piccoli, sperando che qualcuno di loro inizi ad avere la testa sempre più oltre le nuvole.</p>
-        </div>
-        <div class="founder-signature" aria-hidden="true">Matteo Di Bella</div>
-      </div>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="reveal" data-delay="860">Calendario eventi</h2>
-    <div class="card reveal" data-delay="900">
-      <ul style="list-style:disc; padding-left:1.25rem; line-height:1.4;">
-        <li>
-          <strong>27 febbraio 2026 — IC Perasso — Il cielo di febbraio 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:00.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2027%20febbraio%202026%20IC%20Perasso">Iscriviti</a>
-        </li>
-        <li>
-          <strong>27 marzo 2026 — IC Perasso — Il cielo di marzo 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2027%20marzo%202026%20IC%20Perasso">Iscriviti</a>
-        </li>
-        <li>
-          <strong>23 aprile 2026 — IC Perasso — Il cielo di aprile 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2023%20aprile%202026%20IC%20Perasso">Iscriviti</a>
-        </li>
-        <li>
-          <strong>22 maggio 2026 — IC Perasso — Il cielo di maggio 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2022%20maggio%202026%20IC%20Perasso">Iscriviti</a>
-        </li>
-        <li>
-          <strong>23 e 25 marzo 2026 — Istituto primario Casa del Sole, Parco Trotter — Il cielo di marzo 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso scolastico c/o Parco Trotter, Milano — h. 20:30.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2023%20o%2025%20marzo%202026%20Casa%20del%20Sole">Iscriviti</a>
-        </li>
-        <li>
-          <strong>18 e 20 maggio 2026 — Istituto primario Casa del Sole, Parco Trotter — Il cielo di maggio 2026</strong><br>
-          Osservazione guidata del cielo dedicata agli alunni del plesso scolastico c/o Parco Trotter, Milano — h. 21:00.
-          <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2018%20o%2020%20maggio%202026%20Casa%20del%20Sole">Iscriviti</a>
-        </li>
-      </ul>
-    </div>
-  </section>
-
-  <section>
-    <h2 class="reveal" data-delay="940">Contatti</h2>
-    <div class="card reveal" data-delay="980">
-      <p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
-        <img src="icons/mail.svg" alt="Mail" class="contact-icon"> astrinascenti.astronomia@gmail.com</a>
-      </p>
-      <p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
-        <img src="icons/instagram.svg" alt="Instagram" class="contact-icon"> IG Astri Nascenti</a>
-      </p>
-    </div>
-  </section>
+</section>
+<section>
+<h2 class="reveal" data-delay="180">Serate osservative</h2>
+<div class="grid">
+<div class="card reveal" data-delay="220">
+<p>Impareremo ad orientarci nel cielo notturno riconoscendo le principali costellazioni e osserveremo Luna, pianeti, nebulose e galassie grazie all’uso di telescopi e strumenti dedicati.</p>
+</div>
+<div class="gallery" aria-label="Galleria fotografica">
+<a href="astri-nascenti/diario-osservazioni/diario-delle-osservazioni.html" class="reveal" data-delay="260" aria-label="Diario delle osservazioni">
+<img src="astri-nascenti/diario-osservazioni/images/ast1.PNG" alt="Diario delle osservazioni" loading="lazy" decoding="async">
+<span>Diario delle osservazioni</span>
+</a>
+<a href="astri-nascenti/strumenti/telescopi.html" class="reveal" data-delay="300" aria-label="Strumenti">
+<img src="astri-nascenti/strumenti/images/astrinascentifoto38.jpg" alt="Strumenti" loading="lazy" decoding="async">
+<span>Strumenti</span>
+</a>
+<a href="astri-nascenti/il-cielo-condiviso/il-cielo-condiviso.html" class="reveal" data-delay="340" aria-label="Il cielo condiviso">
+<img src="astri-nascenti/il-cielo-condiviso/images/astrinascentifoto1.jpg" alt="Il cielo condiviso" loading="lazy" decoding="async">
+<span>Il cielo condiviso</span>
+</a>
+<a href="astri-nascenti/introduzione-astronomia/book.html" class="reveal" data-delay="380" role="link" tabindex="0" aria-label="Il Progetto Astri Nascenti - Sfoglia il book" target="_blank" rel="noopener noreferrer">
+<img src="astri-nascenti/introduzione-astronomia/pag/astri-nascenti-2025-1.jpg" alt="Il Progetto Astri Nascenti" loading="lazy" decoding="async">
+<span>Introduzione all'astronomia</span>
+</a>
+</div>
+</div>
+</section>
+<section>
+<h2 class="reveal" data-delay="420">
+IL CIELO DEL MESE
+</h2>
+<div class="reveal" data-delay="460" style="display:flex; gap:0; align-items:stretch; flex-wrap:wrap;">
+<div
+class="reveal"
+data-delay="480"
+role="img"
+aria-label="Immagine Costellazione"
+tabindex="0"
+style="
+flex:1 1 420px;
+min-width:260px;
+max-width:720px;
+min-height:380px;
+background-image: url('astri-nascenti/cielo-mese/images/costellazione1.jpg');
+background-size: cover;
+background-position: left center;
+background-repeat: no-repeat;
+position:relative;
+display:block;
+"
+>
+<div style="
+position:absolute;
+inset:0;
+pointer-events:none;
+background: linear-gradient(90deg, rgba(0,0,0,0) 50%, rgba(0,0,0,0.78) 100%);
+" aria-hidden="true"></div>
+</div>
+<div style="
+flex:1 1 380px;
+min-width:260px;
+display:flex;
+align-items:center;
+padding:2rem;
+color:var(--bianco);
+background: linear-gradient(90deg, rgba(0,0,0,0) 0%, rgba(0,0,0,0.12) 15%);
+">
+<div>
+<p id="testo-cielo-mese">
+Caricamento in corso...
+</p>
+<a href="astri-nascenti/cielo-mese/costellazione.html" target="_blank" rel="noopener noreferrer" aria-label="Leggi altro su Orione" style="color:var(--accento); font-weight:600; text-decoration:none;">
+Altro...
+</a>
+</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="reveal" data-delay="580">Software consigliati</h2>
+<div class="grid">
+<div class="card reveal" data-delay="620">
+<h3>Moon Globe</h3>
+<div class="download-buttons" aria-hidden="false">
+<a class="apple" href="https://apps.apple.com/it/app/moon-globe/id333180321" target="_blank" rel="noopener noreferrer">Apple Store</a>
+</div>
+<p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Ottimo per esplorare la superficie lunare con mappe dettagliate e informazioni storiche sulle missioni.</p>
+</div>
+<div class="card reveal" data-delay="660">
+<h3>Star Walk / Sky Tonight</h3>
+<div class="download-buttons" aria-hidden="false">
+<a class="google" href="https://play.google.com/store/apps/details?id=com.vitotechnology.sky.tonight.map.star.walk" target="_blank" rel="noopener noreferrer">Sky Tonight (Android)</a>
+<a class="google" href="https://play.google.com/store/details?id=com.vitotechnology.StarWalk2Free" target="_blank" rel="noopener noreferrer">Star Walk 2 (Android)</a>
+</div>
+<p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Applicazioni ideali per le uscite serali: puntano il cielo in tempo reale e forniscono dati immediati su stelle e pianeti.</p>
+</div>
+<div class="card reveal" data-delay="700">
+<h3>Stellarium</h3>
+<div class="download-buttons" aria-hidden="false">
+<a class="web" href="https://stellarium.org/it/" target="_blank" rel="noopener noreferrer">Sito ufficiale</a>
+</div>
+<p style="margin-top:.8rem; color:var(--accento); font-size:.9rem;">Software desktop e mobile: planetario virtuale professionale, ottimo per simulazioni e lezioni in aula.</p>
+</div>
+</div>
+</section>
+<section>
+<h2 class="reveal" data-delay="740">Chi siamo</h2>
+<div class="grid">
+<div class="card founder reveal"
+data-delay="780">
+<img src="images-home/fondatori/Ritratto1.jpg" alt="Ritratto del fondatore" loading="lazy" decoding="async">
+<div class="founder-badge" aria-hidden="true">Fondatore</div>
+<div class="founder-text">
+<p>Mi chiamo Matteo e sono nato a Milano il 23 novembre 1980 alle 7 del mattino. Sagittario, cuspide, ascendente Sagittario. SPOILER, non si fanno oroscopi, qua si osserva il cielo. Per tutti, da sempre, sono Roger.</p>
+<p>La passione per l’Astronomia nasce molto presto, da bambino, attraverso una piccola finestra del bagno dei miei nonni, quando osservavo con thauma la Luna piena, coltivando la segreta convinzione che quell'occhio luminoso appartenesse a qualche creatura mitologica nascosta nell'ombra. Da allora non ho mai smesso di alzare lo sguardo.</p>
+<p>Dopo il liceo artistico e la laurea all’Accademia di Comunicazione Ateneo Creativo di Milano, ho lavorato per 26 anni nel mondo della stampa digitale e da 10 sono imprenditore con attività in diversi settori.</p>
+<p>Nel 2017 ho fondato Astri Nascenti, progetto di osservazione guidata del cielo e divulgazione astronomica nato per le scuole primarie e secondarie, oggi aperto anche ad un pubblico più vasto. Con telescopi e strumenti smart accompagno appassionati e curiosi alla scoperta del cielo in modo coinvolgente e immersivo.</p>
+<p>Ma ricordatevi sempre che sono un astrofilo, non un astronomo né un astrologo, e continuo a fare ciò che da bambino mi emozionava: guardare il cielo, farsi domande e raccontare l’Universo con stupore e un po’ di spirito.</p>
+<p>Per non rischiare di annoiarmi (ma questo soltanto di giorno) sono anche cercatore d’oro; l’attrazione, nata durante un viaggio in Finlandia, si lega naturalmente al Cosmo: l’oro nasce in eventi astronomici estremi, come collisioni tra stelle di neutroni, e compie un viaggio di miliardi di anni prima di arrivare, dopo faticose e meticolose ricerche, fino alle nostre mani.</p>
+<p>A completare il quadro c’è la musica: sono cantante in un gruppo con un album e diversi singoli all’attivo, un secondo LP in gestazione, perché la musica, come il Cosmo, è una delle forme più spontanee con cui la natura si racconta.</p>
+</div>
+<div class="founder-signature" aria-hidden="true">Roger</div>
+</div>
+<div class="card founder reveal" data-delay="820" role="img" aria-label="Ritratto del co-fondatore" tabindex="0">
+<img src="images-home/fondatori/Ritratto2.jpg" alt="Ritratto del co-fondatore" loading="lazy" decoding="async">
+<div class="founder-badge" aria-hidden="true">Co-fondatore</div>
+<div class="founder-text">
+  <p>Mi chiamo Matteo Di Bella e sono nato il 20 novembre 1980 da genitori siciliani insegnanti di lettere, che mi hanno trasmesso la passione per la lettura e il valore fondamentale dell’istruzione. Nonostante una forte impronta umanistica familiare, fin da piccolo ho nutrito una profonda curiosità verso le scienze e in particolare verso l’astronomia.</p>
+  <p>A dieci anni ho imparato da solo a riconoscere le costellazioni e i principali oggetti del cielo con un binocolo; a dodici, grazie ai risparmi di un lavoretto estivo nel negozio di antiquariato di mio zio a Taormina, ho acquistato il mio primo telescopio. Nel frattempo mio padre mi accompagnava nelle prime uscite astronomiche presso un piccolo osservatorio di provincia: quelle notti hanno acceso una passione destinata a crescere nel tempo.</p>
+  <p>Dopo il diploma al Liceo Scientifico Enrico Fermi di Arona mi sono trasferito a Milano, dove ho continuato a divorare libri di astronomia e a frequentare il Planetario. Nel 2005 ho incontrato i primi circoli di appassionati, iniziando a osservare il cielo in modo condiviso ed entrando a far parte dello staff del Forum Astrofili Italiani, contribuendo alla crescita della community e all’organizzazione di Star Party.</p>
+  <p>Nel 2010 ho conseguito la laurea in Ingegneria Aerospaziale al Politecnico di Milano e dal 2011 ho trasformato la passione in professione entrando nello staff di AURIGA, principale distributore di strumentazione astronomica per il Sud Europa, dove oggi opero come Specialista di Prodotto e Responsabile Acquisti.</p>
+  <p>Accanto all’astronomia pratica coltivo l’amore per la mitologia e la storia delle costellazioni. Continuo le osservazioni notturne dal balcone di Milano con la paziente complicità della mia compagna Daniela e l’entusiasmo di mia figlia Gemma, che porta il nome della stella più brillante della Corona Boreale.</p>
+  <p>Sul finire del 2024 incontro Roger durante una serata di divulgazione astronomica e mi appassiono al progetto Astri Nascenti. Da qui nasce un sodalizio che ci porta a raccontare il cielo ai più piccoli, sperando che qualcuno di loro inizi ad avere la testa sempre più oltre le nuvole.</p>
+</div>
+<div class="founder-signature" aria-hidden="true">Matteo Di Bella</div>
+</div>
+</div>
+</section>
+<section>
+<h2 class="reveal" data-delay="860">Calendario eventi</h2>
+<div class="card reveal" data-delay="900">
+  <ul style="list-style:disc; padding-left:1.25rem; line-height:1.4;">
+    <li>
+      <strong>27 febbraio 2026 — IC Perasso — Il cielo di febbraio 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:00.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2027%20febbraio%202026%20IC%20Perasso">Iscriviti</a>
+    </li>
+    <li>
+      <strong>27 marzo 2026 — IC Perasso — Il cielo di marzo 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2027%20marzo%202026%20IC%20Perasso">Iscriviti</a>
+    </li>
+    <li>
+      <strong>23 aprile 2026 — IC Perasso — Il cielo di aprile 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2023%20aprile%202026%20IC%20Perasso">Iscriviti</a>
+    </li>
+    <li>
+      <strong>22 maggio 2026 — IC Perasso — Il cielo di maggio 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso in Via San Mamete, Milano — h. 20:30.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2022%20maggio%202026%20IC%20Perasso">Iscriviti</a>
+    </li>
+    <li>
+      <strong>23 e 25 marzo 2026 — Istituto primario Casa del Sole, Parco Trotter — Il cielo di marzo 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso scolastico c/o Parco Trotter, Milano — h. 20:30.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2023%20o%2025%20marzo%202026%20Casa%20del%20Sole">Iscriviti</a>
+    </li>
+    <li>
+      <strong>18 e 20 maggio 2026 — Istituto primario Casa del Sole, Parco Trotter — Il cielo di maggio 2026</strong><br>
+      Osservazione guidata del cielo dedicata agli alunni del plesso scolastico c/o Parco Trotter, Milano — h. 21:00.
+      <br><a href="mailto:astrinascenti.astronomia@gmail.com?subject=Iscrizione%20-%2018%20o%2020%20maggio%202026%20Casa%20del%20Sole">Iscriviti</a>
+    </li>
+  </ul>
+</div>
+</section>
+<section>
+<h2 class="reveal" data-delay="940">Contatti</h2>
+<div class="card reveal" data-delay="980">
+<p>📧 <a href="mailto:astrinascenti.astronomia@gmail.com">
+<img src="icons/mail.svg" alt="Mail" class="contact-icon"> astrinascenti.astronomia@gmail.com</a>
+</p>
+<p>📷 <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">
+<img src="icons/instagram.svg" alt="Instagram" class="contact-icon"> IG Astri Nascenti</a>
+</p>
+</div>
+</section>
 </main>
-
 <footer>
-  © Astri Nascenti – Astronomia per le scuole<br>
-  <a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
+© Astri Nascenti – Astronomia per le scuole<br>
+<a href="https://www.instagram.com/astri.nascenti" target="_blank" rel="noopener noreferrer">@astri.nascenti</a>
 </footer>
-
 <script>
 /* =========================
-   IntersectionObserver reveal
-   FIX: transitionDelay impostato via CSS data-attribute, non via JS ad ogni scroll
+IntersectionObserver reveal
 ========================= */
-(function () {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  const reveals = Array.from(document.querySelectorAll('.reveal'));
-
-  if (reduce || !('IntersectionObserver' in window)) {
-    reveals.forEach(el => {
-      el.style.opacity = 1;
-      el.style.transform = 'none';
-      el.style.transition = 'none';
-      el.classList.add('in-view');
-    });
-    return;
-  }
-
-  // Pre-imposta i delay via style (una volta sola, non ad ogni intersection)
-  reveals.forEach(el => {
-    const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
-    if (delay) el.style.transitionDelay = (delay / 1000) + 's';
-  });
-
-  const observer = new IntersectionObserver((entries, obs) => {
-    entries.forEach(entry => {
-      if (entry.isIntersecting) {
-        entry.target.classList.add('in-view');
-        // Rimuovi il delay dopo l'animazione iniziale per non rallentare hover/interactions future
-        entry.target.addEventListener('transitionend', () => {
-          entry.target.style.transitionDelay = '0s';
-        }, { once: true });
-        obs.unobserve(entry.target);
-      }
-    });
-  }, { root: null, rootMargin: '0px 0px -8% 0px', threshold: 0.06 });
-
-  reveals.forEach(el => observer.observe(el));
+(function(){
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduce) {
+document.querySelectorAll('.reveal').forEach(el => {
+el.classList.add('in-view');
+el.style.transition = 'none';
+el.style.opacity = 1;
+el.style.transform = 'none';
+});
+return;
+}
+const reveals = Array.from(document.querySelectorAll('.reveal'));
+if (!('IntersectionObserver' in window) || reveals.length === 0) {
+reveals.forEach(el => el.classList.add('in-view'));
+return;
+}
+const observer = new IntersectionObserver((entries, obs) => {
+entries.forEach(entry => {
+if (entry.isIntersecting) {
+const el = entry.target;
+const delay = parseInt(el.getAttribute('data-delay') || 0, 10);
+if (delay) el.style.transitionDelay = (delay/1000)+'s';
+el.classList.add('in-view');
+obs.unobserve(el);
+}
+});
+}, {root: null, rootMargin: '0px 0px -10% 0px', threshold: 0.08});
+reveals.forEach(el => observer.observe(el));
 })();
-</script>
-
-<script>
 /* =========================
-   Starfield canvas — versione ottimizzata
-   FIX: eliminato createRadialGradient per stella (costoso a 60fps)
-        sostituito con arc + globalAlpha (compositor-friendly)
-        aggiunto throttle resize con requestAnimationFrame
+Starfield canvas animation
+respects prefers-reduced-motion
 ========================= */
-(function () {
-  const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-  if (reduce) return;
-
-  const canvas = document.getElementById('starfield');
-  if (!canvas) return;
-  const ctx = canvas.getContext('2d', { alpha: true });
-
-  const DPR = Math.min(window.devicePixelRatio || 1, 2); // cap a 2x per evitare overdraw su schermi 3x
-  let w, h;
-
-  function resize() {
-    w = window.innerWidth;
-    h = window.innerHeight;
-    canvas.width  = Math.round(w * DPR);
-    canvas.height = Math.round(h * DPR);
-    canvas.style.width  = w + 'px';
-    canvas.style.height = h + 'px';
-    ctx.scale(DPR, DPR);
-  }
-  resize();
-
-  // Numero stelle proporzionale all'area, con un tetto massimo
-  const NUM_STARS = Math.min(Math.round((w * h) / 7000), 180);
-  const stars = [];
-
-  function rand(min, max) { return Math.random() * (max - min) + min; }
-
-  for (let i = 0; i < NUM_STARS; i++) {
-    stars.push({
-      x:     rand(0, w),
-      y:     rand(0, h),
-      r:     Math.random() < 0.03 ? rand(1.2, 2.2) : rand(0.35, 0.9),
-      phase: rand(0, Math.PI * 2),
-      speed: rand(0.0006, 0.002), // velocità twinkle
-      alpha: rand(0.25, 0.9),
-      vx:   rand(-0.015, 0.015),
-      vy:   rand(-0.015, 0.015),
-    });
-  }
-
-  let rafId;
-  function draw(now) {
-    ctx.clearRect(0, 0, w, h);
-
-    for (let i = 0; i < stars.length; i++) {
-      const s = stars[i];
-      // twinkle: seno semplice, niente gradient
-      const pulse = 0.5 + 0.5 * Math.sin(now * s.speed + s.phase);
-      const a = Math.max(0.08, s.alpha * pulse);
-
-      s.x += s.vx;
-      s.y += s.vy;
-      if (s.x < -4) s.x = w + 4;
-      else if (s.x > w + 4) s.x = -4;
-      if (s.y < -4) s.y = h + 4;
-      else if (s.y > h + 4) s.y = -4;
-
-      ctx.globalAlpha = a;
-      ctx.fillStyle = '#ffffff';
-      ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, 6.283185307); // 2*PI costante
-      ctx.fill();
-    }
-    ctx.globalAlpha = 1;
-    rafId = requestAnimationFrame(draw);
-  }
-
-  // Throttle resize: non ridisegnare il canvas ad ogni pixel di ridimensionamento
-  let resizeTimer;
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = setTimeout(() => {
-      cancelAnimationFrame(rafId);
-      resize();
-      rafId = requestAnimationFrame(draw);
-    }, 150);
-  }, { passive: true });
-
-  rafId = requestAnimationFrame(draw);
+(function(){
+const reduce = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+if (reduce) return; // niente animazione se ridotto movimento
+const canvas = document.getElementById('starfield');
+if (!canvas) return;
+const ctx = canvas.getContext('2d');
+let w = canvas.width = innerWidth;
+let h = canvas.height = innerHeight;
+const DPR = Math.max(1, window.devicePixelRatio || 1);
+canvas.width = w * DPR;
+canvas.height = h * DPR;
+canvas.style.width = w + 'px';
+canvas.style.height = h + 'px';
+ctx.scale(DPR, DPR);
+const NUM_STARS = Math.round((w * h) / 6000);
+const stars = [];
+function rand(min, max){ return Math.random() * (max - min) + min; }
+for (let i=0;i<NUM_STARS;i++){
+stars.push({
+x: rand(0, w),
+y: rand(0, h),
+r: Math.random() < 0.02 ? rand(1.2,2.6) : rand(0.4,1.1),
+tw: rand(0.01, 0.9),
+alpha: rand(0.2, 0.95),
+vx: rand(-0.02, 0.02),
+vy: rand(-0.02, 0.02)
+});
+}
+let t0 = performance.now();
+function draw(now){
+const dt = (now - t0) / 1000;
+t0 = now;
+ctx.clearRect(0,0,w,h);
+stars.forEach(s => {
+const pulse = 0.5 + 0.5 * Math.sin(now * 0.0025 + s.tw * Math.PI * 2);
+const a = Math.min(1, Math.max(0.12, s.alpha * pulse));
+s.x += s.vx * (dt * 60);
+s.y += s.vy * (dt * 60);
+if (s.x < -10) s.x = w + 10;
+if (s.x > w + 10) s.x = -10;
+if (s.y < -10) s.y = h + 10;
+if (s.y > h + 10) s.y = -10;
+ctx.beginPath();
+const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r * 6);
+grad.addColorStop(0, 'rgba(255,255,255,' + (0.8 * a) + ')');
+grad.addColorStop(0.4, 'rgba(255,255,255,' + (0.18 * a) + ')');
+grad.addColorStop(1, 'rgba(255,255,255,0)');
+ctx.fillStyle = grad;
+ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+ctx.beginPath();
+ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
+ctx.fillStyle = 'rgba(255,255,255,' + (0.9 * a) + ')';
+ctx.fill();
+});
+requestAnimationFrame(draw);
+}
+window.addEventListener('resize', () => {
+w = canvas.width = innerWidth;
+h = canvas.height = innerHeight;
+canvas.width = w * DPR;
+canvas.height = h * DPR;
+canvas.style.width = w + 'px';
+canvas.style.height = h + 'px';
+ctx.scale(DPR, DPR);
+});
+requestAnimationFrame(draw);
+})();
+</script>
+<script>
+(function(){
+  const txts = Array.from(document.querySelectorAll('.founder-text'));
+  if(!txts.length) return;
+  // rimuovo eventuali bottoni precedenti (evita duplicati)
+  document.querySelectorAll('.bio-toggle').forEach(b=>b.remove());
+  // stato iniziale: clamp su tutti
+  txts.forEach(t=> t.classList.add('clamp'));
+  let expanded = false;
+  function setState(exp){
+    expanded = !!exp;
+    txts.forEach(t=>{
+      if(expanded){
+        t.classList.remove('clamp');
+        t.classList.add('expanded');
+      } else {
+        t.classList.add('clamp');
+        t.classList.remove('expanded');
+      }
+    });
+    document.querySelectorAll('.bio-toggle').forEach(btn=>{
+      btn.setAttribute('aria-expanded', String(expanded));
+      btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
+    });
+    // scroll dolce per portare in vista la card quando si espande
+    if(expanded){
+      const firstCard = document.querySelector('.card.founder');
+      if(firstCard){
+        firstCard.scrollIntoView({behavior:'smooth', block:'start'});
+      }
+    }
+  }
+  // creo un pulsante per ogni colonna, comportamento sincronizzato
+  document.querySelectorAll('.card.founder').forEach(card=>{
+    const txt = card.querySelector('.founder-text');
+    if(!txt) return;
+    const btn = document.createElement('button');
+    btn.type = 'button';
+    btn.className = 'bio-toggle';
+    btn.setAttribute('aria-expanded','false');
+    btn.textContent = 'Continua...';
+    txt.after(btn);
+    btn.addEventListener('click', ()=> setState(!expanded));
+  });
 })();
 </script>
 
 <script>
-/* Biografie: toggle expand/collapse */
-(function () {
-  const txts = Array.from(document.querySelectorAll('.founder-text'));
-  if (!txts.length) return;
-  document.querySelectorAll('.bio-toggle').forEach(b => b.remove());
-  txts.forEach(t => t.classList.add('clamp'));
-  let expanded = false;
+(function(){
+  const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
+  const target = document.getElementById('testo-cielo-mese');
+  if(!target) return;
 
-  function setState(exp) {
-    expanded = !!exp;
-    txts.forEach(t => {
-      t.classList.toggle('clamp', !expanded);
-      t.classList.toggle('expanded', expanded);
-    });
-    document.querySelectorAll('.bio-toggle').forEach(btn => {
-      btn.setAttribute('aria-expanded', String(expanded));
-      btn.textContent = expanded ? 'Mostra meno' : 'Continua...';
-    });
-    if (expanded) {
-      const firstCard = document.querySelector('.card.founder');
-      if (firstCard) firstCard.scrollIntoView({ behavior: 'smooth', block: 'start' });
-    }
-  }
-
-  document.querySelectorAll('.card.founder').forEach(card => {
-    const txt = card.querySelector('.founder-text');
-    if (!txt) return;
-    const btn = document.createElement('button');
-    btn.type = 'button';
-    btn.className = 'bio-toggle';
-    btn.setAttribute('aria-expanded', 'false');
-    btn.textContent = 'Continua...';
-    txt.after(btn);
-    btn.addEventListener('click', () => setState(!expanded));
-  });
-})();
-</script>
-
-<script>
-/* Caricamento testo cielo del mese */
-(function () {
-  const url = "https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/cielo.txt";
-  const target = document.getElementById('testo-cielo-mese');
-  if (!target) return;
-
-  fetch(url)
-    .then(r => {
-      if (!r.ok) throw new Error("HTTP " + r.status);
-      return r.text();
-    })
-    .then(text => { target.textContent = text; })
-    .catch(() => { target.textContent = "Impossibile caricare le previsioni al momento."; });
+  fetch(url)
+    .then(response => {
+      if (!response.ok) {
+        throw new Error("Errore nel caricamento del file testo: " + response.status);
+      }
+      return response.text();
+    })
+    .then(text => {
+      target.textContent = text;
+    })
+    .catch(err => {
+      console.error("Impossibile caricare il testo del cielo:", err);
+      target.textContent = "Impossibile caricare le previsioni al momento.";
+    });
 })();
 </script>
 
