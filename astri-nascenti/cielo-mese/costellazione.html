@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8" />
 <meta name="viewport" content="width=device-width,initial-scale=1" />
-<title>La costellazione del Leone – Astri Nascenti</title>
+<title>La costellazione di Perseo – Astri Nascenti</title>
 
 <style>
 @font-face {
@@ -44,7 +44,7 @@ h1, h2 {
   font-family: 'LemonMilkLight', "Helvetica Neue", Arial, sans-serif;
 }
 
-/* Logica trasformazione testo come richiesto */
+/* Logica trasformazione testo */
 .content p, .content li, header p.subtitle, footer {
   text-transform: lowercase;
 }
@@ -106,6 +106,7 @@ img.main-image {
   box-shadow: 0 12px 40px rgba(0,0,0,0.65);
   transition: transform 0.3s ease;
 }
+
 img.main-image:hover {
   transform: scale(1.02);
 }
@@ -130,15 +131,29 @@ img.main-image:hover {
   letter-spacing: 0.1em;
 }
 
-.content ul { padding-left: 1.2rem; margin-bottom: 1rem; }
-.content li { margin-bottom: 0.8rem; }
-a { color: var(--accent); text-decoration: none; }
-a:hover { text-decoration: underline; }
+.content ul {
+  padding-left: 1.2rem;
+  margin-bottom: 1rem;
+}
+
+.content li {
+  margin-bottom: 0.8rem;
+}
+
+a {
+  color: var(--accent);
+  text-decoration: none;
+}
+
+a:hover {
+  text-decoration: underline;
+}
 
 .discover {
   margin-top: 2rem;
   text-align: center;
 }
+
 .discover a {
   display: inline-block;
   padding: 0.8rem 1.5rem;
@@ -152,110 +167,265 @@ a:hover { text-decoration: underline; }
   box-shadow: 0 8px 22px rgba(0,0,0,0.45);
   transition: transform 0.18s ease, box-shadow 0.18s ease;
 }
+
 .discover a:hover {
   transform: translateY(-4px);
   box-shadow: 0 16px 36px rgba(0,0,0,0.55);
   text-decoration: none;
 }
 
-footer { text-align:center; margin-top:2rem; color: rgba(255,255,255,0.6); font-size:0.85rem; padding-bottom: 2rem;}
+footer {
+  text-align:center;
+  margin-top:2rem;
+  color: rgba(255,255,255,0.6);
+  font-size:0.85rem;
+  padding-bottom: 2rem;
+}
 
 @media (prefers-reduced-motion: reduce) {
-  #starfield { display: none !important; }
+  #starfield {
+    display: none !important;
+  }
 }
 </style>
 </head>
+
 <body>
 
 <canvas id="starfield" aria-hidden="true"></canvas>
 
 <div class="page">
+
   <header>
-    <h1>La costellazione del mese: il Leone</h1>
-    <p class="subtitle">Un viaggio tra mito, storia e astronomia alla scoperta del sovrano del cielo primaverile</p>
+    <h1>La costellazione del mese: Perseo</h1>
+    <p class="subtitle">
+      Un viaggio tra mito, storia e astronomia alla scoperta dell'eroe del cielo autunnale
+    </p>
   </header>
 
-  <img src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg" alt="Costellazione del Leone" class="main-image">
+  <img
+    src="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/images/costellazione2.jpg"
+    alt="Costellazione di Perseo"
+    class="main-image"
+  >
 
   <main class="content" role="main">
-    <p>La costellazione del Leone è una delle figure più maestose e facilmente riconoscibili del cielo primaverile, visibile nelle sere di maggio come un elegante profilo che richiama la forma di un leone disteso. La sua stella più luminosa, Regolo, segna il cuore dell’animale ed è una delle stelle più brillanti del firmamento. Fin dall’antichità, il Leone è stato associato al potere, alla regalità e alla forza, diventando un simbolo celeste carico di significati in numerose culture.</p>
+
+    <p>
+      La costellazione di Perseo è una delle grandi protagoniste del cielo autunnale.
+      Visibile verso nord-est nelle serate di ottobre, si trova tra Cassiopea, Andromeda
+      e l'Auriga ed è facilmente individuabile partendo dalla caratteristica forma a “W”
+      di Cassiopea. La sua regione di cielo è ricchissima di stelle e ammassi: tra i più
+      spettacolari troviamo il celebre Doppio Ammasso, formato da due grandi gruppi di
+      stelle giovani, magnifici da osservare anche con un semplice binocolo. In Perseo
+      si trova inoltre Algol, una delle più famose stelle variabili del cielo, la cui
+      luminosità cambia periodicamente a causa dell'eclissi provocata dalla sua compagna.
+    </p>
 
     <h2>Mitologia Greca</h2>
-    <p>Nella mitologia greca, la costellazione è legata al terribile Leone di Nemea, una bestia invulnerabile dalla pelle impenetrabile. Fu il primo degli incarichi affidati a Ercole nelle sue celebri dodici fatiche. Dopo un lungo combattimento, l’eroe riuscì a sconfiggere il leone con la sola forza delle sue mani, poiché nessuna arma poteva ferirlo. In segno di commemorazione, Zeus pose l’animale tra le stelle, affinché la sua potenza fosse ricordata per sempre nel cielo.</p>
+
+    <p>
+      Nella mitologia greca Perseo è figlio di Zeus e Danae. La sua storia inizia quando
+      il re Acrisio, padre di Danae, viene a sapere da un oracolo che morirà per mano del
+      proprio nipote. Per cercare di evitare la profezia rinchiude Danae, ma Zeus riesce
+      comunque a raggiungerla e dalla loro unione nasce Perseo.
+    </p>
+
+    <p>
+      Anni dopo, Perseo viene incaricato di portare la testa di Medusa, una delle tre
+      Gorgoni, l'unica mortale. Medusa aveva il terribile potere di trasformare in pietra
+      chiunque incrociasse il suo sguardo. Grazie all'aiuto degli dei, Perseo riceve una
+      spada, uno scudo lucente e altri strumenti magici. Utilizzando lo scudo come uno
+      specchio, riesce a guardare il riflesso di Medusa senza incontrarne direttamente
+      lo sguardo e la decapita.
+    </p>
+
+    <p>
+      Durante il viaggio di ritorno incontra Andromeda, figlia di Cassiopea, incatenata
+      a una roccia come sacrificio a un mostro marino. Perseo affronta Cetus, lo uccide
+      e libera Andromeda, che diventerà sua moglie. È proprio questo episodio che
+      ritroviamo ancora oggi nel cielo: Perseo, Andromeda, Cassiopea, Cefeo e il mostro
+      marino sono tutti rappresentati da costellazioni vicine.
+    </p>
 
     <h2>Il Vicino Oriente</h2>
-    <p>Nelle tradizioni dell’antico Vicino Oriente, il Leone era anch’esso simbolo di forza e sovranità. Nella cultura mesopotamica, questa costellazione era associata al sole e al calore estivo, rappresentando il momento in cui il sole raggiungeva la sua massima intensità. Il leone, animale dominante delle terre aride, incarnava il potere della natura e il ciclo delle stagioni, spesso collegato a divinità solari e regali.</p>
+
+    <p>
+      La regione di Perseo era osservata e interpretata anche dalle culture del Medio
+      Oriente. La stella Algol, il cui nome deriva dall'arabo al-ghūl, “il demone”, era
+      considerata una presenza inquietante nel cielo. Il suo particolare comportamento
+      aveva attirato l'attenzione degli osservatori già molto tempo prima che la moderna
+      astronomia spiegasse la sua natura.
+    </p>
 
     <h2>Estremo Oriente</h2>
-    <p>Nell’Estremo Oriente, le stelle del Leone non erano identificate come un’unica figura, ma facevano parte di diversi asterismi all’interno della tradizione astronomica cinese. Alcune di esse erano associate alla sfera imperiale e al potere dell’imperatore, considerato il centro dell’ordine cosmico. Il cielo era visto come uno specchio della terra, e le stelle del Leone contribuivano a rappresentare equilibrio, autorità e armonia tra cielo e umanità.</p>
 
-    <h2>Le Americhe</h2>
-    <p>Anche nelle culture delle Americhe si trovano richiami simbolici simili: alcune popolazioni precolombiane interpretavano gruppi di stelle primaverili come animali potenti o spiriti guardiani, legati al ciclo agricolo e alla rinascita della natura. Pur non sempre identificando esplicitamente un leone, la presenza di figure animali forti nel cielo rifletteva un legame profondo tra osservazione astronomica e vita quotidiana.</p>
+    <p>
+      Nell'antica astronomia cinese le stelle di Perseo non formavano la figura dell'eroe
+      greco, ma erano suddivise in diversi asterismi appartenenti alla complessa
+      rappresentazione del cielo imperiale. Anche questo ci ricorda come lo stesso cielo
+      possa essere trasformato in racconti e simboli completamente diversi a seconda
+      della cultura che lo osserva.
+    </p>
 
     <h2>Simbolismo e Visione</h2>
-    <p>Così, tra mito, simbolismo e osservazione del cielo, la costellazione del Leone continua a dominare le notti di maggio con la sua figura imponente. Rappresenta la forza, il rinnovamento e l’equilibrio tra potere e natura, ricordando ancora oggi come le stelle abbiano guidato non solo i viaggi, ma anche l’immaginazione e la cultura delle civiltà di tutto il mondo.</p>
+
+    <p>
+      Perseo è una costellazione in cui mito e scienza si incontrano in modo
+      particolarmente suggestivo. Il suo protagonista è l'eroe che attraversa il cielo
+      con la testa di Medusa, ma quella stessa regione ospita alcuni degli oggetti più
+      interessanti dell'autunno.
+    </p>
+
+    <p>
+      Il Doppio Ammasso ci mostra due immense popolazioni di stelle giovani, mentre
+      Algol ci permette di osservare un fenomeno astronomico reale: la variazione
+      periodica della luminosità di una stella provocata da un'altra stella che le passa
+      davanti.
+    </p>
+
+    <p>
+      Guardare Perseo in una notte di ottobre significa quindi ritrovare una delle grandi
+      storie del cielo antico e, allo stesso tempo, osservare una piccola parte della
+      straordinaria complessità della nostra Galassia.
+    </p>
+
   </main>
 
   <div class="discover">
-    <a href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/scopri.html" target="_blank" rel="noopener noreferrer">
+    <a
+      href="https://astrinascentiastronomia-maker.github.io/astri-nascenti/astri-nascenti/cielo-mese/scopri-costellazione/scopri.html"
+      target="_blank"
+      rel="noopener noreferrer"
+    >
       Approfondisci la costellazione
     </a>
   </div>
 
   <footer>© Astri Nascenti</footer>
+
 </div>
 
 <script>
 /* Starfield Animation */
 (function(){
   if (window.matchMedia && window.matchMedia('(prefers-reduced-motion: reduce)').matches) return;
+
   const canvas = document.getElementById('starfield');
   if (!canvas) return;
+
   const ctx = canvas.getContext('2d');
   const DPR = Math.max(1, window.devicePixelRatio || 1);
-  let w = 0, h = 0, stars = [];
 
-  function rand(a,b){ return Math.random()*(b-a)+a; }
+  let w = 0;
+  let h = 0;
+  let stars = [];
+
+  function rand(a,b){
+    return Math.random() * (b - a) + a;
+  }
+
   function resizeCanvas(){
-    w = window.innerWidth; h = window.innerHeight;
-    canvas.width = Math.round(w * DPR); canvas.height = Math.round(h * DPR);
-    canvas.style.width = w + 'px'; canvas.style.height = h + 'px';
-    ctx.setTransform(1,0,0,1,0,0); ctx.scale(DPR, DPR);
+    w = window.innerWidth;
+    h = window.innerHeight;
+
+    canvas.width = Math.round(w * DPR);
+    canvas.height = Math.round(h * DPR);
+
+    canvas.style.width = w + 'px';
+    canvas.style.height = h + 'px';
+
+    ctx.setTransform(1,0,0,1,0,0);
+    ctx.scale(DPR, DPR);
   }
 
   function initStars(){
     resizeCanvas();
-    const NUM = Math.min(1200, Math.round((w * h) / 90000) * 30);
+
+    const NUM = Math.min(
+      1200,
+      Math.round((w * h) / 90000) * 30
+    );
+
     stars = [];
-    for(let i=0;i<NUM;i++){
+
+    for(let i = 0; i < NUM; i++){
       stars.push({
-        x: rand(0,w), y: rand(0,h),
-        r: Math.random()<0.03 ? rand(1.2,2.6) : rand(0.3,1.0),
-        alpha: rand(0.15,0.95), tw: rand(0,Math.PI*2)
+        x: rand(0,w),
+        y: rand(0,h),
+        r: Math.random() < 0.03
+          ? rand(1.2,2.6)
+          : rand(0.3,1.0),
+        alpha: rand(0.15,0.95),
+        tw: rand(0,Math.PI*2)
       });
     }
   }
 
   function draw(now){
     ctx.clearRect(0,0,w,h);
-    stars.forEach(s=>{
-      const pulse = 0.6 + 0.4*Math.sin(now*0.002 + s.tw);
-      const a = Math.max(0.08, s.alpha * pulse);
-      const grad = ctx.createRadialGradient(s.x, s.y, 0, s.x, s.y, s.r*6);
-      grad.addColorStop(0, 'rgba(255,255,255,' + (0.9*a) + ')');
-      grad.addColorStop(1, 'rgba(255,255,255,0)');
+
+    stars.forEach(s => {
+
+      const pulse =
+        0.6 + 0.4 * Math.sin(now * 0.002 + s.tw);
+
+      const a =
+        Math.max(0.08, s.alpha * pulse);
+
+      const grad =
+        ctx.createRadialGradient(
+          s.x,
+          s.y,
+          0,
+          s.x,
+          s.y,
+          s.r * 6
+        );
+
+      grad.addColorStop(
+        0,
+        'rgba(255,255,255,' + (0.9 * a) + ')'
+      );
+
+      grad.addColorStop(
+        1,
+        'rgba(255,255,255,0)'
+      );
+
       ctx.fillStyle = grad;
-      ctx.fillRect(s.x - s.r*6, s.y - s.r*6, s.r*12, s.r*12);
+
+      ctx.fillRect(
+        s.x - s.r * 6,
+        s.y - s.r * 6,
+        s.r * 12,
+        s.r * 12
+      );
+
       ctx.beginPath();
-      ctx.arc(s.x, s.y, s.r, 0, Math.PI*2);
-      ctx.fillStyle = 'rgba(255,255,255,' + (0.9*a) + ')';
+
+      ctx.arc(
+        s.x,
+        s.y,
+        s.r,
+        0,
+        Math.PI * 2
+      );
+
+      ctx.fillStyle =
+        'rgba(255,255,255,' + (0.9 * a) + ')';
+
       ctx.fill();
     });
+
     requestAnimationFrame(draw);
   }
+
   window.addEventListener('resize', initStars);
+
   initStars();
   requestAnimationFrame(draw);
+
 })();
 </script>
 
